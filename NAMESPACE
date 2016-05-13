@@ -1,0 +1,3 @@
+useDynLib(Newsmap)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
