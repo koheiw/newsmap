@@ -20,6 +20,6 @@ std::vector<CharacterVector> split_df_cpp(DataFrame df) {
 //
 
 /*** R
-df <- expand.grid(LETTERS[1:3], LETTERS[4:5], LETTERS[6], stringsAsFactors=FALSE)
-split_df_cpp(df)
+#df <- expand.grid(LETTERS[1:3], LETTERS[4:5], LETTERS[6], stringsAsFactors=FALSE)
+#split_df_cpp(df)
 */

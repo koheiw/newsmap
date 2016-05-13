@@ -77,3 +77,44 @@ findNames.tokenizedText <- function(x){
   pnames
   
 }
+
+#' @export
+findKeywords <- function(lexicon, tokens){
+  
+  types <- unique(unlist(tokens, use.names = FALSE))
+  for(code in names(lexicon)){
+    country <- lexicon[[code]]
+    cat(country$name, "\n")
+    mpnames <- list()
+    for(keyword in country$keywords){
+      parts <- stringi::stri_split_regex(keyword, ' ')
+      #cat("parts--------------------\n")
+      #print(parts)
+      if(stringi::stri_detect_fixed(keyword, '*')){
+        regex <- unlist(lapply(parts, utils::glob2rx))
+        #cat("regex--------------------\n")
+        #print(regex)
+        match <- lapply(regex, function(x, y) y[stringi::stri_detect_regex(y, x)], types)
+        #cat("match--------------------\n")
+        #print(match)
+        #print(length(match))
+        if(length(unlist(regex)) != length(match)) next
+        args <- c(match, stringsAsFactors=FALSE)
+        match_comb <- do.call(expand.grid, args) # Produce all possible combinations
+        #cat("match_comb----------------------\n")
+        #print(match_comb)
+        mpnames <- unname(c(mpnames, split_df_cpp(t(match_comb))))
+        #cat("mpnames----------------------\n")
+        #print(mpnames)
+        
+      }else{
+        #cat("parts----------------------\n")
+        #print(parts)
+        mpnames <- unname(c(mpnames, parts))
+      }
+    }
+    lexicon[[code]][['keywords_seq']] <- mpnames
+    lexicon[[code]][['keywords_token']] <- sapply(mpnames, paste, collapse = "-")
+  }
+  lexicon
+}
