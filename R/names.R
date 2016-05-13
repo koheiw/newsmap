@@ -1,3 +1,19 @@
+#' @export
+gscore <- function(col, non, sum_col, sum_non){
+  tb <- as.table(rbind(c(col, non), c(sum_col - col, sum_non - non)))
+  suppressWarnings(
+    chi <- chisq.test(tb)
+  )
+  #print(tb)
+  #print(chi$expected)
+  col_exp <- chi$expected[1,1]
+  if(col > col_exp){
+    return(unname(chi$statistic))
+  }else{
+    return(unname(chi$statistic) * -1)
+  }
+}
+
 #' @examples
 #' docs <- readLines('/home/kohei/projects/immigration/data/uk_img/2009-2010.txt')
 #' sents <- tokenize(docs, what='sentence', simplify = TRUE)
@@ -50,37 +66,37 @@ findNames <- function(x, ...) {
 
 #' @export
 findNames.character <- function(x){
-  
+
   docs <- x
   sents <- tokenize(docs, what='sentence', simplify = TRUE)
   tokens <- tokenize(sents)
   findNames.tokenizedText(tokens)
-  
+
 }
 
 #' @export
 findNames.tokenizedText <- function(x){
-  
+
   tokens <- x
   types <- unique(unlist(tokens, use.names = FALSE))
   #pattern <- "^([A-Z]{2,}|[A-Z][0-9]{1,}|[A-Z][a-z\\-]{2,})"
   pattern <- "^[A-Z][A-Za-z0-9\\-]+"
   #pattern <- "^[A-Z]+"
-  
+
   # Select sequence of capitralized words
   types_upper <- types[stringi::stri_detect_regex(types, pattern)]
   mpname <- findSequences(tokens, types_upper, count_min=2)
   tokens2 <- joinTokens(tokens, mpname$sequence[mpname$mue>0], verbose=FALSE)
-  
+
   # Select proper names based frequency of capitalization
   pnames <- findCapitalWords(tokens2, pattern)
   pnames
-  
+
 }
 
 #' @export
 findKeywords <- function(lexicon, tokens){
-  
+
   types <- unique(unlist(tokens, use.names = FALSE))
   for(code in names(lexicon)){
     country <- lexicon[[code]]
@@ -106,7 +122,7 @@ findKeywords <- function(lexicon, tokens){
         mpnames <- unname(c(mpnames, split_df_cpp(t(match_comb))))
         #cat("mpnames----------------------\n")
         #print(mpnames)
-        
+
       }else{
         #cat("parts----------------------\n")
         #print(parts)
