@@ -55,9 +55,8 @@ findCapitalWords <- function(tokens, pattern, min=5){
   df_name <- df_name[order(-df_name$gscore),]
   #return(df_name[,c('chisq'),drop=FALSE])
   #list(name=df_name$word, chisq=df_name$chisq)
-  gscores <- df_name$gscore
-  names(gscores) <- df_name$word
-  gscores
+  list(word=df_name$word,
+       g=df_name$gscore)
 }
 
 findNames <- function(x, ...) {
@@ -75,21 +74,18 @@ findNames.character <- function(x){
 }
 
 #' @export
-findNames.tokenizedText <- function(x){
+findNames.tokenizedTexts <- function(x){
 
   tokens <- x
-  types <- unique(unlist(tokens, use.names = FALSE))
+
   #pattern <- "^([A-Z]{2,}|[A-Z][0-9]{1,}|[A-Z][a-z\\-]{2,})"
   pattern <- "^[A-Z][A-Za-z0-9\\-]+"
   #pattern <- "^[A-Z]+"
 
-  # Select sequence of capitralized words
-  types_upper <- types[stringi::stri_detect_regex(types, pattern)]
-  mpname <- findSequences(tokens, types_upper, count_min=2)
-  tokens2 <- joinTokens(tokens, mpname$sequence[mpname$mue>0], verbose=FALSE)
+
 
   # Select proper names based frequency of capitalization
-  pnames <- findCapitalWords(tokens2, pattern)
+  pnames <- findCapitalWords(tokens, pattern)
   pnames
 
 }
