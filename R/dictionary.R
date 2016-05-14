@@ -1,27 +1,41 @@
 
-
+#'
 #' @export
-makeDictionary <- function(tokens, lexicon){
+makeDictionary <- function(tokens, lexicon, power=1){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   len_lexicon <- length(lexicon)
-  len_types <- length(unique(tokens_unlist))
-  mx_dic <- matrix(rep(NA, len_lexicon * len_types), ncol=len_lexicon, nrow=len_types)
-  colnames(mx_dic) <- names(lexicon)
+  if(len_lexicon == 0) stop("Lexicon is empty")
+  types <- unique(tokens_unlist)
+  len_types <- length(types)
+  if(len_types == 0) stop("Text length is zero")
+  mx_dic <- matrix(rep(NA, len_lexicon * len_types), ncol=len_types, nrow=len_lexicon)
+  rownames(mx_dic) <- names(lexicon)
   cat("Scoring", len_types, "features for", len_lexicon, "countries...\n")
   for(code in names(lexicon)){
     country <- lexicon[[code]]
     #cat(country$name, "\n")
-    flag <- unlist(lapply(tokens_doc3, function(x, y) rep(any(x %in% y), length(x)), country$keywords_token), use.names=FALSE)
-    mx <- as.data.frame.matrix(table(tokens_unlist, factor(flag, levels=c(TRUE, FALSE))))
-    if(is.null(rownames(mx_dic))){
-      rownames(mx_dic) <- rownames(mx)
+    regex <- utils::glob2rx(stringi::stri_replace_all_fixed(country$keywords, ' ', '-'))
+    types_match <- types[stringi::stri_detect_regex(types, paste0(regex, collapse='|'), case_insensitive = TRUE)]
+    flag <- unlist(lapply(tokens, function(x, y) rep(any(x %in% y), length(x)), types_match), use.names=FALSE)
+    mx <- t(as.data.frame.matrix(table(tokens_unlist, factor(flag, levels=c(TRUE, FALSE)))))
+
+    if(is.null(colnames(mx_dic))){
+      colnames(mx_dic) <- colnames(mx)
     }else{
-      if(!all(rownames(mx_dic) == rownames(mx))) stop("Incompatible tokens is given\n")
+      if(!all(colnames(mx_dic) == colnames(mx))) stop("Incompatible tokens is given\n")
     }
+    #print(mx_dic)
+    #return(rowSums(mx))
     smooth <- 0.001
-    mx2 <- (mx + smooth) / (colSums(mx) + smooth)
-    mx_dic[,code] <- log(mx2[,1]) - log(mx2[,2])
+    #mx2 <- (mx + smooth) / (rowSums(mx) + smooth)
+    mx <- mx + smooth
+    mx2 <- mx / rowSums(mx)
+
+    #return(mx2)
+    #return(log(mx2[1,]) - log(mx2[2,]))
+    mx_dic[code,] <- log(mx2[1,] ^ power) - log(mx2[2,])
   }
-  mx_dic
+  mx_dic <- mx_dic[order(rownames(mx_dic)),]
+  return(mx_dic)
 }
