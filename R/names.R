@@ -1,3 +1,4 @@
+#' Calculate G-score (it is chi-squre at the moment)
 #' @export
 gscore <- function(col, non, sum_col, sum_non){
   tb <- as.table(rbind(c(col, non), c(sum_col - col, sum_non - non)))
