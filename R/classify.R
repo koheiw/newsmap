@@ -1,3 +1,4 @@
+#' Predict geographical association of news stories
 #' @export
 predictCountry <- function(tokens, dict){
 
@@ -9,15 +10,13 @@ predictCountry <- function(tokens, dict){
   mx <- dfm(tokens)
   cols <- intersect(colnames(mx), colnames(dict))
   mx2 <- mx[,cols]
-  mx <- mx / rowSums(mx)
+  mx2 <- mx2 / rowSums(mx2)
   mx3 <- mx2 %*% t(dict[,cols])
   return(mx3)
 
 }
 
-
-
-#'
+#' Find most strongly assosiated countries
 #' @export
 getTopCountries <- function(mx, rank=1){
   index_max <- apply(mx, 1, function(x) sort(x, decreasing=TRUE, index.return=TRUE)$ix[rank])

@@ -1,9 +1,9 @@
-rm(list = ls())
-
+#' Convert the format of a lexicon of place names from text to RData
+#' @examples
+#' compileLexicon(data/countries_en.txt)
 #' @export
 compileLexicon <- function(file_txt, file_rdata){
 
-  if(missing(file_txt)) file_txt="data/countries_en.txt"
   if(missing(file_rds)) file_rds=paste0(strsplit(file_txt, "\\.")[[1]][[1]], '.RData')
 
   lines <- readLines(file_txt)
@@ -19,4 +19,10 @@ compileLexicon <- function(file_txt, file_rdata){
   }
   #saveRDS(lexicon, file_rds)
   save(lexicon, file=file_rdata)
+}
+#' Extract geograpical keywords from a lexicon as sequence of tokens
+#' @export
+getKeywords <- function(lexicon, sep=' '){
+  keywords <- unlist(lapply(lexicon, function(x) stringi::stri_split_regex(x$keywords, sep)), recursive = FALSE)
+  return(keywords)
 }

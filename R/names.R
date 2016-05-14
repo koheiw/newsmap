@@ -1,3 +1,4 @@
+#' Calculate G-score (it is chi-squre at the moment)
 #' @export
 gscore <- function(col, non, sum_col, sum_non){
   tb <- as.table(rbind(c(col, non), c(sum_col - col, sum_non - non)))
@@ -14,6 +15,7 @@ gscore <- function(col, non, sum_col, sum_non){
   }
 }
 
+#' Identify names solely based on capitalization. Minimum g-socre is 10.83 (p<0.01) by default.
 #' @examples
 #' docs <- readLines('/home/kohei/projects/immigration/data/uk_img/2009-2010.txt')
 #' sents <- tokenize(docs, what='sentence', simplify = TRUE)
@@ -21,18 +23,19 @@ gscore <- function(col, non, sum_col, sum_non){
 #' names <- findNames(tokens, 5)
 #'
 #' @export
-findNames <- function(tokens, pattern, ignore, count_min=5){
+findNames <- function(tokens, pattern, ignore, count_min=5, g=10.83){
 
   if(missing(ignore)) ignore <- c()
 
   cat("Identifying capitalized words...\n")
-  #tb <- table(unlist(tokens, use.names = FALSE))
+
+  # Convert regex to fiexd matching
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types <- unique(tokens_unlist)
-  types <- types[!types %in% ignore]
+  types <- types[!types %in% ignore] # exclude types to ignore
   types_upper <- types[stringi::stri_detect_regex(types, pattern)]
 
-
+  # Flag potential nouns
   flag <- tokens_unlist %in% types_upper
   tb <- table(toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
   df <- as.data.frame.matrix(tb)
@@ -46,21 +49,20 @@ findNames <- function(tokens, pattern, ignore, count_min=5){
   df <- df[df$upper > count_min,]
   df$gscore <- apply(df[,c('upper', 'lower')], 1, function(x, y, z) gscore(x[1], x[2], y, z), sum_upper, sum_lower)
   df <- df[order(-df$gscore),]
-  df <- df[df$gscore > 10.83,]
+  df <- df[df$gscore > g,]
 
   gscore <- df$gscore
   names(gscore) <- toUpper(rownames(df))
   return(gscore)
 }
 
-
+# Idenitfy concatenate sequences of capitalized words. Minimum z-socre is 2.32 (p<0.01) by default.
 #' @export
-joinSequence <- function(tokens, pattern, verbose = FALSE){
-  # Idenitfy sequences of capitalized words
+joinSequence <- function(tokens, pattern, count_min=2, z=2.32, verbose = FALSE){
   types <- unique(unlist(tokens, use.names = FALSE))
   types_upper <- types[stringi::stri_detect_regex(types, pattern)]
-  seqs <- findSequences(tokens, types_upper, count_min=2)
-  seqs_signif <- seqs$sequence[seqs$z < 2.32] # p=0.01
+  seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
+  seqs_signif <- seqs$sequence[seqs$z < z]
   cat("Joining multi-part names\n")
   tokens <- joinTokens(tokens, seqs_signif, verbose=verbose)
   return(tokens)
