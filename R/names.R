@@ -23,23 +23,14 @@ gscore <- function(col, non, sum_col, sum_non){
 #' names <- findNames(tokens, 5)
 #'
 #' @export
-findCapitalization <- function(tokens, pattern, ignore, count_min=5, g=10.83){
+findNames <- function(tokens, regex, ignore, count_min=5, g=10.83){
 
   if(missing(ignore)) ignore <- c()
 
-  cat("Identifying capitalized words...\n")
   tokens_unlist <- unlist(tokens, use.names = FALSE)
+  types_upper <- getCapitalTypes(tokens_unlist, regex, ignore)
 
-  # Convert regex to fiexd matching
-  if(!missing(pattern)){
-    flag <- tolower(tokens_unlist) != tokens_unlist
-  }else{
-    types <- unique(tokens_unlist)
-    types <- types[!types %in% ignore] # exclude types to ignore
-    types_upper <- types[stringi::stri_detect_regex(types, pattern)]
-    flag <- tokens_unlist %in% types_upper
-  }
-
+  flag <- tokens_unlist %in% types_upper
   tb <- table(toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
   df <- as.data.frame.matrix(tb)
   colnames(df) <- c('upper', 'lower')
@@ -59,14 +50,51 @@ findCapitalization <- function(tokens, pattern, ignore, count_min=5, g=10.83){
   return(gscore)
 }
 
+# Select or remove names
+#' @export
+selectNames <- function(tokens, selection, padding, ...){
+
+  names <- findNames(tokens, ...)
+  cat("Selecting names...\n")
+  tokens <- quanteda::selectFeatures2(tokens, names(names), selection, 'fixed',
+                                      case_insensitive=FALSE, padding=padding)
+  return(tokens)
+
+}
+
 # Idenitfy concatenate sequences of capitalized words. Minimum z-socre is 2.32 (p<0.01) by default.
 #' @export
-joinSequence <- function(tokens, pattern, count_min=2, z=2.32, verbose = FALSE){
-  types <- unique(unlist(tokens, use.names = FALSE))
-  types_upper <- types[stringi::stri_detect_regex(types, pattern)]
+joinNames <- function(tokens, regex, ignore, count_min=5, z=2.32, verbose = FALSE){
+
+  if(missing(ignore)) ignore <- c()
+
+  tokens_unlist <- unlist(tokens, use.names = FALSE)
+  types_upper <- getCapitalTypes(tokens_unlist, regex, ignore)
+
+  cat("Finding sequence of capitalized words...\n")
   seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
+
   seqs_signif <- seqs$sequence[seqs$z < z]
-  cat("Joining multi-part names\n")
+  cat("Joining capitalized words...\n")
   tokens <- joinTokens(tokens, seqs_signif, verbose=verbose)
   return(tokens)
+}
+
+#' Select unique capitalized tokens
+#' @export
+getCapitalTypes <- function(tokens, regex, ignore){
+
+  if(missing(ignore)) ignore <- c()
+
+  types <- unique(tokens)
+  types <- types[!types %in% ignore] # exclude types to ignore
+
+  cat("Identifying capitalized words...\n")
+  if(missing(regex)){
+    types_upper <- types[tolower(types) != types]
+  }else{
+    types_upper <- types[stringi::stri_detect_regex(types, regex)]
+  }
+
+  return(types_upper)
 }
