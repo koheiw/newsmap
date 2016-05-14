@@ -15,7 +15,7 @@ gscore <- function(col, non, sum_col, sum_non){
   }
 }
 
-#' Identify names solely based on capitalization. Minimum g-socre is 10.83 (p<0.01) by default.
+#' Identify frequenety capitalized words. Minimum g-socre is 10.83 (p<0.01) by default.
 #' @examples
 #' docs <- readLines('/home/kohei/projects/immigration/data/uk_img/2009-2010.txt')
 #' sents <- tokenize(docs, what='sentence', simplify = TRUE)
@@ -23,20 +23,23 @@ gscore <- function(col, non, sum_col, sum_non){
 #' names <- findNames(tokens, 5)
 #'
 #' @export
-findNames <- function(tokens, pattern, ignore, count_min=5, g=10.83){
+findCapitalization <- function(tokens, pattern, ignore, count_min=5, g=10.83){
 
   if(missing(ignore)) ignore <- c()
 
   cat("Identifying capitalized words...\n")
+  tokens_unlist <- unlist(tokens, use.names = FALSE)
 
   # Convert regex to fiexd matching
-  tokens_unlist <- unlist(tokens, use.names = FALSE)
-  types <- unique(tokens_unlist)
-  types <- types[!types %in% ignore] # exclude types to ignore
-  types_upper <- types[stringi::stri_detect_regex(types, pattern)]
+  if(!missing(pattern)){
+    flag <- tolower(tokens_unlist) != tokens_unlist
+  }else{
+    types <- unique(tokens_unlist)
+    types <- types[!types %in% ignore] # exclude types to ignore
+    types_upper <- types[stringi::stri_detect_regex(types, pattern)]
+    flag <- tokens_unlist %in% types_upper
+  }
 
-  # Flag potential nouns
-  flag <- tokens_unlist %in% types_upper
   tb <- table(toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
   df <- as.data.frame.matrix(tb)
   colnames(df) <- c('upper', 'lower')
