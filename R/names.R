@@ -1,14 +1,14 @@
 #' Calculate G-score (it is chi-squre at the moment)
 #' @export
-gscore <- function(col, non, sum_col, sum_non){
-  tb <- as.table(rbind(c(col, non), c(sum_col - col, sum_non - non)))
+gscore <- function(n_true, n_false, sum_true, sum_false){
+  tb <- as.table(rbind(c(n_true, n_false), c(sum_true - n_true, sum_false - n_false)))
   suppressWarnings(
     chi <- chisq.test(tb)
   )
   #print(tb)
   #print(chi$expected)
-  col_exp <- chi$expected[1,1]
-  if(col > col_exp){
+  n_true_exp <- chi$expected[1,1]
+  if(n_true > n_true_exp){
     return(unname(chi$statistic))
   }else{
     return(unname(chi$statistic) * -1)
@@ -23,12 +23,10 @@ gscore <- function(col, non, sum_col, sum_non){
 #' names <- findNames(tokens, 5)
 #'
 #' @export
-findNames <- function(tokens, regex, ignore, count_min=5, g=10.83){
-
-  if(missing(ignore)) ignore <- c()
+findNames <- function(tokens, count_min=5, g=10.83, ...){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
-  types_upper <- getCapitalTypes(tokens_unlist, regex, ignore)
+  types_upper <- getCapitalTypes(tokens_unlist, ...)
 
   flag <- tokens_unlist %in% types_upper
   tb <- table(toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
@@ -64,12 +62,10 @@ selectNames <- function(tokens, selection, padding, ...){
 
 # Idenitfy concatenate sequences of capitalized words. Minimum z-socre is 2.32 (p<0.01) by default.
 #' @export
-joinNames <- function(tokens, regex, ignore, count_min=5, z=2.32, verbose = FALSE){
-
-  if(missing(ignore)) ignore <- c()
+joinNames <- function(tokens, count_min=5, z=2.32, verbose = FALSE, ...){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
-  types_upper <- getCapitalTypes(tokens_unlist, regex, ignore)
+  types_upper <- getCapitalTypes(tokens_unlist, regex, ignore, ...)
 
   cat("Finding sequence of capitalized words...\n")
   seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
@@ -96,5 +92,6 @@ getCapitalTypes <- function(tokens, regex, ignore){
     types_upper <- types[stringi::stri_detect_regex(types, regex)]
   }
 
+  types_upper <- types_upper[!stringi::stri_detect_regex(types_upper, '^[0-9]')] # exlucde types beging with number
   return(types_upper)
 }
