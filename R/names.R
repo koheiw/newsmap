@@ -23,7 +23,7 @@ gscore <- function(n_true, n_false, sum_true, sum_false){
 #' names <- findNames(tokens, 5)
 #'
 #' @export
-findNames <- function(tokens, count_min=5, g=10.83, ...){
+findNames <- function(tokens, count_min=5, g=10.83, word_only=TRUE, ...){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types_upper <- getCapitalTypes(tokens_unlist, ...)
@@ -43,9 +43,11 @@ findNames <- function(tokens, count_min=5, g=10.83, ...){
   df <- df[order(-df$gscore),]
   df <- df[df$gscore > g,]
 
-  gscore <- df$gscore
-  names(gscore) <- toUpper(rownames(df))
-  return(gscore)
+  if(word_only){
+    return(df)
+  }else{
+    return(rownames(df))
+  }
 }
 
 # Select or remove names
@@ -94,4 +96,13 @@ getCapitalTypes <- function(tokens, regex, ignore){
 
   types_upper <- types_upper[!stringi::stri_detect_regex(types_upper, '^[0-9]')] # exlucde types beging with number
   return(types_upper)
+}
+
+
+stemNames <- function(pnames, ...){
+  pnames <- toLower(pnames)
+  pnames_stem <- quanteda::wordstem(pnames, ...) # pattern for proper adjectives
+  pnames_stem <- pnames_stem[duplicated(pnames_stem)] # only stems with more than one endings
+  pnames_stem_glob <- paste0(toUpper(pnames_stem), '*')
+  return(pnames_stem_glob)
 }
