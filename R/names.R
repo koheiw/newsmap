@@ -27,8 +27,9 @@ findNames <- function(tokens, count_min=5, g=10.83, word_only=TRUE, ...){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types_upper <- getCapitalTypes(tokens_unlist, ...)
-
   flag <- tokens_unlist %in% types_upper
+
+  cat("Counting capitalized words...\n")
   tb <- table(toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
   df <- as.data.frame.matrix(tb)
   colnames(df) <- c('upper', 'lower')
@@ -98,11 +99,13 @@ getCapitalTypes <- function(tokens, regex, ignore){
   return(types_upper)
 }
 
-
-stemNames <- function(pnames, ...){
+#' Stem names identified by selectNames
+#' @export
+stemNames <- function(pnames, language, len_min=3, ...){
   pnames <- toLower(pnames)
-  pnames_stem <- quanteda::wordstem(pnames, ...) # pattern for proper adjectives
+  pnames_stem <- quanteda::wordstem(pnames, language) # pattern for proper adjectives
   pnames_stem <- pnames_stem[duplicated(pnames_stem)] # only stems with more than one endings
-  pnames_stem_glob <- paste0(toUpper(pnames_stem), '*')
+  pnames_stem <- pnames_stem[stringi::stri_length(pnames_stem) >= len_min]
+  pnames_stem_glob <- paste0(unique(pnames_stem), '*')
   return(pnames_stem_glob)
 }
