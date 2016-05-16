@@ -44,9 +44,9 @@ findNames <- function(tokens, count_min=5, g=10.83, word_only=TRUE, ...){
   df <- df[df$gscore > g,]
 
   if(word_only){
-    return(df)
-  }else{
     return(rownames(df))
+  }else{
+    return(df)
   }
 }
 
