@@ -26,7 +26,7 @@ gscore <- function(n_true, n_false, sum_true, sum_false){
 findNames <- function(tokens, count_min=5, g=10.83, word_only=TRUE, ...){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
-  types_upper <- getCapitalTypes(tokens_unlist, ...)
+  types_upper <- getCasedTypes(tokens_unlist, ...)
   flag <- tokens_unlist %in% types_upper
 
   cat("Counting capitalized words...\n")
@@ -65,10 +65,10 @@ selectNames <- function(tokens, selection, padding, ...){
 
 # Idenitfy concatenate sequences of capitalized words. Minimum z-socre is 2.32 (p<0.01) by default.
 #' @export
-joinNames <- function(tokens, count_min=5, z=2.32, verbose = FALSE, ...){
+joinNames <- function(tokens, count_min=5, z=2.32, verbose = FALSE){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
-  types_upper <- getCapitalTypes(tokens_unlist, regex, ignore, ...)
+  types_upper <- getCasedTypes(tokens_unlist, 'upper')
 
   cat("Finding sequence of capitalized words...\n")
   seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
@@ -81,31 +81,35 @@ joinNames <- function(tokens, count_min=5, z=2.32, verbose = FALSE, ...){
 
 #' Select unique capitalized tokens
 #' @export
-getCapitalTypes <- function(tokens, regex, ignore){
-
-  if(missing(ignore)) ignore <- c()
-
+getCasedTypes <- function(tokens, case='upper'){
   types <- unique(tokens)
-  types <- types[!types %in% ignore] # exclude types to ignore
-
   cat("Identifying capitalized words...\n")
-  if(missing(regex)){
-    types_upper <- types[tolower(types) != types]
+  if(case=='upper'){
+    types_cased <- types[tolower(types) != types]
   }else{
-    types_upper <- types[stringi::stri_detect_regex(types, regex)]
+    types_cased <- types[tolower(types) == types]
   }
-
-  types_upper <- types_upper[!stringi::stri_detect_regex(types_upper, '^[0-9]')] # exlucde types beging with number
-  return(types_upper)
+  types_cased <- types_cased[!stringi::stri_detect_regex(types_cased, '^[0-9]')] # exlucde types beging with number
+  return(types_cased)
 }
 
 #' Stem names identified by selectNames
 #' @export
-stemNames <- function(pnames, language, len_min=3, ...){
+stemNames <- function(pnames, language, len_min=3){
   pnames <- toLower(pnames)
   pnames_stem <- quanteda::wordstem(pnames, language) # pattern for proper adjectives
   pnames_stem <- pnames_stem[duplicated(pnames_stem)] # only stems with more than one endings
   pnames_stem <- pnames_stem[stringi::stri_length(pnames_stem) >= len_min]
   pnames_stem_glob <- paste0(unique(pnames_stem), '*')
   return(pnames_stem_glob)
+}
+
+#' Remove lower or upper-cased words
+#' @export
+removeCasedFeatures <- function(tokens, case='upper', padding=FALSE){
+  tokens_unlist <- unlist(tokens, use.names = FALSE)
+  types_cased <- getCasedTypes(tokens_unlist, case)
+  tokens <- quanteda::selectFeatures2(tokens, types_cased, selection, 'fixed',
+                                      case_insensitive=FALSE, padding=padding)
+  return(tokens)
 }
