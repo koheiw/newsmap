@@ -1,7 +1,7 @@
 
 #' Construct a large geographical dictionary from place names
 #' @export
-makeDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep=' '){
+makeGeoDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep=' '){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   len_lexicon <- length(lexicon)
@@ -34,3 +34,4 @@ makeDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep=' '){
   mx_dic <- mx_dic[order(rownames(mx_dic)),]
   return(mx_dic)
 }
+

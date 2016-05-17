@@ -104,9 +104,9 @@ stemNames <- function(pnames, language, len_min=3){
   return(pnames_stem_glob)
 }
 
-#' Remove lower or upper-cased words
+#' Select lower or upper-cased words
 #' @export
-removeCasedFeatures <- function(tokens, case='upper', padding=FALSE){
+selectCasedFeatures <- function(tokens, case='upper', selection='select', padding=FALSE){
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types_cased <- getCasedTypes(tokens_unlist, case)
   tokens <- quanteda::selectFeatures2(tokens, types_cased, selection, 'fixed',
