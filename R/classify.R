@@ -4,7 +4,7 @@ predictCountry <- function(tokens, dict){
 
   cat("Concatenating multi-part names...\n")
   keywords <- unlist(lapply(colnames(dict), function(x) stringi::stri_split_regex(x, '-')), recursive = FALSE)
-  tokens <- joinTokens(tokens, keywords, valueType = 'fixed', verbose = FALSE)
+  tokens <- joinTokens(tokens, keywords, valuetype = 'fixed', verbose = FALSE)
   tokens <- quanteda::selectFeatures2(tokens, colnames(dict))
 
   mx <- dfm(tokens, verbose=FALSE)
