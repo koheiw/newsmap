@@ -4,7 +4,7 @@
 #' @export
 compileLexicon <- function(file_txt, file_rdata){
 
-  if(missing(file_rds)) file_rds=paste0(strsplit(file_txt, "\\.")[[1]][[1]], '.RData')
+  if(missing(file_rdata)) file_rdata=paste0(strsplit(file_txt, "\\.")[[1]][[1]], '.RData')
 
   lines <- readLines(file_txt)
   lexicon <- list()

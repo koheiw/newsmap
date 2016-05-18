@@ -72,10 +72,11 @@ joinNames <- function(tokens, count_min=5, z=2.32, verbose = FALSE){
 
   cat("Finding sequence of capitalized words...\n")
   seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
-
-  seqs_signif <- seqs$sequence[seqs$z < z]
+  tokens_seqs <- seqs$sequence
+  tokens_seqs <- tokens_seqs[order(-seqs$z)] # start joining tokens from the most significant sequences
+  tokens_seqs <- tokens_seqs[seqs$z > z]
   cat("Joining capitalized words...\n")
-  tokens <- joinTokens(tokens, seqs_signif, verbose=verbose)
+  tokens <- quanteda::joinTokens(tokens, tokens_seqs, verbose=verbose)
   return(tokens)
 }
 
@@ -112,4 +113,20 @@ selectCasedFeatures <- function(tokens, case='upper', selection='select', paddin
   tokens <- quanteda::selectFeatures2(tokens, types_cased, selection, 'fixed',
                                       case_insensitive=FALSE, padding=padding)
   return(tokens)
+}
+
+#' Remove short features
+#' @export
+removeShortFeatures <- function(tokens, min=3, ...){
+  types <- unique(unlist(tokens, use.names = FALSE))
+  types_short <- types[stringi::stri_length(types) < min]
+  return(quanteda::selectFeatures2(tokens, types_short, selection='remove',
+                                   valuetype='fixed', case_insensitive=FALSE, ...))
+}
+
+#' Remove padding
+#' @export
+removePadding <- function(tokens){
+  return(quanteda::selectFeatures2(tokens, '', selection='remove', padding=FALSE,
+                                   valuetype='fixed', case_insensitive=FALSE))
 }
