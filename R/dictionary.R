@@ -26,11 +26,14 @@ makeGeoDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep=' '){
     if(is.null(colnames(mx_dic))){
       colnames(mx_dic) <- colnames(mx)
     }else{
-      if(!all(colnames(mx_dic) == colnames(mx))) stop("Incompatible tokens is given\n")
+      if(!all(colnames(mx_dic) == colnames(mx))) stop("Incompatible token is given\n")
     }
-    mx2 <- (mx + smooth) / (rowSums(mx) + smooth)
+    # Scoring words
+    mx2 <- (mx + smooth) / (Matrix::rowSums(mx) + smooth)
     mx_dic[code,] <- log(mx2[1,] ^ power) - log(mx2[2,]) # insert into the empty dictionary
   }
+  flag_zero <- apply(mx_dic, 1, function(x) all(x==0)) # check if all words are zero
+  mx_dic <- mx_dic[!flag_zero,]
   mx_dic <- mx_dic[order(rownames(mx_dic)),]
   return(mx_dic)
 }

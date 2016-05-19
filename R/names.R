@@ -27,6 +27,7 @@ findNames <- function(tokens, count_min=5, g=10.83, word_only=TRUE, ...){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types_upper <- getCasedTypes(tokens_unlist, ...)
+  
   flag <- tokens_unlist %in% types_upper
 
   cat("Counting capitalized words...\n")
@@ -39,8 +40,8 @@ findNames <- function(tokens, count_min=5, g=10.83, word_only=TRUE, ...){
   if(sum_upper==0) stop("All tokens are lowercased. Tokens have to be in original case for name identification.\n")
 
   cat("Calculating g-score...\n")
-  df <- df[df$upper > count_min,]
-  df$gscore <- apply(df[,c('upper', 'lower')], 1, function(x, y, z) gscore(x[1], x[2], y, z), sum_upper, sum_lower)
+  df <- df[df[,1] >= count_min,]
+  df$gscore <- apply(df, 1, function(x, y, z) gscore(x[1], x[2], y, z), sum_upper, sum_lower)
   df <- df[order(-df$gscore),]
   df <- df[df$gscore > g,]
 
