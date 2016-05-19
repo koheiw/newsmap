@@ -23,9 +23,10 @@ gscore <- function(n_true, n_false, sum_true, sum_false){
 #' names <- findNames(tokens, 5)
 #'
 #' @export
-findNames <- function(tokens, count_min=5, g=10.83, word_only=TRUE, ...){
+findNames <- function(tokens, count_min, g=10.83, word_only=TRUE, ...){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
+  if(missing(count_min)) count_min <- length(tokens_unlist) / 10 ^ 6 # one in million
   types_upper <- getCasedTypes(tokens_unlist, ...)
 
   flag <- tokens_unlist %in% types_upper
@@ -66,9 +67,10 @@ selectNames <- function(tokens, selection, padding, ...){
 
 # Idenitfy concatenate sequences of capitalized words. Minimum z-socre is 2.32 (p<0.01) by default.
 #' @export
-joinNames <- function(tokens, count_min=5, z=2.32, verbose = FALSE){
+joinNames <- function(tokens, count_min, z=2.32, verbose = FALSE){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
+  if(missing(count_min)) count_min <- length(tokens_unlist) / 10 ^ 6 # one in million
   types_upper <- getCasedTypes(tokens_unlist, 'upper')
 
   cat("Finding sequence of capitalized words...\n")
