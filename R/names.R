@@ -23,7 +23,7 @@ gscore <- function(n_true, n_false, sum_true, sum_false){
 #' names <- findNames(tokens, 5)
 #'
 #' @export
-findNames <- function(tokens, count_min, g=10.83, word_only=TRUE, ...){
+findNames <- function(tokens, count_min, p=0.001, word_only=TRUE, ...){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   if(missing(count_min)) count_min <- length(tokens_unlist) / 10 ^ 6 # one in million
@@ -41,6 +41,7 @@ findNames <- function(tokens, count_min, g=10.83, word_only=TRUE, ...){
   if(sum_upper==0) stop("All tokens are lowercased. Tokens have to be in original case for name identification.\n")
 
   cat("Calculating g-score...\n")
+  g <- qchisq(1 - p, 1) # chisq appariximation to g-score
   df <- df[df[,1] >= count_min,]
   df$gscore <- apply(df, 1, function(x, y, z) gscore(x[1], x[2], y, z), sum_upper, sum_lower)
   df <- df[order(-df$gscore),]
@@ -101,13 +102,18 @@ getCasedTypes <- function(tokens, case='upper'){
 
 #' Stem names identified by selectNames
 #' @export
-stemNames <- function(pnames, language, len_min=1){
-  pnames <- quanteda::toLower(pnames)
-  pnames_stem <- quanteda::wordstem(pnames, language) # pattern for proper adjectives
-  pnames_stem <- pnames_stem[duplicated(pnames_stem)] # only stems with more than one endings
-  pnames_stem <- pnames_stem[stringi::stri_length(pnames_stem) >= len_min]
-  pnames_stem_glob <- paste0(unique(pnames_stem), '*')
-  return(pnames_stem_glob)
+stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
+
+  df <- data.frame(word=quanteda::toLower(names), len=stringi::stri_length(names), 
+                   stringsAsFactors = FALSE)
+  df$stem <- quanteda::wordstem(df$word, language)
+  df$dupli <- duplicated(df$stem)
+  df$glob <- ifelse(df$len >= len_min & df$dupli, paste0(df$stem, '*'), df$word) # only include long and multi-ending stems
+  if(word_only){
+    return(unique(df$glob))
+  }else{
+    return(df)
+  }
 }
 
 #' Select lower or upper-cased words
