@@ -59,8 +59,12 @@ findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
 selectNames <- function(tokens, selection, padding, ...){
 
   names <- findNames(tokens, ...)
+  types <- unique(unlist(tokens, use.names = FALSE))
+  types_match <- types[toLower(types) %in% toLower(names) &
+                       stringi::stri_detect_charclass(types, '\\p{Lu}')]
+
   cat("Selecting names...\n")
-  tokens <- quanteda::selectFeatures2(tokens, names(names), selection, 'fixed',
+  tokens <- quanteda::selectFeatures2(tokens, types_match, selection, 'fixed',
                                       case_insensitive=FALSE, padding=padding)
   return(tokens)
 
