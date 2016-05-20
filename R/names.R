@@ -56,7 +56,7 @@ findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
 
 # Select or remove names
 #' @export
-selectNames <- function(tokens, selection, padding, ...){
+selectNames <- function(tokens, selection='keep', padding=FALSE, ...){
 
   names <- findNames(tokens, ...)
   types <- unique(unlist(tokens, use.names = FALSE))
