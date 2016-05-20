@@ -89,9 +89,11 @@ getCasedTypes <- function(tokens, case='upper'){
   types <- unique(tokens)
   cat("Identifying capitalized words...\n")
   if(case=='upper'){
-    types_cased <- types[quanteda::toLower(types) != types]
+    types_cased <- types[stri_detect_charclass(types, '\\p{Lu}')]
+    #types_cased <- types[quanteda::toLower(types) != types]
   }else{
-    types_cased <- types[quanteda::toLower(types) == types]
+    types_cased <- types[stri_detect_charclass(types, '\\p{Ll}')]
+    #types_cased <- types[quanteda::toLower(types) == types]
   }
   types_cased <- types_cased[!stringi::stri_detect_regex(types_cased, '^[0-9]')] # exlucde types beging with number
   return(types_cased)
@@ -113,16 +115,16 @@ stemNames <- function(pnames, language, len_min=1){
 selectCasedFeatures <- function(tokens, case='upper', selection='select', padding=FALSE){
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types_cased <- getCasedTypes(tokens_unlist, case)
-  tokens <- quanteda::selectFeatures2(tokens, types_cased, selection, 'fixed',
+  tokens <- quanteda::selectFeatures2(tokens, types_cased, selection=selection, valuetype='fixed',
                                       case_insensitive=FALSE, padding=padding)
   return(tokens)
 }
 
 #' Remove short features
 #' @export
-removeShortFeatures <- function(tokens, min=3, ...){
+removeShortFeatures <- function(tokens, len_min=3, ...){
   types <- unique(unlist(tokens, use.names = FALSE))
-  types_short <- types[stringi::stri_length(types) < min]
+  types_short <- types[stringi::stri_length(types) < len_min]
   return(quanteda::selectFeatures2(tokens, types_short, selection='remove',
                                    valuetype='fixed', case_insensitive=FALSE, ...))
 }
