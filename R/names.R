@@ -77,11 +77,10 @@ joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE){
   cat("Finding sequence of capitalized words...\n")
 
   seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
-  tokens_seqs <- seqs$sequence
-  tokens_seqs <- tokens_seqs[order(-seqs$z)] # start joining tokens from the most significant sequences
-  tokens_seqs <- tokens_seqs[seqs$p < p]
+  seqs$sequence <- seqs$sequence[order(-seqs$z)] # start joining tokens from the most significant sequences
+  seqs$p  <- seqs$p[order(-seqs$z)]
   cat("Joining capitalized words...\n")
-  tokens <- quanteda::joinTokens(tokens, tokens_seqs, verbose=verbose)
+  tokens <- quanteda::joinTokens(tokens, seqs$sequence[seqs$p < p], verbose=verbose)
   return(tokens)
 }
 
