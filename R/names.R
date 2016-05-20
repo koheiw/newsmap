@@ -66,19 +66,20 @@ selectNames <- function(tokens, selection, padding, ...){
 
 }
 
-# Idenitfy concatenate sequences of capitalized words. Minimum z-socre is 2.32 (p<0.01) by default.
+# Idenitfy concatenate sequences of capitalized words.
 #' @export
-joinNames <- function(tokens, count_min, z=2.32, verbose = FALSE){
+joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   if(missing(count_min)) count_min <- length(tokens_unlist) / 10 ^ 6 # one in million
   types_upper <- getCasedTypes(tokens_unlist, 'upper')
 
   cat("Finding sequence of capitalized words...\n")
+
   seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
   tokens_seqs <- seqs$sequence
   tokens_seqs <- tokens_seqs[order(-seqs$z)] # start joining tokens from the most significant sequences
-  tokens_seqs <- tokens_seqs[seqs$z > z]
+  tokens_seqs <- tokens_seqs[seqs$p < p]
   cat("Joining capitalized words...\n")
   tokens <- quanteda::joinTokens(tokens, tokens_seqs, verbose=verbose)
   return(tokens)
@@ -104,7 +105,7 @@ getCasedTypes <- function(tokens, case='upper'){
 #' @export
 stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
 
-  df <- data.frame(word=quanteda::toLower(names), len=stringi::stri_length(names), 
+  df <- data.frame(word=quanteda::toLower(names), len=stringi::stri_length(names),
                    stringsAsFactors = FALSE)
   df$stem <- quanteda::wordstem(df$word, language)
   df$dupli <- duplicated(df$stem)
@@ -112,7 +113,7 @@ stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
   if(word_only){
     return(unique(df$glob))
   }else{
-    return(df)
+    return(df[order(df$word),])
   }
 }
 
