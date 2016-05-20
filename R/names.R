@@ -60,6 +60,8 @@ selectNames <- function(tokens, selection, padding, ...){
 
   names <- findNames(tokens, ...)
   types <- unique(unlist(tokens, use.names = FALSE))
+
+  # Selct only upper-rased types
   types_match <- types[toLower(types) %in% toLower(names) &
                        stringi::stri_detect_charclass(types, '\\p{Lu}')]
 
