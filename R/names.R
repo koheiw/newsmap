@@ -64,8 +64,6 @@ selectNames <- function(tokens, selection='keep', padding=FALSE, ...){
   # Selct only upper-rased types
   types_match <- types[toLower(types) %in% toLower(names) &
                        stringi::stri_detect_charclass(types, '\\p{Lu}')]
-
-  cat("Selecting names...\n")
   tokens <- quanteda::selectFeatures2(tokens, types_match, selection, 'fixed',
                                       case_insensitive=FALSE, padding=padding)
   return(tokens)
@@ -136,9 +134,21 @@ selectCasedFeatures <- function(tokens, case='upper', selection='select', paddin
 #' @export
 removeShortFeatures <- function(tokens, len_min=3, ...){
   types <- unique(unlist(tokens, use.names = FALSE))
-  types_short <- types[stringi::stri_length(types) < len_min]
-  return(quanteda::selectFeatures2(tokens, types_short, selection='remove',
+  types_match <- types[stringi::stri_length(types) < len_min]
+  return(quanteda::selectFeatures2(tokens, types_match, selection='remove',
                                    valuetype='fixed', case_insensitive=FALSE, ...))
+}
+
+# Select or remove numeric features
+#' @export
+removeNumericFeatures <- function(tokens, padding=FALSE, ...){
+
+  types <- unique(unlist(tokens, use.names = FALSE))
+  types_match <- types[stringi::stri_detect_charclass(types, '\\p{N}')]
+  tokens <- quanteda::selectFeatures2(tokens, types_match, selection, 'fixed',
+                                      case_insensitive=FALSE, padding=padding)
+  return(tokens)
+
 }
 
 #' Remove punctuations
