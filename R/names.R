@@ -1,7 +1,8 @@
 #' Calculate G-score (it is chi-squre at the moment)
 #' @export
-gscore <- function(n_true, n_false, sum_true, sum_false){
+gscore <- function(n_true, n_false, sum_true, sum_false, smooth=1){
   tb <- as.table(rbind(c(n_true, n_false), c(sum_true - n_true, sum_false - n_false)))
+  tb <- tb + smooth
   suppressWarnings(
     chi <- chisq.test(tb)
   )
@@ -26,7 +27,7 @@ gscore <- function(n_true, n_false, sum_true, sum_false){
 findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
-  if(missing(count_min)) count_min <- length(tokens_unlist) / 10 ^ 6 # one in million
+  if(missing(count_min)) count_min <- max(2, length(unlist(tokens)) / 10 ^ 6) # alt least twice of one in million
   types_upper <- getCasedTypes(tokens_unlist, 'upper')
 
   flag <- tokens_unlist %in% types_upper
@@ -35,14 +36,16 @@ findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
   tb <- table(quanteda::toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
   df <- as.data.frame.matrix(tb)
   colnames(df) <- c('upper', 'lower')
+  df <- df[df$upper >= 1,] # ignore words never appear in uppercase
 
   sum_upper <- sum(df$upper)
   sum_lower <- sum(df$lower)
+
   if(sum_upper==0) stop("All tokens are lowercased. Tokens have to be in original case for name identification.\n")
 
   cat("Calculating g-score...\n")
   g <- qchisq(1 - p, 1) # chisq appariximation to g-score
-  df <- df[df[,1] >= count_min,]
+  df <- df[df$upper >= count_min,]
   df$gscore <- apply(df, 1, function(x, y, z) gscore(x[1], x[2], y, z), sum_upper, sum_lower)
   df <- df[order(-df$gscore),]
   df <- df[df$gscore > g,]
@@ -75,7 +78,7 @@ selectNames <- function(tokens, selection='keep', padding=FALSE, ...){
 joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
-  if(missing(count_min)) count_min <- length(tokens_unlist) / 10 ^ 6 # one in million
+  if(missing(count_min)) count_min <- max(2, length(unlist(tokens)) / 10 ^ 6) # alt least twice of one in million
   types_upper <- getCasedTypes(tokens_unlist, 'upper')
 
   cat("Finding sequence of capitalized words...\n")
@@ -112,8 +115,10 @@ stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
                    stringsAsFactors = FALSE)
   df$stem <- quanteda::wordstem(df$word, language)
   df$dupli <- duplicated(df$stem)
-  df$glob <- ifelse(df$len >= len_min & df$dupli, paste0(df$stem, '*'), df$word) # only include long and multi-ending stems
+  df$stem <- df$len >= len_min & df$dupli
+  df$glob <- ifelse(df$stem, paste0(df$stem, '*'), df$word) # only include long and multi-ending stems
   if(word_only){
+    df <- df[df$stem,]
     return(unique(df$glob))
   }else{
     return(df[order(df$word),])
@@ -139,26 +144,18 @@ removeShortFeatures <- function(tokens, len_min=3, ...){
                                    valuetype='fixed', case_insensitive=FALSE, ...))
 }
 
-# Select or remove numeric features
+# Select or remove marks and numbers
 #' @export
-removeNumericFeatures <- function(tokens, padding=FALSE, ...){
+removeSpecialFeatures <- function(tokens, numbers=TRUE, marks=TRUE, ...){
 
   types <- unique(unlist(tokens, use.names = FALSE))
-  types_match <- types[stringi::stri_detect_charclass(types, '\\p{N}')]
-  tokens <- quanteda::selectFeatures2(tokens, types_match, selection, 'fixed',
-                                      case_insensitive=FALSE, padding=padding)
-  return(tokens)
-
-}
-
-#' Remove punctuations
-#' @export
-removeMarks <- function(tokens, ...){
-  types <- unique(unlist(tokens, use.names = FALSE))
-  types_punct <- types[stringi::stri_detect_charclass(types, '\\p{P}') |
-                       stringi::stri_detect_charclass(types, '\\p{S}')]
-  return(quanteda::selectFeatures2(tokens, types_punct, selection='remove',
+  types_match <- c()
+  if(numbers) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^\\p{N}')])
+  if(marks) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^(\\p{P}|\\p{S})+$')])
+  #if(net) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^(http|ftp|www)|@|#')])
+  return(quanteda::selectFeatures2(tokens, types_match, selection='remove',
                                    valuetype='fixed', case_insensitive=FALSE, ...))
+  return(tokens)
 }
 
 #' Remove padding
