@@ -115,10 +115,10 @@ stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
                    stringsAsFactors = FALSE)
   df$stem <- quanteda::wordstem(df$word, language)
   df$dupli <- duplicated(df$stem)
-  df$stem <- df$len >= len_min & df$dupli
-  df$glob <- ifelse(df$stem, paste0(df$stem, '*'), df$word) # only include long and multi-ending stems
+  df$flag <- df$len >= len_min & df$dupli
+  df$glob <- ifelse(df$flag, paste0(df$stem, '*'), df$word) # only include long and multi-ending stems
   if(word_only){
-    df <- df[df$stem,]
+    df <- df[df$flag,]
     return(unique(df$glob))
   }else{
     return(df[order(df$word),])
