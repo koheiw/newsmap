@@ -53,6 +53,7 @@ findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
   if(word_only){
     return(rownames(df))
   }else{
+    df$p <- 1 - pchisq(df$g, 1)
     return(df)
   }
 }
@@ -75,12 +76,12 @@ selectNames <- function(tokens, selection='keep', padding=FALSE, ...){
 
 # Idenitfy concatenate sequences of capitalized words.
 #' @export
-joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE){
+joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE, types_extra){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   if(missing(count_min)) count_min <- max(2, length(unlist(tokens)) / 10 ^ 6) # alt least twice of one in million
   types_upper <- getCasedTypes(tokens_unlist, 'upper')
-
+  if(!missing(types_extra)) types_upper <- c(types_upper, types_extra)
   cat("Finding sequence of capitalized words...\n")
 
   seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
@@ -100,7 +101,7 @@ getCasedTypes <- function(tokens, case='upper'){
     types_cased <- types[stringi::stri_detect_charclass(types, '\\p{Lu}')]
     #types_cased <- types[quanteda::toLower(types) != types]
   }else{
-    types_cased <- types[stringi::stri_detect_charclass(types, '\\p{Ll}')]
+    types_cased <- types[!stringi::stri_detect_charclass(types, '\\p{Lu}')]
     #types_cased <- types[quanteda::toLower(types) == types]
   }
   types_cased <- types_cased[!stringi::stri_detect_regex(types_cased, '^[0-9]')] # exlucde types beging with number
