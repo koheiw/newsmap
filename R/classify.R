@@ -1,4 +1,6 @@
-#' Predict geographical association of news stories
+#' Predict geographical association of texts
+#' @param tokens tokenizedTexts
+#' @param dict geigraphical dicitonary created by makeGeoDictionary
 #' @export
 predictCountry <- function(tokens, dict){
 
@@ -7,7 +9,7 @@ predictCountry <- function(tokens, dict){
   tokens <- joinTokens(tokens, keywords, valuetype = 'fixed', verbose = FALSE)
   tokens <- quanteda::selectFeatures2(tokens, colnames(dict))
 
-  mx <- dfm(tokens, verbose=FALSE)
+  mx <- quanteda::dfm(tokens, verbose=FALSE)
   #sums <- Matrix::rowSums(mx)
   cols <- intersect(colnames(mx), colnames(dict))
   mx2 <- mx[,cols]
@@ -18,9 +20,12 @@ predictCountry <- function(tokens, dict){
 
 }
 
-#' Find most strongly assosiated countries
+#' Extract most strongly assosiated countries
+#' @param pred prediciton by predictCountry
+#' @param rank rank of country
 #' @export
-getTopCountries <- function(mx, rank=1){
+getTopCountries <- function(pred, rank=1){
+  mx <- pred
   index_max <- apply(mx, 1, function(x) sort(x, decreasing=TRUE, index.return=TRUE)$ix[rank])
   score_max <- apply(mx, 1, function(x) sort(x, decreasing=TRUE)[rank])
   code_max <- colnames(mx[,index_max])
@@ -29,6 +34,8 @@ getTopCountries <- function(mx, rank=1){
 }
 
 #' Evaluate classification perfromance by precision and recall
+#' @param class_true vector of true classes
+#' @param class_test vercor of predicted classes
 #' @export
 performance <- function(class_true, class_test){
 
@@ -41,7 +48,7 @@ performance <- function(class_true, class_test){
   #return(class_all)
   mx <- matrix(ncol=6, nrow=0)
   for(class_temp in class_all){
-    print(class_temp)
+    cat(class_temp, "\n")
     n <- sum(class_true == class_temp)
     tp <- sum(class_true == class_temp & class_test == class_temp)
     fp <- sum(class_true != class_temp & class_test == class_temp)

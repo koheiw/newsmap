@@ -1,10 +1,5 @@
-#' Convert the format of a lexicon of place names from text to RData
-#' @examples
-#' lexicon_en <- readLexicon('/home/kohei/projects/newsmap/countries.conf')
-#' save(lexicon_en, file='data/lexicon_en.RData')
-#' lexicon_ru <- readLexicon('/home/kohei/projects/newsmap/countries_ru.conf')
-#' save(lexicon_ru, file='data/lexicon_ru.RData')
-#'
+#' Read a list of place names from text a file
+#' @param file file path to text file
 #' @export
 readLexicon <- function(file){
 
@@ -21,9 +16,26 @@ readLexicon <- function(file){
   }
   return(lexicon)
 }
+
 #' Extract geograpical keywords from a lexicon as sequence of tokens
+#' @param lexicon list of place names
+#' @param sep_keyword separator for keywords in lexicon
 #' @export
-getKeywords <- function(lexicon, sep=' '){
-  keywords <- unlist(lapply(lexicon, function(x) stringi::stri_split_regex(x$keywords, sep)), recursive = FALSE)
+getKeywords <- function(lexicon, sep_keyword=' '){
+  keywords <- unlist(lapply(lexicon, function(x) stringi::stri_split_regex(x$sep_keyword, sep)), recursive = FALSE)
   return(keywords)
 }
+
+#' @name lexicon_en
+#' @docType data
+#' @title English place names
+#' @description Manually compiled list of English place names
+#'
+NULL
+
+#' @name lexicon_ru
+#' @docType data
+#' @title Russian place names
+#' @description Manually compiled list of Russian place names
+#'
+NULL

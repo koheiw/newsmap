@@ -1,7 +1,12 @@
 
-#' Construct a large geographical dictionary from place names
+#' Construct a geographical dictionary from a list of place names
+#' @param tokens tokenizedTexts object
+#' @param lexicon list of place names
+#' @param power weight for word frequency
+#' @param smooth smoother for coditional frequency
+#' @param sep_keyword separator for keywords in lexicon
 #' @export
-makeGeoDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep=' '){
+makeGeoDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep_keyword=' '){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   len_lexicon <- length(lexicon)
@@ -17,7 +22,7 @@ makeGeoDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep=' '){
   for(code in names(lexicon)){
     country <- lexicon[[code]]
     #cat(country$name, "\n")
-    regex <- utils::glob2rx(stringi::stri_replace_all_fixed(country$keywords, sep, '-')) # make keywords into tokens
+    regex <- utils::glob2rx(stringi::stri_replace_all_fixed(country$keywords, sep_keyword, '-')) # make keywords into tokens
     types_match <- types[stringi::stri_detect_regex(types, paste0(regex, collapse='|'), case_insensitive = TRUE)] # search the keywords
     flag <- unlist(lapply(tokens, function(x, y) rep(any(x %in% y), length(x)), types_match), use.names=FALSE) # flag all the words in the text
     if(sum(flag) == 0) next # skip when no keyword match

@@ -1,7 +1,7 @@
 Package: Newsmap
 Type: Package
 Title: Geographical classification of news (Newsmap)
-Version: 0.1.0
+Version: 0.2.0
 Author: Kohei Watanabe
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
 Description: More about what it does (maybe more than one line)
