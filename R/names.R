@@ -1,10 +1,9 @@
 #' Calculate G-score (it is chi-squre at the moment)
-#' @export
 gscore <- function(n_true, n_false, sum_true, sum_false, smooth=1){
   tb <- as.table(rbind(c(n_true, n_false), c(sum_true - n_true, sum_false - n_false)))
   tb <- tb + smooth
   suppressWarnings(
-    chi <- chisq.test(tb)
+    chi <- stats::chisq.test(tb)
   )
   #print(tb)
   #print(chi$expected)
@@ -17,12 +16,15 @@ gscore <- function(n_true, n_false, sum_true, sum_false, smooth=1){
 }
 
 #' Identify frequenety capitalized words. Minimum g-socre is 10.83 (p<0.01) by default.
+#' @param tokens tokenizedTexts object
+#' @param count_min minimum frequency of names
+#' @param p p-value for log-likelihood test
+#' @param word_only return only words if true
 #' @examples
 #' docs <- readLines('/home/kohei/projects/immigration/data/uk_img/2009-2010.txt')
-#' sents <- tokenize(docs, what='sentence', simplify = TRUE)
-#' tokens <- tokenize(sents, removePunct=TRUE, removeNumbers=TRUE)
+#' sents <- quanteda::tokenize(docs, what='sentence', simplify = TRUE)
+#' tokens <- quanteda::tokenize(sents, removePunct=TRUE, removeNumbers=TRUE)
 #' names <- findNames(tokens, 5)
-#'
 #' @export
 findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
 
@@ -44,7 +46,7 @@ findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
   if(sum_upper==0) stop("All tokens are lowercased. Tokens have to be in original case for name identification.\n")
 
   cat("Calculating g-score...\n")
-  g <- qchisq(1 - p, 1) # chisq appariximation to g-score
+  g <- stats::qchisq(1 - p, 1) # chisq appariximation to g-score
   df <- df[df$upper >= count_min,]
   df$gscore <- apply(df, 1, function(x, y, z) gscore(x[1], x[2], y, z), sum_upper, sum_lower)
   df <- df[order(-df$gscore),]
@@ -53,14 +55,18 @@ findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
   if(word_only){
     return(rownames(df))
   }else{
-    df$p <- 1 - pchisq(df$g, 1)
+    df$p <- 1 - stats::pchisq(df$g, 1)
     return(df)
   }
 }
 
-# Select or remove names
+#' Select or remove capitalized words
+#' @param tokens tokenizedTexts object
+#' @param selection keep or remove features
+#' @param padding leave empty tokens if true
+#' @param ... passed to quanteda::selectFeatures
 #' @export
-selectNames <- function(tokens, selection='keep', padding=FALSE, ...){
+selectNames <- function(tokens, selection=c('keep', 'remove'), padding=FALSE, ...){
 
   names <- findNames(tokens, ...)
   types <- unique(unlist(tokens, use.names = FALSE))
@@ -74,7 +80,12 @@ selectNames <- function(tokens, selection='keep', padding=FALSE, ...){
 
 }
 
-# Idenitfy concatenate sequences of capitalized words.
+#' Idenitfy concatenate sequences of capitalized words
+#' @param tokens tokenizedTexts object
+#' @param count_min minimum freqeuency of names
+#' @param p p-value for log-likelihood test
+#' @param verbose show progress
+#' @param types_extra types of tokens that are considered part of names in addition to capitalized words
 #' @export
 joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE, types_extra){
 
@@ -92,7 +103,9 @@ joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE, types_extra){
   return(tokens)
 }
 
-#' Select unique capitalized tokens
+#' Extract unique capitalized tokens
+#' @param tokens tokenizedTexts object
+#' @param case case of words to be extracted
 #' @export
 getCasedTypes <- function(tokens, case='upper'){
   types <- unique(tokens)
@@ -109,6 +122,10 @@ getCasedTypes <- function(tokens, case='upper'){
 }
 
 #' Stem names identified by selectNames
+#' @param names vector of names identifdied by findNames
+#' @param language language setting to be passted to the SnowballC stemmer
+#' @param len_min minimum length of names to be stemmed
+#' @param word_only return only words if true
 #' @export
 stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
 
@@ -127,8 +144,12 @@ stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
 }
 
 #' Select lower or upper-cased words
+#' @param tokens tokenizedTexts object
+#' @param case case of words to be extracted
+#' @param selection keep or remove features
+#' @param padding leave empty tokens if true
 #' @export
-selectCasedFeatures <- function(tokens, case='upper', selection='select', padding=FALSE){
+selectCasedFeatures <- function(tokens, case='upper', selection=c('keep', 'remove'), padding=FALSE){
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types_cased <- getCasedTypes(tokens_unlist, case)
   return(quanteda::selectFeatures2(tokens, types_cased, selection=selection, valuetype='fixed',
@@ -136,6 +157,9 @@ selectCasedFeatures <- function(tokens, case='upper', selection='select', paddin
 }
 
 #' Remove short features
+#' @param tokens tokenizedTexts object
+#' @param len_min minimum length of tokens to keep
+#' @param ... passed to quanteda::selectFeatures
 #' @export
 removeShortFeatures <- function(tokens, len_min=3, ...){
   types <- unique(unlist(tokens, use.names = FALSE))
@@ -144,7 +168,11 @@ removeShortFeatures <- function(tokens, len_min=3, ...){
                                    valuetype='fixed', case_insensitive=FALSE, ...))
 }
 
-# Select or remove marks and numbers
+#' Select or remove marks and numbers
+#' @param tokens tokenizedTexts object
+#' @param numbers remove numeric features if true
+#' @param marks remove punctuations and symboles if true
+#' @param ... passed to quanteda::selectFeatures
 #' @export
 removeSpecialFeatures <- function(tokens, number=TRUE, mark=TRUE, net=FALSE, ...){
 
@@ -158,6 +186,7 @@ removeSpecialFeatures <- function(tokens, number=TRUE, mark=TRUE, net=FALSE, ...
 }
 
 #' Remove padding
+#' @param tokens tokenizedTexts object
 #' @export
 removePadding <- function(tokens){
   return(quanteda::selectFeatures2(tokens, '', selection='remove', padding=FALSE,
