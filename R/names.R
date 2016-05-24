@@ -27,7 +27,7 @@ gscore <- function(n_true, n_false, sum_true, sum_false, smooth=1){
 findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
-  if(missing(count_min)) count_min <- max(2, length(unlist(tokens)) / 10 ^ 6) # alt least twice of one in million
+  if(missing(count_min)) count_min <- max(2, length(tokens_unlist) / 10 ^ 6) # alt least twice of one in million
   types_upper <- getCasedTypes(tokens_unlist, 'upper')
 
   flag <- tokens_unlist %in% types_upper
@@ -79,7 +79,7 @@ selectNames <- function(tokens, selection='keep', padding=FALSE, ...){
 joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE, types_extra){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
-  if(missing(count_min)) count_min <- max(2, length(unlist(tokens)) / 10 ^ 6) # alt least twice of one in million
+  if(missing(count_min)) count_min <- max(2, length(tokens_unlist) / 10 ^ 6) # alt least twice of one in million
   types_upper <- getCasedTypes(tokens_unlist, 'upper')
   if(!missing(types_extra)) types_upper <- c(types_upper, types_extra)
   cat("Finding sequence of capitalized words...\n")
@@ -131,9 +131,8 @@ stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
 selectCasedFeatures <- function(tokens, case='upper', selection='select', padding=FALSE){
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types_cased <- getCasedTypes(tokens_unlist, case)
-  tokens <- quanteda::selectFeatures2(tokens, types_cased, selection=selection, valuetype='fixed',
-                                      case_insensitive=FALSE, padding=padding)
-  return(tokens)
+  return(quanteda::selectFeatures2(tokens, types_cased, selection=selection, valuetype='fixed',
+                                   case_insensitive=FALSE, padding=padding))
 }
 
 #' Remove short features
@@ -147,16 +146,15 @@ removeShortFeatures <- function(tokens, len_min=3, ...){
 
 # Select or remove marks and numbers
 #' @export
-removeSpecialFeatures <- function(tokens, numbers=TRUE, marks=TRUE, ...){
+removeSpecialFeatures <- function(tokens, number=TRUE, mark=TRUE, net=FALSE, ...){
 
   types <- unique(unlist(tokens, use.names = FALSE))
   types_match <- c()
-  if(numbers) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^\\p{N}')])
-  if(marks) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^(\\p{P}|\\p{S})+$')])
-  #if(net) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^(http|ftp|www)|@|#')])
+  if(number) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^\\p{N}')])
+  if(mark) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^(\\p{P}|\\p{S})+$')])
+  if(net) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^(http|ftp|www)|@|#')])
   return(quanteda::selectFeatures2(tokens, types_match, selection='remove',
                                    valuetype='fixed', case_insensitive=FALSE, ...))
-  return(tokens)
 }
 
 #' Remove padding
