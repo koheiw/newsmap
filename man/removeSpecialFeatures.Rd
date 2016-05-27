@@ -4,16 +4,17 @@
 \alias{removeSpecialFeatures}
 \title{Select or remove marks and numbers}
 \usage{
-removeSpecialFeatures(tokens, numbers = TRUE, marks = TRUE, ...)
+removeSpecialFeatures(tokens, number = TRUE, mark = TRUE, net = FALSE,
+  ...)
 }
 \arguments{
 \item{tokens}{tokenizedTexts object}
 
+\item{...}{passed to quanteda::selectFeatures}
+
 \item{numbers}{remove numeric features if true}
 
 \item{marks}{remove punctuations and symboles if true}
-
-\item{...}{passed to quanteda::selectFeatures}
 }
 \description{
 Select or remove marks and numbers

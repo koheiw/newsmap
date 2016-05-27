@@ -4,10 +4,6 @@ export(findNames)
 export(getCasedTypes)
 export(getKeywords)
 export(getTopCountries)
-<<<<<<< HEAD
-export(gscore)
-=======
->>>>>>> a14bf8f756af42ed64a2dbc3ccaf6224272194da
 export(joinNames)
 export(makeGeoDictionary)
 export(performance)
