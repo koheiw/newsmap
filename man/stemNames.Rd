@@ -4,7 +4,7 @@
 \alias{stemNames}
 \title{Stem names identified by selectNames}
 \usage{
-stemNames(names, language = "en", len_min = 5, word_only = TRUE)
+stemNames(names, language = "english", len_min = 5, word_only = TRUE)
 }
 \arguments{
 \item{names}{vector of names identifdied by findNames}
