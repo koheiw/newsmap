@@ -150,7 +150,7 @@ selectNames <- function(tokens, selection=c('keep', 'remove'), padding=FALSE, ..
   # Selct only upper-rased types
   types_match <- types[toLower(types) %in% toLower(names) &
                        stringi::stri_detect_charclass(types, '\\p{Lu}')]
-  tokens <- quanteda::selectFeatures2(tokens, types_match, selection, 'fixed',
+  tokens <- quanteda::selectFeatures(tokens, types_match, selection, 'fixed',
                                       case_insensitive=FALSE, padding=padding)
   return(tokens)
 
@@ -228,7 +228,7 @@ stemNames <- function(names, language='english', len_min=5, word_only=TRUE){
 selectCasedFeatures <- function(tokens, case='upper', selection=c('keep', 'remove'), padding=FALSE){
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   types_cased <- getCasedTypes(tokens_unlist, case)
-  return(quanteda::selectFeatures2(tokens, types_cased, selection=selection, valuetype='fixed',
+  return(quanteda::selectFeatures(tokens, types_cased, selection=selection, valuetype='fixed',
                                    case_insensitive=FALSE, padding=padding))
 }
 
@@ -240,7 +240,7 @@ selectCasedFeatures <- function(tokens, case='upper', selection=c('keep', 'remov
 removeShortFeatures <- function(tokens, len_min=3, ...){
   types <- unique(unlist(tokens, use.names = FALSE))
   types_match <- types[stringi::stri_length(types) < len_min]
-  return(quanteda::selectFeatures2(tokens, types_match, selection='remove',
+  return(quanteda::selectFeatures(tokens, types_match, selection='remove',
                                    valuetype='fixed', case_insensitive=FALSE, ...))
 }
 
@@ -257,7 +257,7 @@ removeSpecialFeatures <- function(tokens, number=TRUE, mark=TRUE, net=FALSE, ...
   if(number) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^\\p{N}')])
   if(mark) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^(\\p{P}|\\p{S})+$')])
   if(net) types_match <- c(types_match, types[stringi::stri_detect_regex(types, '^(http|ftp|www)|@|#')])
-  return(quanteda::selectFeatures2(tokens, types_match, selection='remove',
+  return(quanteda::selectFeatures(tokens, types_match, selection='remove',
                                    valuetype='fixed', case_insensitive=FALSE, ...))
 }
 
@@ -265,6 +265,6 @@ removeSpecialFeatures <- function(tokens, number=TRUE, mark=TRUE, net=FALSE, ...
 #' @param tokens tokenizedTexts object
 #' @export
 removePadding <- function(tokens){
-  return(quanteda::selectFeatures2(tokens, '', selection='remove', padding=FALSE,
+  return(quanteda::selectFeatures(tokens, '', selection='remove', padding=FALSE,
                                    valuetype='fixed', case_insensitive=FALSE))
 }

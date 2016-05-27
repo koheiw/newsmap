@@ -1,16 +1,18 @@
 # Newsmap
-Geographical news classifier
+Newsmap is developed to classify news stories according to their geographical focus. Its [online version](http://example.com "International Newsmap") has been working since 2011. It has been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification.
 
 ## How to install
+This package is not upload to CRAN, so please install by running this command in R. You need to have devtools installed beforehand.
 ```
 devtools::install_github("koheiw/Newsmap")
 ```
 
 ## Example
+In the following example, newsmap creates a dicitonary for June 21 2012 with news stories collected from Yahoo News via RSS. Yahoo News stories are not in this package as it is too large, but availabe on request.
 ```
 # Load data
 load('data/countries_en.RData')
-df <- readRDS('/home/kohei/Documents/Newsmap/yahoo-news.RDS')
+df <- readRDS('../Newsmap/yahoo-news.RDS')
 
 # Specify capitalized words to ignore
 month <- c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
@@ -27,7 +29,6 @@ docs <- paste0(df_recent$head, ". ", df_recent$body)
 tokens <- tokenize(docs, removePunct = FALSE)
 tokens <- selectFeatures2(tokens, c(month, day), selection='remove', padding=TRUE)
 tokens <- selectFeatures2(tokens, stopwords(), selection='remove', padding=FALSE)
-
 
 # Join multi-part names
 tokens <- joinTokens(tokens, keywords, valueType = 'glob', verbose = FALSE)
