@@ -19,20 +19,26 @@ gscore <- function(n_true, n_false, sum_true, sum_false, smooth=1){
 #' @param tokens tokenizedTexts object
 #' @param count_min minimum frequency of names
 #' @param p p-value for log-likelihood test
+#' @param ignore_first ignore capitalization in first words in texts if true
 #' @param word_only return only words if true
 #' @examples
 #' docs <- readLines('/home/kohei/projects/immigration/data/uk_img/2009-2010.txt')
 #' sents <- quanteda::tokenize(docs, what='sentence', simplify = TRUE)
 #' tokens <- quanteda::tokenize(sents, removePunct=TRUE, removeNumbers=TRUE)
-#' names <- findNames(tokens, 5)
+#' names <- findNames(tokens, 5, word_only=FALSE)
 #' @export
-findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
+findNames <- function(tokens, count_min, p=0.001, ignore_first=TRUE, word_only=TRUE){
 
   tokens_unlist <- unlist(tokens, use.names = FALSE)
   if(missing(count_min)) count_min <- max(2, length(tokens_unlist) / 10 ^ 6) # alt least twice of one in million
   types_upper <- getCasedTypes(tokens_unlist, 'upper')
-
   flag <- tokens_unlist %in% types_upper
+
+  if(ignore_first){
+    first <- c(1, cumsum(lengths(tokens)) + 1)
+    first <- first[first <= length(flag)]
+    flag[first] <- FALSE
+  }
 
   cat("Counting capitalized words...\n")
   tb <- table(quanteda::toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
@@ -56,6 +62,76 @@ findNames <- function(tokens, count_min, p=0.001, word_only=TRUE){
     return(rownames(df))
   }else{
     df$p <- 1 - stats::pchisq(df$g, 1)
+    return(df)
+  }
+}
+
+#' Check if words are names by chi-scuqre test
+check_name <- function(x, smooth=1){
+
+  n_true <- x[1]
+  n_false <- x[2]
+  sum_true <- x[3]
+  sum_false <- x[4]
+
+  tb <- as.table(rbind(c(n_true, n_false), c(sum_true - n_true, sum_false - n_false)))
+  tb <- tb + smooth
+  suppressWarnings(
+    chi <- stats::chisq.test(tb)
+  )
+  #print(tb)
+  #print(chi$expected)
+  n_true_exp <- chi$expected[1,1]
+  if(n_true > n_true_exp){
+    return(unname(chi$statistic))
+  }else{
+    return(unname(chi$statistic) * -1)
+  }
+}
+
+
+#' Identify frequenety capitalized words. Minimum g-socre is 10.83 (p<0.01) by default.
+#' @inheritParams findNames
+#' @export
+findNames2 <- function(tokens, count_min, p=0.001, word_only=TRUE){
+
+  tokens_unlist <- unlist(tokens, use.names = FALSE)
+  if(missing(count_min)) count_min <- max(2, length(tokens_unlist) / 10 ^ 6) # alt least twice of one in million
+  tokens_unlist <- tokens_unlist[tokens_unlist != ''] # exlucde padding
+  types_upper <- getCasedTypes(tokens_unlist, 'upper')
+  flag <- tokens_unlist %in% types_upper
+
+  cat("Counting capitalized words...\n")
+  tb <- table(quanteda::toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
+  df <- as.data.frame.matrix(tb)
+  colnames(df) <- c('upper', 'lower')
+  df$word <- rownames(df) # rownames are deleted by merge
+  df$len <- stringi::stri_length(row.names(df))
+
+  # Calcuate conditional frequency of being uppercase
+  df_sum <- aggregate(cbind(df$upper, df$lower), by=list(len=df$len), FUN=sum)
+  colnames(df_sum) <- c('len', 'upper_sum', 'lower_sum')
+
+  # Merge to the original df
+  df <- merge(df, df_sum, by='len')
+  rownames(df) <- df$word
+  df <- df[,c('upper', 'lower', 'upper_sum', 'lower_sum', 'len')] # drop word and reorder
+  df <- df[df$upper >= 1,] # ignore words never appear in uppercase
+
+  if(sum(df_sum$upper)==0) stop("All tokens are lowercased. Tokens have to be in original case for name identification.\n")
+
+  cat("Performing chi-squre test...\n")
+  chisq <- stats::qchisq(1 - p, 1) # chisq appariximation to g-score
+  df <- df[df$upper >= count_min,]
+
+  df$chisq <- apply(df, 1, function(x) check_name(x))
+  df <- df[order(-df$chisq),]
+  df <- df[df$chisq > chisq,]
+
+  if(word_only){
+    return(rownames(df))
+  }else{
+    df$p <- 1 - stats::pchisq(df$chisq, 1)
     return(df)
   }
 }
@@ -127,7 +203,7 @@ getCasedTypes <- function(tokens, case='upper'){
 #' @param len_min minimum length of names to be stemmed
 #' @param word_only return only words if true
 #' @export
-stemNames <- function(names, language='en', len_min=5, word_only=TRUE){
+stemNames <- function(names, language='english', len_min=5, word_only=TRUE){
 
   df <- data.frame(word=quanteda::toLower(names), len=stringi::stri_length(names),
                    stringsAsFactors = FALSE)
