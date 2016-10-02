@@ -2,20 +2,23 @@
 #' @param tokens tokenizedTexts
 #' @param dict geigraphical dicitonary created by makeGeoDictionary
 #' @export
-predictCountry <- function(tokens, dict){
+predictCountry <- function(tokens, dict, lang='english'){
 
   cat("Concatenating multi-part names...\n")
+  dict <- as(dict, 'denseMatrix')
   keywords <- unlist(lapply(colnames(dict), function(x) stringi::stri_split_regex(x, '-')), recursive = FALSE)
   tokens <- joinTokens(tokens, keywords, valuetype = 'fixed', verbose = FALSE)
-  tokens <- quanteda::selectFeatures2(tokens, colnames(dict))
+  tokens <- quanteda::selectFeatures(tokens, colnames(dict))
 
   mx <- quanteda::dfm(tokens, verbose=FALSE)
-  #sums <- Matrix::rowSums(mx)
+  #colnames(mx) <- cleanTokens(colnames(mx), lang)
+  #mx <- quanteda::compress(mx) # merge equivalent columns
+
   cols <- intersect(colnames(mx), colnames(dict))
   mx2 <- mx[,cols]
   mx2 <- mx2 / Matrix::rowSums(mx2)
   #mx2 <- mx2 / sums
-  mx3 <- mx2 %*% t(dict[,cols])
+  mx3 <- mx2 %*% Matrix::t(dict[,cols])
   return(mx3)
 
 }
@@ -39,27 +42,25 @@ getTopCountries <- function(pred, rank=1){
 #' @export
 performance <- function(class_true, class_test){
 
-  # Remove unknown items
-  flag_unkwnow <- is.na(class_true) | class_true == ''
-  class_true <- class_true[!flag_unkwnow]
-  class_test <- class_test[!flag_unkwnow]
+  df <- data.frame(true=ifelse(is.na(class_true), '', class_true), 
+                   test=ifelse(is.na(class_test), '', class_test))
+  df <- df[!is.na(df$true) & df$true != '',] # remove unknown in true class
 
-  class_all <- unique(class_true)
-  #return(class_all)
+  classes <- unique(df$true)
   mx <- matrix(ncol=6, nrow=0)
-  for(class_temp in class_all){
-    cat(class_temp, "\n")
-    n <- sum(class_true == class_temp)
-    tp <- sum(class_true == class_temp & class_test == class_temp)
-    fp <- sum(class_true != class_temp & class_test == class_temp)
-    fn <- sum(class_true == class_temp & class_test != class_temp)
+  for(class in classes){
+    #cat(class, "\n")
+    n <- sum(df$true == class)
+    tp <- sum(df$true == class & df$test == class)
+    fp <- sum(df$true != class & df$test == class)
+    fn <- sum(df$true == class & df$test != class)
     precision <- tp / (tp + fp)
     recall <- tp / (tp + fn)
     #print(paste(n, tp, fp, fn, precision, recall))
     mx <- rbind(mx, c(n, tp, fp, fn, precision, recall))
   }
   mode(mx) <- 'numeric'
-  rownames(mx) <- class_all
+  rownames(mx) <- classes
   colnames(mx) <- c('n', 'tp', 'fp', 'fn', 'precision', 'recall')
 
   #Micro-average of precision = (TP1+TP2)/(TP1+TP2+FP1+FP2)

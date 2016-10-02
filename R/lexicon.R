@@ -21,8 +21,8 @@ readLexicon <- function(file){
 #' @param lexicon list of place names
 #' @param sep_keyword separator for keywords in lexicon
 #' @export
-getKeywords <- function(lexicon, sep_keyword=' '){
-  keywords <- unlist(lapply(lexicon, function(x) stringi::stri_split_regex(x$sep_keyword, sep)), recursive = FALSE)
+getKeywords <- function(lexicon, sep=' '){
+  keywords <- unlist(lapply(lexicon, function(x) stringi::stri_split_regex(x$keywords, sep)), recursive = FALSE)
   return(keywords)
 }
 

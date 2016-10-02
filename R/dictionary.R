@@ -27,7 +27,7 @@ makeGeoDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep_keywor
     flag <- unlist(lapply(tokens, function(x, y) rep(any(x %in% y), length(x)), types_match), use.names=FALSE) # flag all the words in the text
     if(sum(flag) == 0) next # skip when no keyword match
     mx <- t(as.data.frame.matrix(table(tokens_unlist, factor(flag, levels=c(TRUE, FALSE))))) # make matrix where columns are countries
-
+    
     if(is.null(colnames(mx_dic))){
       colnames(mx_dic) <- colnames(mx)
     }else{
@@ -35,7 +35,9 @@ makeGeoDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep_keywor
     }
     # Scoring words
     mx2 <- (mx + smooth) / (Matrix::rowSums(mx) + smooth)
+    
     mx_dic[code,] <- log(mx2[1,] ^ power) - log(mx2[2,]) # insert into the empty dictionary
+    #return(mx_dic[code,])
   }
   flag_zero <- apply(mx_dic, 1, function(x) all(x==0)) # check if all words are zero
   mx_dic <- mx_dic[!flag_zero,]

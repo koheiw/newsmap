@@ -124,7 +124,7 @@ findNames2 <- function(tokens, count_min, p=0.001, word_only=TRUE){
   chisq <- stats::qchisq(1 - p, 1) # chisq appariximation to g-score
   df <- df[df$upper >= count_min,]
 
-  df$chisq <- apply(df, 1, function(x) check_name(x))
+  df$chisq <- apply(df[], 1, function(x) check_name(x))
   df <- df[order(-df$chisq),]
   df <- df[df$chisq > chisq,]
 
@@ -132,6 +132,94 @@ findNames2 <- function(tokens, count_min, p=0.001, word_only=TRUE){
     return(rownames(df))
   }else{
     df$p <- 1 - stats::pchisq(df$chisq, 1)
+    return(df)
+  }
+}
+
+#' Identify frequenety capitalized words using stopwrods as baseline.
+#' @inheritParams findNames
+#' @examples
+#' df <- readRDS('/home/kohei/Documents/Newsmap2/yahoo-news.RDS')
+#' today <- as.Date('2016-02-28')
+#' df_recent <- df[today - 7 < df$date & df$date <= today,]
+#' docs <- paste0(df_recent$head, ". ", df_recent$body)
+#' docs <- cleanTexts(docs)
+#' toks <- quanteda::tokenize(docs)
+#' df_nam <- findNames3(toks, count_min=5, word_only=FALSE)
+#' df_nam[order(df_nam$p),]
+
+#' @export
+findNames3 <- function(tokens, count_min, p=0.001, word_only=TRUE, language='english'){
+
+  #tokens <- lapply(tokens, function(x) x[-1]) # remove first words
+
+  tokens_unlist <- unlist(tokens, use.names = FALSE)
+  if(missing(count_min)) count_min <- max(2, length(tokens_unlist) / 10 ^ 6) # alt least twice of one in million
+  tokens_unlist <- tokens_unlist[tokens_unlist != ''] # exlucde padding
+  types_upper <- getCasedTypes(tokens_unlist, 'upper')
+  flag <- tokens_unlist %in% types_upper
+
+  cat("Counting capitalized words...\n")
+  tb <- table(quanteda::toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
+  df <- as.data.frame.matrix(tb)
+  colnames(df) <- c('upper', 'lower')
+  df$word <- rownames(df) # rownames are deleted by merge
+  df$none <- df$word %in% stopwords(language) # use stopwords as exmaples of non-names
+
+  # Estimated chance of random capitalization
+  df_none <- df[df$none,]
+  prob_upper <- sum(df_none$upper) / sum(df_none$upper + df_none$lower)
+  #prob_upper <- 0.5
+  if(sum(df$upper)==0) stop("All tokens are lowercased. Tokens have to be in original case for name identification.\n")
+
+  cat("Performing test of proportion...\n")
+  df <- df[!df$none,] # remove non-names
+  df <- df[df$upper >= 1,] # ignore words never appear in uppercase
+  df <- df[df$upper >= count_min,]
+  suppressWarnings(
+  df$p <- apply(df[,c('upper', 'lower')], 1,
+                function(x, y) stats::prop.test(x[1], n=x[1] + x[2], p=y, alternative="greater")$p.value,
+                prob_upper)
+  )
+  df <- df[df$p < p,]
+  if(word_only){
+    return(rownames(df))
+  }else{
+    return(df)
+  }
+}
+
+#' Identify frequenety capitalized words with an arbitrary baseline.
+#' @inheritParams findNames
+#' @export
+findNames4 <- function(tokens, count_min, baseline=0.1, p=0.001, word_only=TRUE){
+
+  tokens_unlist <- unlist(tokens, use.names = FALSE)
+  if(missing(count_min)) count_min <- max(2, length(tokens_unlist) / 10 ^ 6) # alt least twice of one in million
+  tokens_unlist <- tokens_unlist[tokens_unlist != ''] # exlucde padding
+  types_upper <- getCasedTypes(tokens_unlist, 'upper')
+  flag <- tokens_unlist %in% types_upper
+
+  cat("Counting capitalized words...\n")
+  tb <- table(quanteda::toLower(tokens_unlist), factor(flag, levels=c(TRUE, FALSE)))
+  df <- as.data.frame.matrix(tb)
+  colnames(df) <- c('upper', 'lower')
+  df$word <- rownames(df) # rownames are deleted by merge
+
+  if(sum(df$upper)==0) stop("All tokens are lowercased. Tokens have to be in original case for name identification.\n")
+
+  cat("Performing test of proportion...\n")
+  df <- df[df$upper >= 1,] # ignore words never appear in uppercase
+  df <- df[df$upper >= count_min,]
+  suppressWarnings(
+    df$p <- apply(df[,c('upper', 'lower')], 1,
+                  function(x, y) stats::prop.test(x[1], n=x[1] + x[2], p=y, alternative="greater")$p.value,
+                  baseline)
+  )
+  df <- df[df$p < p,]
+  if(word_only){
+    return(rownames(df))
+  }else{
     return(df)
   }
 }
@@ -173,7 +261,7 @@ joinNames <- function(tokens, count_min, p=0.001, verbose = FALSE, types_extra){
 
   seqs <- quanteda::findSequences(tokens, types_upper, count_min=count_min)
   seqs$sequence <- seqs$sequence[order(-seqs$z)] # start joining tokens from the most significant sequences
-  seqs$p  <- seqs$p[order(-seqs$z)]
+  seqs$p <- seqs$p[order(-seqs$z)]
   cat("Joining capitalized words...\n")
   tokens <- quanteda::joinTokens(tokens, seqs$sequence[seqs$p < p], verbose=verbose)
   return(tokens)
@@ -267,4 +355,14 @@ removeSpecialFeatures <- function(tokens, number=TRUE, mark=TRUE, net=FALSE, ...
 removePadding <- function(tokens){
   return(quanteda::selectFeatures(tokens, '', selection='remove', padding=FALSE,
                                    valuetype='fixed', case_insensitive=FALSE))
+}
+
+
+#' @export
+cleanTexts <- function(text, lang='english'){
+  if(lang=='english'){
+    text <- stringi::stri_replace_all_fixed(text, "'s", '') # posession
+    text <- stringi::stri_replace_all_fixed(text, ".", '') # acronyms
+  }
+  return(text)
 }

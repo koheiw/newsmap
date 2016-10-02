@@ -4,7 +4,7 @@
 \alias{predictCountry}
 \title{Predict geographical association of texts}
 \usage{
-predictCountry(tokens, dict)
+predictCountry(tokens, dict, lang = "english")
 }
 \arguments{
 \item{tokens}{tokenizedTexts}

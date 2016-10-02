@@ -4,7 +4,7 @@
 \alias{getKeywords}
 \title{Extract geograpical keywords from a lexicon as sequence of tokens}
 \usage{
-getKeywords(lexicon, sep_keyword = " ")
+getKeywords(lexicon, sep = " ")
 }
 \arguments{
 \item{lexicon}{list of place names}
