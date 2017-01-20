@@ -62,6 +62,21 @@ getTopCountries <- function(pred, rank=1){
               score=score_max))
 }
 
+#' Extract most strongly assosiated countries
+#' @param pred prediciton by predictCountry
+#' @param rank rank of country
+#' @export
+get_coutry <- function(pred, rank=c(1, 2)){
+    country <- t(apply(pred, 1, function(x) names(sort(x, decreasing=TRUE))[rank]))
+    colnames(country) <- paste0('country', rank)
+    score <- t(apply(pred, 1, function(x) sort(unname(x), decreasing=TRUE)[rank]))
+    colnames(score) <- paste0('score', rank)
+    df <- cbind(as.data.frame(country),
+                as.data.frame(score))
+    return(df)
+}
+
+
 #' @export
 show_country <- function(pred, rank=c(1, 2)){
 
@@ -70,7 +85,9 @@ show_country <- function(pred, rank=c(1, 2)){
         cat(i, names(toks[i]), "-----------------------\n")
         top <- sort(pred[i,], decreasing = TRUE)[rank]
         cat(paste0(names(top), ": ", round(top, 3)), "\n")
+        cat('Entries\n')
         print(intersect(pred@tokens[[i]], pred@features))
+        cat('Tokens\n')
         print(pred@tokens[[i]])
         cat("\n")
     }
