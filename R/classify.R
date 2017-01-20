@@ -23,6 +23,32 @@ predictCountry <- function(tokens, dict, lang='english'){
 
 }
 
+#' @export
+predict_country <- function(toks, dict, lang='english'){
+
+  mx_dict <- as(dict, 'denseMatrix')
+
+  cat("Joining multi-word names\n")
+  toks <- quanteda::tokens_compound(toks, colnames(dict), valuetype = "fixed",
+                                    case_insensitive = TRUE, concatenator = ' ')
+  mx <- quanteda::dfm(toks, tolower = FALSE)
+  mx <- quanteda::dfm_select(mx, "^[A-Z]", valuetype = 'regex', case_insensitive = FALSE)
+  mx <- quanteda::dfm_toupper(mx)
+
+  feats <- intersect(colnames(mx), colnames(mx_dict))
+  mx <- mx[,feats]
+  mx_dict <- mx_dict[,feats]
+  mx <- dfm_weight(mx, 'relFreq')
+
+  mx2 <- mx %*% Matrix::t(mx_dict)
+  flag_drop <- apply(mx2, 2, function(x) all(x==0)) # check if all words are zero
+  mx2 <- mx2[,!flag_drop]
+  attr(mx2, 'tokens') <- tokens_toupper(toks)
+  attr(mx2, 'features') <- feats
+  return(mx2)
+
+}
+
 #' Extract most strongly assosiated countries
 #' @param pred prediciton by predictCountry
 #' @param rank rank of country
@@ -36,13 +62,27 @@ getTopCountries <- function(pred, rank=1){
               score=score_max))
 }
 
+#' @export
+show_country <- function(pred, rank=c(1, 2)){
+
+    mx <- matrix(rep(0, length(rank) * nrow(pred)), nrow=nrow(pred))
+    for (i in 1:nrow(pred)){
+        cat(i, names(toks[i]), "-----------------------\n")
+        top <- sort(pred[i,], decreasing = TRUE)[rank]
+        cat(paste0(names(top), ": ", round(top, 3)), "\n")
+        print(intersect(pred@tokens[[i]], pred@features))
+        print(pred@tokens[[i]])
+        cat("\n")
+    }
+}
+
 #' Evaluate classification perfromance by precision and recall
 #' @param class_true vector of true classes
 #' @param class_test vercor of predicted classes
 #' @export
 performance <- function(class_true, class_test){
 
-  df <- data.frame(true=ifelse(is.na(class_true), '', class_true), 
+  df <- data.frame(true=ifelse(is.na(class_true), '', class_true),
                    test=ifelse(is.na(class_test), '', class_test))
   df <- df[!is.na(df$true) & df$true != '',] # remove unknown in true class
 

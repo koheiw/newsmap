@@ -37,7 +37,6 @@ makeGeoDictionary2 <- function(tokens, lexicon, power=1, smooth=0.001, sep=' '){
   flag_drop <- apply(mx_dic, 1, function(x) all(x==0)) # check if all words are zero
   mx_dic <- mx_dic[!flag_drop,]
   mx_dic <- mx_dic[order(rownames(mx_dic)),]
-  #print(dimnames(mx_dic))
   return(as(mx_dic, "sparseMatrix"))
 }
 
