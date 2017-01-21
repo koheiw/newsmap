@@ -53,43 +53,31 @@ predict_country <- function(toks, dict, lang='english'){
 #' @param pred prediciton by predictCountry
 #' @param rank rank of country
 #' @export
-getTopCountries <- function(pred, rank=1){
-  mx <- pred
-  index_max <- apply(mx, 1, function(x) sort(x, decreasing=TRUE, index.return=TRUE)$ix[rank])
-  score_max <- apply(mx, 1, function(x) sort(x, decreasing=TRUE)[rank])
-  code_max <- colnames(mx[,index_max])
-  return(list(code=code_max,
-              score=score_max))
-}
-
-#' Extract most strongly assosiated countries
-#' @param pred prediciton by predictCountry
-#' @param rank rank of country
-#' @export
-get_coutry <- function(pred, rank=c(1, 2)){
+get_country <- function(pred, rank=c(1, 2)){
     country <- t(apply(pred, 1, function(x) names(sort(x, decreasing=TRUE))[rank]))
     colnames(country) <- paste0('country', rank)
     score <- t(apply(pred, 1, function(x) sort(unname(x), decreasing=TRUE)[rank]))
     colnames(score) <- paste0('score', rank)
-    df <- cbind(as.data.frame(country),
+    df <- cbind(as.data.frame(country, stringsAsFactors = FALSE),
                 as.data.frame(score))
     return(df)
 }
 
-
 #' @export
-show_country <- function(pred, rank=c(1, 2)){
+show_country <- function(pred, rank=c(1, 2), range){
 
     mx <- matrix(rep(0, length(rank) * nrow(pred)), nrow=nrow(pred))
     for (i in 1:nrow(pred)){
-        cat(i, names(toks[i]), "-----------------------\n")
-        top <- sort(pred[i,], decreasing = TRUE)[rank]
-        cat(paste0(names(top), ": ", round(top, 3)), "\n")
-        cat('Entries\n')
-        print(intersect(pred@tokens[[i]], pred@features))
-        cat('Tokens\n')
-        print(pred@tokens[[i]])
-        cat("\n")
+        if (i %in% range) {
+            cat(i, names(toks[i]), "-----------------------\n")
+            top <- sort(pred[i,], decreasing = TRUE)[rank]
+            cat(paste0(names(top), ": ", round(top, 3)), "\n")
+            cat('Entries\n')
+            print(intersect(pred@tokens[[i]], pred@features))
+            cat('Tokens\n')
+            print(pred@tokens[[i]])
+            cat("\n")
+        }
     }
 }
 

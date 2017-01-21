@@ -5,7 +5,7 @@
 #' @param smooth smoother for coditional frequency
 #' @param sep_keyword separator for keywords in lexicon
 #' @export
-make_dictionary <- function(toks, dict, concatenator = ' ', weight = 1, smooth = 10e-5){
+make_dictionary <- function(toks, dict, concatenator = ' ', weight = 1, smooth = 1){
 
     if(!is.dictionary(dict)) stop("Dictionary has to be a quanteda dictionary object")
     if(length(dict) == 0) stop("Dictionary has not entry")
@@ -45,25 +45,13 @@ make_dictionary <- function(toks, dict, concatenator = ' ', weight = 1, smooth =
         missing <- setdiff(c('T', 'R'), rownames(mx2))
         attr(mx2, 'Dim')[1L] <- attr(mx2, 'Dim')[1L] + length(missing)
         attr(mx2, 'Dimnames')$docs <- c(attr(mx2, 'Dimnames')$docs, missing)
-        #flag_zero <- as.vector(mx2['T',] == 0) # flag words do not occur
 
         # Scoring words
-
-        #sum <- sum(mx2) + 1
-        mx2 <- mx2 + 1
+        mx2 <- mx2 + smooth
         sums <- Matrix::rowSums(mx2)
-
         if (sums['T'] > 1) {
-            #mx3 <- (mx2 ^ weight) / sums # conditional likelihood
-            #if (missing(smooth)) smooth <- sums['T'] / sum #
-            #cat("sums\n")
-            #print(sums)
-            #print(smooth)
-            #mx3 <- ((mx2 ^ weight) + smooth) / (sums + smooth) # conditional likelihood
             mx3 <- (mx2 ^ weight) / (sums) # conditional likelihood
-            print(head(mx3, 20))
             lr <- as.vector(log(mx3['T',]) - log(mx3['R',])) # # calculate likelihood-ratio
-            #lr[flag_zero] <- 0 # fill with zero if words do no occur
             mx_dic[key,] <- lr
         } else {
             mx_dic[key,] <- NULL
