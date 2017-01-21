@@ -1,47 +1,76 @@
 
 #' Construct a geographical dictionary from a list of place names
 #' @param tokens tokenizedTexts object
-#' @param lexicon list of place names
-#' @param power weight for word frequency
+#' @param dict quanteda's dictionary object
 #' @param smooth smoother for coditional frequency
 #' @param sep_keyword separator for keywords in lexicon
 #' @export
-makeGeoDictionary <- function(tokens, lexicon, power=1, smooth=0.001, sep_keyword=' '){
+make_dictionary <- function(toks, dict, concatenator = ' ', weight = 1, smooth = 1, min_count_seq = 2){
 
-  tokens_unlist <- unlist(tokens, use.names = FALSE)
-  len_lexicon <- length(lexicon)
-  if(len_lexicon == 0) stop("Lexicon is empty")
-  types <- unique(tokens_unlist)
-  len_types <- length(types)
-  if(len_types == 0) stop("Text length is zero")
+    if(!is.dictionary(dict)) stop("Dictionary has to be a quanteda dictionary object")
+    if(length(dict) == 0) stop("Dictionary has not entry")
 
-  # Create dictionary
-  mx_dic <- matrix(rep(0, len_lexicon * len_types), ncol=len_types, nrow=len_lexicon) # create empty dictionary
-  rownames(mx_dic) <- names(lexicon)
-  cat("Scoring", len_types, "features for", len_lexicon, "countries...\n")
-  for(code in names(lexicon)){
-    country <- lexicon[[code]]
-    #cat(country$name, "\n")
-    regex <- utils::glob2rx(stringi::stri_replace_all_fixed(country$keywords, sep_keyword, '-')) # make keywords into tokens
-    types_match <- types[stringi::stri_detect_regex(types, paste0(regex, collapse='|'), case_insensitive = TRUE)] # search the keywords
-    flag <- unlist(lapply(tokens, function(x, y) rep(any(x %in% y), length(x)), types_match), use.names=FALSE) # flag all the words in the text
-    if(sum(flag) == 0) next # skip when no keyword match
-    mx <- t(as.data.frame.matrix(table(tokens_unlist, factor(flag, levels=c(TRUE, FALSE))))) # make matrix where columns are countries
-    
-    if(is.null(colnames(mx_dic))){
-      colnames(mx_dic) <- colnames(mx)
-    }else{
-      if(!all(colnames(mx_dic) == colnames(mx))) stop("Incompatible token is given\n")
+    # Dicitonary lookup
+    cat("Searching for dictionary words...\n")
+    keys <- quanteda::tokens_lookup(toks, dict, levels = 3)
+    mx_key <- quanteda::dfm(keys, tolower = FALSE)
+
+    # Feature selection
+    file_seqs <- 'sequences_capital.RDS'
+    cat("Identifying multi-word names...\n")
+    if (file.exists(file_seqs)) {
+        cat("Loading cached multi-word names:", file_seqs, "\n")
+        seqs <- readRDS(file=file_seqs)
+    } else {
+        seqs <- quanteda::sequences(toks, '^[A-Z]', valuetype = 'regex', case_insensitive = FALSE,
+                                    min_count = min_count_seq)
+        saveRDS(seqs, file=file_seqs)
     }
-    # Scoring words
-    mx2 <- (mx + smooth) / (Matrix::rowSums(mx) + smooth)
-    
-    mx_dic[code,] <- log(mx2[1,] ^ power) - log(mx2[2,]) # insert into the empty dictionary
-    #return(mx_dic[code,])
-  }
-  flag_zero <- apply(mx_dic, 1, function(x) all(x==0)) # check if all words are zero
-  mx_dic <- mx_dic[!flag_zero,]
-  mx_dic <- mx_dic[order(rownames(mx_dic)),]
-  return(mx_dic)
+
+    cat("Concatenating multi-word names...\n")
+    seqs <- seqs[seqs$p < 0.001,]
+    toks <- quanteda::tokens_compound(toks, seqs$sequence, valuetype = 'fixed', concatenator = ' ')
+    toks <- quanteda::tokens_select(toks, '^[A-Z]', valuetype = 'regex', padding = TRUE, case_insensitive = FALSE)
+    mx <- dfm(toks)
+    mx <- dfm_select(mx, min_len = 2)
+    mx <- quanteda::dfm_toupper(mx)
+
+    mx_dic <- matrix(rep(0, ncol(mx) * ncol(mx_key)), ncol=ncol(mx), nrow=ncol(mx_key))
+    colnames(mx_dic) <- colnames(mx)
+    rownames(mx_dic) <- colnames(mx_key)
+
+    cat("Scoring words for countries: ")
+    for(key in sort(featnames(mx_key))){
+
+        cat(key)
+        rownames(mx) <- ifelse(as.vector(mx_key[,key]) > 0, 'T', 'R')
+        mx2 <- quanteda::dfm_compress(mx, margin = 'documents')
+
+        missing <- setdiff(c('T', 'R'), rownames(mx2))
+        attr(mx2, 'Dim')[1L] <- attr(mx2, 'Dim')[1L] + length(missing)
+        attr(mx2, 'Dimnames')$docs <- c(attr(mx2, 'Dimnames')$docs, missing)
+
+        # Scoring words
+        mx2 <- mx2 + smooth
+        sums <- Matrix::rowSums(mx2)
+        if (sums['T'] > 1) {
+            mx3 <- (mx2 ^ weight) / (sums) # conditional likelihood
+            lr <- as.vector(log(mx3['T',]) - log(mx3['R',])) # calculate likelihood-ratio
+            mx_dic[key,] <- lr
+        } else {
+            mx_dic[key,] <- NULL
+        }
+    }
+    cat("\n")
+    mx_dict_sps <- as(mx_dic, "sparseMatrix")
+    return(mx_dict_sps)
+}
+
+#' @export
+top_entries <-function(dict, code, n=20){
+    ents <- dict[code,]
+    ents <- ents[order(ents, decreasing = TRUE)]
+    print(head(ents, n))
+    cat(sum(ents > 0), 'non-zero entries\n')
 }
 
