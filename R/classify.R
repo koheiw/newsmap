@@ -62,8 +62,10 @@ show_country <- function(pred, rank=c(1, 2), range){
 #' Evaluate classification accuracy in precision and recall
 #' @param class_true vector of true classes
 #' @param class_test vercor of predicted classes
+#' @param target specify target class. If target is only one class,
+#'    micro and macro measures become the same
 #' @export
-accuracy <- function(class_true, class_test){
+accuracy <- function(class_true, class_test, target){
 
     df <- data.frame(true=ifelse(is.na(class_true), '', class_true),
                      test=ifelse(is.na(class_test), '', class_test))
@@ -86,6 +88,10 @@ accuracy <- function(class_true, class_test){
     rownames(mx) <- classes
     colnames(mx) <- c('n', 'tp', 'fp', 'fn', 'precision', 'recall')
 
+    if (!missing(target)) {
+        mx <- mx[target,,drop = FALSE]
+    }
+
     #Micro-average of precision = (TP1+TP2)/(TP1+TP2+FP1+FP2)
     p <- sum(mx[,'tp'], na.rm=T) / sum(mx[,c('tp', 'fp')])
     #Micro-average of recall = (TP1+TP2)/(TP1+TP2+FN1+FN2)
@@ -94,7 +100,7 @@ accuracy <- function(class_true, class_test){
     P <- sum(mx[,'precision'], na.rm=T) / nrow(mx)
     #Macro-average recall = (R1+R2)/2
     R <- sum(mx[,'recall'], na.rm=T) / nrow(mx)
-
+    print(mx)
     return(list(p=p, r=r, P=P, R=R))
 }
 

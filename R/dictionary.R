@@ -42,7 +42,7 @@ make_dictionary <- function(toks, dict, concatenator = ' ', weight = 1, smooth =
     cat("Scoring words for countries: ")
     for(key in sort(featnames(mx_key))){
 
-        cat(key)
+        cat(key, " ", sep = "")
         rownames(mx) <- ifelse(as.vector(mx_key[,key]) > 0, 'T', 'R')
         mx2 <- quanteda::dfm_compress(mx, margin = 'documents')
 
