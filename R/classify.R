@@ -100,7 +100,7 @@ accuracy <- function(class_true, class_test, target){
     P <- sum(mx[,'precision'], na.rm=T) / nrow(mx)
     #Macro-average recall = (R1+R2)/2
     R <- sum(mx[,'recall'], na.rm=T) / nrow(mx)
-    print(mx)
+
     return(list(p=p, r=r, P=P, R=R))
 }
 
