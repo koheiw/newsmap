@@ -2,7 +2,7 @@
 #' @param tokens tokenizedTexts
 #' @param dict geigraphical dicitonary created by makeGeoDictionary
 #' @export
-predict_country <- function(toks, dict, lang='english'){
+predict_country <- function(toks, dict, lang='english') {
 
     mx_dict <- as(dict, 'denseMatrix')
 
@@ -31,7 +31,7 @@ predict_country <- function(toks, dict, lang='english'){
 #' @param pred prediciton by predictCountry
 #' @param rank rank of country
 #' @export
-get_country <- function(pred, rank=c(1, 2)){
+get_country <- function(pred, rank=c(1, 2)) {
     country <- t(apply(pred, 1, function(x) names(sort(x, decreasing=TRUE))[rank]))
     colnames(country) <- paste0('country', rank)
     score <- t(apply(pred, 1, function(x) sort(unname(x), decreasing=TRUE)[rank]))
@@ -42,7 +42,7 @@ get_country <- function(pred, rank=c(1, 2)){
 }
 
 #' @export
-show_country <- function(pred, rank=c(1, 2), range){
+show_country <- function(pred, rank=c(1, 2), range) {
 
     mx <- matrix(rep(0, length(rank) * nrow(pred)), nrow=nrow(pred))
     for (i in 1:nrow(pred)){
@@ -62,10 +62,8 @@ show_country <- function(pred, rank=c(1, 2), range){
 #' Evaluate classification accuracy in precision and recall
 #' @param class_true vector of true classes
 #' @param class_test vercor of predicted classes
-#' @param target specify target class. If target is only one class,
-#'    micro and macro measures become the same
 #' @export
-accuracy <- function(class_true, class_test, target){
+accuracy <- function(class_true, class_test) {
 
     df <- data.frame(true=ifelse(is.na(class_true), '', class_true),
                      test=ifelse(is.na(class_test), '', class_test))
@@ -87,10 +85,16 @@ accuracy <- function(class_true, class_test, target){
     mode(mx) <- 'numeric'
     rownames(mx) <- classes
     colnames(mx) <- c('n', 'tp', 'fp', 'fn', 'precision', 'recall')
+    
+    res <- mx
+    class(res) <- c('accuracy', class(res))
+    return(res)
+}
 
-    if (!missing(target)) {
-        mx <- mx[target,,drop = FALSE]
-    }
+#' Print micro and macro average measures of accuracy
+#' @param accuracy output of accuracy()
+#' @export
+summary.accuracy <- function(mx) {
 
     #Micro-average of precision = (TP1+TP2)/(TP1+TP2+FP1+FP2)
     p <- sum(mx[,'tp'], na.rm=T) / sum(mx[,c('tp', 'fp')])
@@ -101,6 +105,6 @@ accuracy <- function(class_true, class_test, target){
     #Macro-average recall = (R1+R2)/2
     R <- sum(mx[,'recall'], na.rm=T) / nrow(mx)
 
-    return(list(p=p, r=r, P=P, R=R))
+    res <- list(p=p, r=r, P=P, R=R)
+    return(res)
 }
-

@@ -4,15 +4,12 @@
 \alias{accuracy}
 \title{Evaluate classification accuracy in precision and recall}
 \usage{
-accuracy(class_true, class_test, target)
+accuracy(class_true, class_test)
 }
 \arguments{
 \item{class_true}{vector of true classes}
 
 \item{class_test}{vercor of predicted classes}
-
-\item{target}{specify target class. If target is only one class,
-micro and macro measures become the same}
 }
 \description{
 Evaluate classification accuracy in precision and recall
