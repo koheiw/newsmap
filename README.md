@@ -11,7 +11,7 @@ devtools::install_github("koheiw/Newsmap")
 In the following example, newsmap creates a dicitonary for June 21 2012 with news stories collected from Yahoo News via RSS. Yahoo News stories are not in this package as it is too large, but availabe on request.
 
 ### Construct classifier 
-```
+```r
 library(Newsmap)
 library(quanteda)
 
@@ -42,9 +42,13 @@ model <- construct(toks, seed, min_count_seq = 10)
 ```
 
 ### Apply classifier 
-```
+```r
 # Load your data
 txts2 <- readlines('my_texts.txt')
 toks2 <- tokens(txts2)
+
+# Classify
 pred <- predict_country(tokens_remove(toks2, stopwords('english')), model)
+get_country(pred)
+
 ```
