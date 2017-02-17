@@ -16,7 +16,8 @@ construct <- function(toks, dict, concatenator = ' ', weight = 1, smooth = 1, mi
     mx_key <- quanteda::dfm(keys, tolower = FALSE)
 
     # Feature selection
-    file_seqs <- 'sequences_capital.RDS'
+    md5 <- digest::digest(toks , 'md5')
+    file_seqs <- paste0('.cache_', min_count_seq, '_', md5 ,'.RDS', collapse = '')
     cat("Identifying multi-word names...\n")
     if (file.exists(file_seqs)) {
         cat("Loading cached multi-word names:", file_seqs, "\n")
