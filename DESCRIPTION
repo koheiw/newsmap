@@ -11,4 +11,5 @@ Imports:
     Matrix,
     quanteda,
     stringi,
+    digest,
 RoxygenNote: 5.0.1
