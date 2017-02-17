@@ -85,7 +85,7 @@ accuracy <- function(class_true, class_test) {
     mode(mx) <- 'numeric'
     rownames(mx) <- classes
     colnames(mx) <- c('n', 'tp', 'fp', 'fn', 'precision', 'recall')
-    
+
     res <- mx
     class(res) <- c('accuracy', class(res))
     return(res)
@@ -105,6 +105,7 @@ summary.accuracy <- function(mx) {
     #Macro-average recall = (R1+R2)/2
     R <- sum(mx[,'recall'], na.rm=T) / nrow(mx)
 
-    res <- list(p=p, r=r, P=P, R=R)
+    res <- c(p, r, P, R)
+    names(res) <- c('p', 'r', 'P', 'R')
     return(res)
 }
