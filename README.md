@@ -9,36 +9,39 @@ devtools::install_github("koheiw/Newsmap")
 
 ## Example
 In the following example, newsmap creates a dicitonary for June 21 2012 with news stories collected from Yahoo News via RSS. Yahoo News stories are not in this package as it is too large, but availabe on request.
+
+### Construct classifier 
 ```
 # Load data
-load('data/countries_en.RData')
 df <- readRDS('../Newsmap/yahoo-news.RDS')
+df$text <- paste0(df$head, ". ", df$body)
+df$body <- NULL
+corp <- corpus(df, text_field = 'text')
 
-# Specify capitalized words to ignore
-month <- c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+# Custom stopwords
+month <- c('January', 'February', 'March', 'April', 'May', 'June',
+           'July', 'August', 'September', 'October', 'November', 'December')
 day <- c('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
-pattern <- "^[A-Z][A-Za-z0-9\\-]+"
-keywords <- getKeywords(lexicon)
+agency <- c('AP', 'AFP', 'Reuters')
 
-# Extract news from last 7 days
-today = as.Date('2012-07-21')
-df_recent <- df[today - 7 < df$date & df$date <= today,]
-docs <- paste0(df_recent$head, ". ", df_recent$body)
+# Select training period
+corp_sub <- corpus_subset(corp, '2014-01-01' <= date & date <= '2014-12-31')
 
-# Tokenize text
-tokens <- tokenize(docs, removePunct = FALSE)
-tokens <- selectFeatures2(tokens, c(month, day), selection='remove', padding=TRUE)
-tokens <- selectFeatures2(tokens, stopwords(), selection='remove', padding=FALSE)
+# Tokenize
+toks <- tokens(corp_sub)
+toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding = TRUE)
+toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
 
-# Join multi-part names
-tokens <- joinTokens(tokens, keywords, valueType = 'glob', verbose = FALSE)
-tokens <- joinSequence(tokens, pattern, verbose = FALSE)
+# Construct classifier from seed dictionary
+seed <- readRDS(system.file("data", "english.yml", package = "Newsmap"))
+model <- construct(toks, dict_seed, min_count_seq = 10)
 
-# Idenntify names and drop others
-pnames <- findNames(tokens, pattern, count_min=2)
-tokens2 <- selectFeatures2(toUpper(tokens), names(pnames), selection='keep', case_insensitive = FALSE)
+```
 
-# Make dictionary
-dict <- makeDictionary(tokens2, lexicon)
-
+### Apply classifier 
+```
+# Load your data
+txts2 <- readlines('my_texts.txt')
+toks2 <- tokens(txts2)
+pred <- predict_country(tokens_remove(toks2, stopwords('english')), model)
 ```

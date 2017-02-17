@@ -2,8 +2,8 @@
 
 S3method(summary,accuracy)
 export(accuracy)
+export(construct)
 export(get_country)
-export(make_dictionary)
 export(predict_country)
 export(show_country)
 export(top_entries)

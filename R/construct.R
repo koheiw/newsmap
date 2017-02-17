@@ -5,7 +5,7 @@
 #' @param smooth smoother for coditional frequency
 #' @param sep_keyword separator for keywords in lexicon
 #' @export
-make_dictionary <- function(toks, dict, concatenator = ' ', weight = 1, smooth = 1, min_count_seq = 2){
+construct <- function(toks, dict, concatenator = ' ', weight = 1, smooth = 1, min_count_seq = 2){
 
     if(!is.dictionary(dict)) stop("Dictionary has to be a quanteda dictionary object")
     if(length(dict) == 0) stop("Dictionary has not entry")
