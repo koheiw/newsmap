@@ -12,6 +12,9 @@ In the following example, newsmap creates a dicitonary for June 21 2012 with new
 
 ### Construct classifier 
 ```
+library(Newsmap)
+library(quanteda)
+
 # Load data
 df <- readRDS('../Newsmap/yahoo-news.RDS')
 df$text <- paste0(df$head, ". ", df$body)
@@ -33,8 +36,8 @@ toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding =
 toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
 
 # Construct classifier from seed dictionary
-seed <- readRDS(system.file("data", "english.yml", package = "Newsmap"))
-model <- construct(toks, dict_seed, min_count_seq = 10)
+seed <- dictionary(file=system.file("data", "english.yml", package = "Newsmap"))
+model <- construct(toks, seed, min_count_seq = 10)
 
 ```
 
