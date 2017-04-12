@@ -19,4 +19,3 @@ construct(toks, dict, concatenator = " ", weight = 1, smooth = 1,
 \description{
 Construct a geographical dictionary from a list of place names
 }
-

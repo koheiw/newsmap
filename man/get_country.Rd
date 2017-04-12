@@ -14,4 +14,3 @@ get_country(pred, rank = c(1, 2))
 \description{
 Extract most strongly assosiated countries
 }
-

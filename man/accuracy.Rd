@@ -14,4 +14,3 @@ accuracy(class_true, class_test)
 \description{
 Evaluate classification accuracy in precision and recall
 }
-

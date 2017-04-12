@@ -14,4 +14,3 @@ predict_country(toks, dict, lang = "english")
 \description{
 Predict geographical association of texts
 }
-

@@ -12,4 +12,3 @@
 \description{
 Print micro and macro average measures of accuracy
 }
-
