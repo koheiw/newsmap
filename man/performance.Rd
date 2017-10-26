@@ -14,4 +14,3 @@ performance(class_true, class_test)
 \description{
 Evaluate classification perfromance by precision and recall
 }
-

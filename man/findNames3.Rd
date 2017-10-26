@@ -29,4 +29,3 @@ toks <- quanteda::tokenize(docs)
 df_nam <- findNames3(toks, count_min=5, word_only=FALSE)
 df_nam[order(df_nam$p),]
 }
-

@@ -19,4 +19,3 @@ selectCasedFeatures(tokens, case = "upper", selection = c("keep", "remove"),
 \description{
 Select lower or upper-cased words
 }
-

@@ -12,4 +12,3 @@ readLexicon(file)
 \description{
 Read a list of place names from text a file
 }
-

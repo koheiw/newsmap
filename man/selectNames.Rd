@@ -18,4 +18,3 @@ selectNames(tokens, selection = c("keep", "remove"), padding = FALSE, ...)
 \description{
 Select or remove capitalized words
 }
-

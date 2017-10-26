@@ -4,7 +4,8 @@
 \alias{make_dictionary}
 \title{Construct a geographical dictionary from a list of place names}
 \usage{
-make_dictionary(toks, dict, concatenator = " ", weight = 1, smooth)
+make_dictionary(toks, dict, concatenator = " ", weight = 1,
+  smooth = 1e-04)
 }
 \arguments{
 \item{dict}{quanteda's dictionary object}
@@ -18,4 +19,3 @@ make_dictionary(toks, dict, concatenator = " ", weight = 1, smooth)
 \description{
 Construct a geographical dictionary from a list of place names
 }
-

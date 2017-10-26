@@ -9,4 +9,3 @@ check_name(x, smooth = 1)
 \description{
 Check if words are names by chi-scuqre test
 }
-

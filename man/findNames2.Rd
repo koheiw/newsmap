@@ -18,4 +18,3 @@ findNames2(tokens, count_min, p = 0.001, word_only = TRUE)
 \description{
 Identify frequenety capitalized words. Minimum g-socre is 10.83 (p<0.01) by default.
 }
-

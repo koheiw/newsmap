@@ -9,4 +9,3 @@ gscore(n_true, n_false, sum_true, sum_false, smooth = 1)
 \description{
 Calculate G-score (it is chi-squre at the moment)
 }
-

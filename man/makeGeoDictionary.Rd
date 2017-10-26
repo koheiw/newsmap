@@ -21,4 +21,3 @@ makeGeoDictionary(tokens, lexicon, power = 1, smooth = 0.001,
 \description{
 Construct a geographical dictionary from a list of place names
 }
-

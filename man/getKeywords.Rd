@@ -14,4 +14,3 @@ getKeywords(lexicon, sep = " ")
 \description{
 Extract geograpical keywords from a lexicon as sequence of tokens
 }
-

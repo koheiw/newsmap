@@ -18,4 +18,3 @@ stemNames(names, language = "english", len_min = 5, word_only = TRUE)
 \description{
 Stem names identified by selectNames
 }
-

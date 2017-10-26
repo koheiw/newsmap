@@ -20,4 +20,3 @@ joinNames(tokens, count_min, p = 0.001, verbose = FALSE, types_extra)
 \description{
 Idenitfy concatenate sequences of capitalized words
 }
-

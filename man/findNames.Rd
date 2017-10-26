@@ -27,4 +27,3 @@ sents <- quanteda::tokenize(docs, what='sentence', simplify = TRUE)
 tokens <- quanteda::tokenize(sents, removePunct=TRUE, removeNumbers=TRUE)
 names <- findNames(tokens, 5, word_only=FALSE)
 }
-

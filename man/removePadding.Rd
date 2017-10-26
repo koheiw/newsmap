@@ -12,4 +12,3 @@ removePadding(tokens)
 \description{
 Remove padding
 }
-

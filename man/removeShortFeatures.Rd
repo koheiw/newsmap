@@ -16,4 +16,3 @@ removeShortFeatures(tokens, len_min = 3, ...)
 \description{
 Remove short features
 }
-

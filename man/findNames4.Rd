@@ -18,4 +18,3 @@ findNames4(tokens, count_min, baseline = 0.1, p = 0.001, word_only = TRUE)
 \description{
 Identify frequenety capitalized words with an arbitrary baseline.
 }
-

@@ -14,4 +14,3 @@ getCasedTypes(tokens, case = "upper")
 \description{
 Extract unique capitalized tokens
 }
-

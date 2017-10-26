@@ -7,4 +7,3 @@
 \description{
 Manually compiled list of English place names
 }
-

@@ -19,4 +19,3 @@ removeSpecialFeatures(tokens, number = TRUE, mark = TRUE, net = FALSE,
 \description{
 Select or remove marks and numbers
 }
-
