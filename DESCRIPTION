@@ -1,7 +1,7 @@
-Package: Newsmap
+Package: newsmap
 Type: Package
 Title: Geographical classification of news (Newsmap)
-Version: 0.2.0
+Version: 0.3.0
 Author: Kohei Watanabe
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
 Description: More about what it does (maybe more than one line)
@@ -12,3 +12,6 @@ Imports:
     quanteda,
     stringi,
 RoxygenNote: 6.0.1
+Collate:
+    textmodel_newsmap.R
+    data.R

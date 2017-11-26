@@ -1,0 +1,69 @@
+---
+output: github_document
+---
+
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "man/images/"
+)
+```
+
+# Newsmap
+Newsmap is developed to classify news stories according to their geographical focus. Its [online version](http://example.com "International Newsmap") has been working since 2011. It has been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification.
+
+## How to install
+This package is not upload to CRAN, so please install by running this command in R. You need to have devtools installed beforehand.
+```{r}
+devtools::install_github("koheiw/Newsmap")
+```
+
+## Example
+In the following example, newsmap creates a dicitonary for June 21 2012 with news stories collected from Yahoo News via RSS. Yahoo News stories are not in this package as it is too large, but availabe on request.
+
+### Construct classifier 
+```{r}
+library(Newsmap)
+library(quanteda)
+
+# Load data
+data <- readRDS(gzcon(url('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1')))
+data$text <- paste0(data$head, ". ", data$body)
+data$body <- NULL
+corp <- corpus(data, text_field = 'text')
+
+# Custom stopwords
+month <- c('January', 'February', 'March', 'April', 'May', 'June',
+           'July', 'August', 'September', 'October', 'November', 'December')
+day <- c('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
+agency <- c('AP', 'AFP', 'Reuters')
+
+# Select training period
+corp_sub <- corpus_subset(corp, '2014-01-01' <= date & date <= '2014-12-31')
+
+# Tokenize
+toks <- tokens(corp_sub)
+toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding = TRUE)
+toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
+
+# Traing model using seed dictionary
+data('data_dictionary_newsmap_en')
+label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3) 
+label_dfm <- dfm(label_toks)
+
+feat_dfm <- dfm(toks, tolower = FALSE)
+feat_dfm <- dfm_select(feat_dfm, '^[A-Z][A-Za-z1-2]+', valuetype = 'regex', case_insensitive = FALSE)
+feat_dfm <- dfm_trim(feat_dfm, min_count = 10)
+
+train_model <- textmodel_newsmap(feat_dfm, label_dfm)
+
+```
+
+### Predict geographical focus of texts 
+```{r}
+country <- predict(train_model)
+head(sort(table(country), decreasing = TRUE))
+
+```
