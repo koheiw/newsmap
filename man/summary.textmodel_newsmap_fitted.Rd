@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{a fitted Newsmap textmodel}
 
-\item{n}{number of classes and features to be shown}
+\item{n}{number of classes, features and document names to be shown}
 }
 \description{
 Summary method for fitted Newsmap model
