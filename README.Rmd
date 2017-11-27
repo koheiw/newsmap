@@ -1,32 +1,40 @@
+---
+output: github_document
+---
 
-Newsmap
-=======
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "man/images/"
+)
+```
+
+# Newsmap
 
 Newsmap is developed to classify news stories according to their geographical focus. Its [online version](http://example.com "International Newsmap") has been working since 2011. It has been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification.
 
-How to install
---------------
+## How to install
 
 This package is not upload to CRAN, so please install by running this command in R. You need to have devtools installed beforehand.
-
-``` r
+```{r, eval=FALSE}
 devtools::install_github("koheiw/newsmap")
 ```
 
-Example
--------
+## Example
 
 In the following example, newsmap creates a dicitonary for June 21 2012 with news stories collected from Yahoo News via RSS. Yahoo News stories are not in this package as it is too large, but availabe on request.
 
 ### Download example data
 
-``` r
+```{r, eval=FALSE}
 download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '~/yahoo-news.RDS')
 ```
 
 ### Train Newsmap classifier
 
-``` r
+```{r}
 library(newsmap)
 library(quanteda)
 
@@ -61,23 +69,14 @@ feat_dfm <- dfm_trim(feat_dfm, min_count = 10)
 
 model <- textmodel_newsmap(feat_dfm, label_dfm)
 summary(model, n = 15)
-## Classes:
-##    bi, km, dj, er, et, ke, mg, mw, mu, yt, mz, re, rw, sc, so ...  
-## Features:
-##    French, Ivanovic, Safarova, PARIS, Former, Open, Ana, Lucie, Czech, Republic, Central, America, President, Barack, Obama ...  
-## Documents:
-##    text63, text68, text69, text73, text78, text79, text84, text85, text86, text92, text94, text103, text104, text106, text115 ...
+
 ```
 
-### Predict geographical focus of texts
+### Predict geographical focus of texts 
 
-``` r
+```{r}
 country <- predict(model)
 head(country)
-## text63 text68 text69 text73 text78 text79 
-##   "fr"   "us"   "ug"   "ng"   "es"   "es"
 head(sort(table(country), decreasing = TRUE))
-## country
-##   gb   us   ru   ua   au   cn 
-## 9819 8071 7848 7021 5854 5630
+
 ```

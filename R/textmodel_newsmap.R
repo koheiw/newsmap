@@ -17,9 +17,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda::quanteda_opt
     for (key in sort(featnames(y))) {
         if (verbose)
             cat(key, " ", sep = "")
-        rownames(x) <- ifelse(as.vector(y[,key]) > 0, 'T', 'R')
-        temp <- quanteda::dfm_compress(x, margin = 'documents')
-
+        temp <- quanteda::dfm_group(x, ifelse(as.vector(y[,key]) > 0, 'T', 'R'))
         missing <- setdiff(c('T', 'R'), rownames(temp))
         attr(temp, 'Dim')[1L] <- attr(temp, 'Dim')[1L] + length(missing)
         attr(temp, 'Dimnames')$docs <- c(attr(temp, 'Dimnames')$docs, missing)
@@ -66,7 +64,7 @@ predict.textmodel_newsmap_fitted <- function(object, newdata = NULL, confidence.
     }
     model <- object$model
     data <- dfm_select(data, as.dfm(model))
-    data <- quanteda::dfm_weight(data, 'relFreq')
+    data <- quanteda::dfm_weight(data, 'relfreq')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
 
     if (type == 'top') {
@@ -79,6 +77,7 @@ predict.textmodel_newsmap_fitted <- function(object, newdata = NULL, confidence.
     } else {
         result <- temp[,!apply(temp, 2, function(x) all(x == 0))] # drop if all words are zero
     }
+    names(result) <- docnames(data)
     return(result)
 
 }
@@ -105,6 +104,32 @@ accuracy <- function(x, y) {
     }
     class(result) <- c('textmodel_newsmap_accuracy', class(result))
     return(result)
+}
+
+#' Summary method for fitted Newsmap model
+#' @noRd textmodel_newsmap
+#' @param object a fitted Newsmap textmodel
+#' @param n number of classes, features and document names to be shown
+#' @export
+summary.textmodel_newsmap_fitted <- function(object, n = 10, ...) {
+    result <- list(classes = head(rownames(object$model), n),
+                   features = head(colnames(object$model), n),
+                   documents = head(rownames(object$data), n))
+    class(result) <- 'textmodel_newsmap_summary'
+    return(result)
+}
+
+#' Summary method for fitted Newsmap model
+#' @noRd textmodel_newsmap
+#' @param object a fitted Newsmap textmodel
+#' @export
+print.textmodel_newsmap_summary <- function(object, ...) {
+    cat('Classes:\n')
+    cat('  ', paste0(object$classes , collapse = ', '), '... ', '\n')
+    cat('Features:\n')
+    cat('  ', paste0(object$features, collapse = ', '), '... ', '\n')
+    cat('Documents:\n')
+    cat('  ', paste0(object$documents, collapse = ', '), '... ', '\n')
 }
 
 #' Print micro and macro average measures of accuracy
