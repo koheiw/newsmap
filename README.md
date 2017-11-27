@@ -29,6 +29,13 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
+## quanteda version 0.99.9025
+## Using 7 of 8 threads for parallel computing
+## 
+## Attaching package: 'quanteda'
+## The following object is masked from 'package:utils':
+## 
+##     View
 
 # Load data
 data <- readRDS('~/yahoo-news.RDS')
