@@ -1,11 +1,11 @@
 Package: newsmap
 Type: Package
-Title: Geographical classification of news (Newsmap)
-Version: 0.3.0
+Title: Geographical text classification model
+Version: 0.4.0
 Author: Kohei Watanabe
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Description: Multinomial Bayseian model for geographical document classification.
+License: GPL-3
 LazyData: TRUE
 Imports:
     Matrix,
