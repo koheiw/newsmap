@@ -71,13 +71,16 @@ predict.textmodel_newsmap_fitted <- function(object, newdata = NULL, confidence.
         if (confidence.fit) {
             result <- list(class = apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank]),
                            confidence.fit = unname(apply(temp, 1, function(x) sort(x, decreasing = TRUE)[rank])))
+            names(result$class) <- docnames(data)
         } else {
             result <- apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank])
+            names(result) <- docnames(data)
         }
     } else {
         result <- temp[,!apply(temp, 2, function(x) all(x == 0))] # drop if all words are zero
+        names(result) <- docnames(data)
     }
-    names(result) <- docnames(data)
+
     return(result)
 
 }
