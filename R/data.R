@@ -14,7 +14,7 @@ NULL
 #' @keywords data
 NULL
 
-
+#' @noRd
 #' @keywords internal
 #' @examples
 #' data_dictionary_newsmap_en <- Newsmap:::import_dictionary('data/english.yml')

@@ -1,7 +1,7 @@
 Package: newsmap
 Type: Package
 Title: Geographical text classification model
-Version: 0.4.0
+Version: 0.4.1
 Author: Kohei Watanabe
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
 Description: Multinomial Bayseian model for geographical document classification.

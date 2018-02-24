@@ -35,7 +35,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda::quanteda_opt
     if (verbose)
         cat("\n")
     result <- list(model = model, data = x, feature = colnames(model))
-    class(result) <- "textmodel_newsmap_fitted"
+    class(result) <- "textmodel_newsmap"
     return(result)
 }
 
@@ -50,7 +50,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda::quanteda_opt
 #'   \code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
 #'   possible classes
 #' @export
-predict.textmodel_newsmap_fitted <- function(object, newdata = NULL, confidence.fit = FALSE, rank = 1L,
+predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = FALSE, rank = 1L,
                                              type = c("top", "all")) {
 
     type <- match.arg(type)
@@ -64,7 +64,7 @@ predict.textmodel_newsmap_fitted <- function(object, newdata = NULL, confidence.
     }
     model <- object$model
     data <- dfm_select(data, as.dfm(model))
-    data <- quanteda::dfm_weight(data, 'relfreq')
+    data <- quanteda::dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
 
     if (type == 'top') {
@@ -78,7 +78,7 @@ predict.textmodel_newsmap_fitted <- function(object, newdata = NULL, confidence.
         }
     } else {
         result <- temp[,!apply(temp, 2, function(x) all(x == 0))] # drop if all words are zero
-        names(result) <- docnames(data)
+        rownames(result) <- docnames(data)
     }
 
     return(result)
@@ -109,12 +109,12 @@ accuracy <- function(x, y) {
     return(result)
 }
 
-#' Summary method for fitted Newsmap model
-#' @noRd textmodel_newsmap
+#' Summary method for a fitted Newsmap model
+#' @rdname textmodel_newsmap
 #' @param object a fitted Newsmap textmodel
 #' @param n number of classes, features and document names to be shown
 #' @export
-summary.textmodel_newsmap_fitted <- function(object, n = 10, ...) {
+summary.textmodel_newsmap <- function(object, n = 10, ...) {
     result <- list(classes = head(rownames(object$model), n),
                    features = head(colnames(object$model), n),
                    documents = head(rownames(object$data), n))
@@ -123,7 +123,7 @@ summary.textmodel_newsmap_fitted <- function(object, n = 10, ...) {
 }
 
 #' Summary method for fitted Newsmap model
-#' @noRd textmodel_newsmap
+#' @rdname textmodel_newsmap
 #' @param object a fitted Newsmap textmodel
 #' @export
 print.textmodel_newsmap_summary <- function(object, ...) {

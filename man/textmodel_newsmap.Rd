@@ -2,10 +2,16 @@
 % Please edit documentation in R/textmodel_newsmap.R
 \name{textmodel_newsmap}
 \alias{textmodel_newsmap}
+\alias{summary.textmodel_newsmap}
+\alias{print.textmodel_newsmap_summary}
 \title{supervised multinomial classifier for multinomial text classification}
 \usage{
 textmodel_newsmap(x, y, smooth = 1,
   verbose = quanteda::quanteda_options("verbose"))
+
+\method{summary}{textmodel_newsmap}(object, n = 10, ...)
+
+\method{print}{textmodel_newsmap_summary}(object, ...)
 }
 \arguments{
 \item{x}{dfm from which features will be extracted}
@@ -15,7 +21,17 @@ textmodel_newsmap(x, y, smooth = 1,
 \item{smooth}{smoothing parameter for word frequency}
 
 \item{verbose}{if \code{TRUE}, show progress of training}
+
+\item{object}{a fitted Newsmap textmodel}
+
+\item{n}{number of classes, features and document names to be shown}
+
+\item{object}{a fitted Newsmap textmodel}
 }
 \description{
 Train a model to predict geographical focus of texts
+
+Summary method for a fitted Newsmap model
+
+Summary method for fitted Newsmap model
 }
