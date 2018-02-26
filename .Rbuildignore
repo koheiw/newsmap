@@ -1,2 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.travis*
+^README\.Rmd$
+^dict/
+^testthat/

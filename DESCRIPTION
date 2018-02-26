@@ -1,13 +1,18 @@
 Package: newsmap
 Type: Package
 Title: Geographical text classification model
-Version: 0.4.1
-Author: Kohei Watanabe
+Version: 0.4.3
+Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")), 
+             person("Stefan", "Müller", email = "mullers@tcd.ie", role = "ctb"))
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
-Description: Multinomial Bayseian model for geographical document classification.
+Description: Multinomial Bayesian model for geographical document classification (currently supporting English, German and Japanese texts).
 License: GPL-3
 LazyData: TRUE
+Encoding: UTF-8
+Depends:
+    methods
 Imports:
+    utils,
     Matrix,
     quanteda,
     stringi,

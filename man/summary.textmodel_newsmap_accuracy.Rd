@@ -2,13 +2,17 @@
 % Please edit documentation in R/textmodel_newsmap.R
 \name{summary.textmodel_newsmap_accuracy}
 \alias{summary.textmodel_newsmap_accuracy}
-\title{Print micro and macro average measures of accuracy}
+\title{Calcualte micro and macro average measures of accuracy}
 \usage{
-\method{summary}{textmodel_newsmap_accuracy}(mx)
+\method{summary}{textmodel_newsmap_accuracy}(object, ...)
 }
 \arguments{
-\item{accuracy}{output of accuracy()}
+\item{object}{output of accuracy()}
+
+\item{...}{not used.}
 }
 \description{
-Print micro and macro average measures of accuracy
+This function calculates micro-averave precision (p) and recall (r) and
+macro-average precision (P) and recall (R) based on a confusion matrix from
+\code{accuracy()}.
 }

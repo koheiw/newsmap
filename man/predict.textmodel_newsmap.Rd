@@ -2,10 +2,10 @@
 % Please edit documentation in R/textmodel_newsmap.R
 \name{predict.textmodel_newsmap}
 \alias{predict.textmodel_newsmap}
-\title{prediction method for textmodel_newsmap}
+\title{Prediction method for textmodel_newsmap}
 \usage{
 \method{predict}{textmodel_newsmap}(object, newdata = NULL,
-  confidence.fit = FALSE, rank = 1L, type = c("top", "all"))
+  confidence.fit = FALSE, rank = 1L, type = c("top", "all"), ...)
 }
 \arguments{
 \item{object}{a fitted Newsmap textmodel}
@@ -14,11 +14,13 @@
 
 \item{confidence.fit}{if \code{TRUE}, likelihood ratio score will be returned}
 
-\item{rank}{rank of class to be predicted}
+\item{rank}{rank of class to be predicted. Only used when \code{type = "top"}.}
 
 \item{type}{if \code{top}, return the most likely class specified by
 \code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
 possible classes}
+
+\item{...}{not used.}
 }
 \description{
 Predict document class using trained a Newsmap model

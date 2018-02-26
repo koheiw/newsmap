@@ -1,0 +1,10 @@
+language: r
+cache: packages
+warnings_are_errors: true
+sudo: true
+dist: trusty
+latex: false
+before_install:
+  - sudo apt-get install texlive texlive-latex-extra
+r_check_args: '--ignore-vignettes --no-examples'
+
