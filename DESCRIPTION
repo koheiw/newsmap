@@ -1,7 +1,7 @@
 Package: newsmap
 Type: Package
 Title: Geographical text classification model
-Version: 0.4.2
+Version: 0.4.3
 Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")), 
              person("Stefan", "Müller", email = "mullers@tcd.ie", role = "ctb"))
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
