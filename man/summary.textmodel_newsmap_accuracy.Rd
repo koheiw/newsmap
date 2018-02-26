@@ -4,10 +4,12 @@
 \alias{summary.textmodel_newsmap_accuracy}
 \title{Print micro and macro average measures of accuracy}
 \usage{
-\method{summary}{textmodel_newsmap_accuracy}(mx)
+\method{summary}{textmodel_newsmap_accuracy}(object, ...)
 }
 \arguments{
-\item{accuracy}{output of accuracy()}
+\item{object}{output of accuracy()}
+
+\item{...}{not used.}
 }
 \description{
 Print micro and macro average measures of accuracy

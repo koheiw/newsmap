@@ -2,16 +2,9 @@
 % Please edit documentation in R/textmodel_newsmap.R
 \name{textmodel_newsmap}
 \alias{textmodel_newsmap}
-\alias{summary.textmodel_newsmap}
-\alias{print.textmodel_newsmap_summary}
 \title{Supervised multinomial classifier for multinomial text classification}
 \usage{
-textmodel_newsmap(x, y, smooth = 1,
-  verbose = quanteda::quanteda_options("verbose"))
-
-\method{summary}{textmodel_newsmap}(object, n = 10, ...)
-
-\method{print}{textmodel_newsmap_summary}(object, ...)
+textmodel_newsmap(x, y, smooth = 1, verbose = quanteda_options("verbose"))
 }
 \arguments{
 \item{x}{dfm from which features will be extracted}
@@ -21,19 +14,9 @@ textmodel_newsmap(x, y, smooth = 1,
 \item{smooth}{smoothing parameter for word frequency}
 
 \item{verbose}{if \code{TRUE}, show progress of training}
-
-\item{object}{a fitted Newsmap textmodel}
-
-\item{n}{number of classes, features and document names to be shown}
-
-\item{object}{a fitted Newsmap textmodel}
 }
 \description{
 Train a model to predict geographical focus of texts (currently English, German, Japanese)
-
-Summary method for a fitted Newsmap model
-
-Summary method for fitted Newsmap model
 }
 \examples{
 require(quanteda)
@@ -43,8 +26,7 @@ text_en <- c(text1 = "This is an article about Ireland.",
              text2 = "The South Korean prime minister was re-elected.")
 
 toks_en <- tokens(text_en)
-label_toks_en <- tokens_lookup(toks_en, data_dictionary_newsmap_en,
-                                         levels = 3)
+label_toks_en <- tokens_lookup(toks_en, data_dictionary_newsmap_en, levels = 3)
 label_dfm_en <- dfm(label_toks_en)
 
 feat_dfm_en <- dfm(toks_en, tolower = FALSE)
@@ -57,8 +39,7 @@ text_de <- c(text1 = "Ein Artikel über Irland.",
              text2 = "Der südkoreanische Premierminister wurde wiedergewählt.")
 
 toks_de <- tokens(text_de)
-label_toks_de <- tokens_lookup(toks_de, data_dictionary_newsmap_de,
-                                         levels = 3)
+label_toks_de <- tokens_lookup(toks_de, data_dictionary_newsmap_de, levels = 3)
 label_dfm_de <- dfm(label_toks_de)
 
 feat_dfm_de <- dfm(toks_de, tolower = FALSE)
@@ -66,27 +47,12 @@ feat_dfm_de <- dfm(toks_de, tolower = FALSE)
 model_de <- textmodel_newsmap(feat_dfm_de, label_dfm_de)
 predict(model_de)
 
-# Russian classifier
-text_ru <- c(text1 = "Это статья об Ирландии.",
-             text2 = "Премьер-министр Южной Кореи был переизбран.")
-
-toks_ru <- tokens(text_ru)
-label_toks_ru <- tokens_lookup(toks_ru, data_dictionary_newsmap_ru,
-                                         levels = 3)
-label_dfm_ru <- dfm(label_toks_ru)
-
-feat_dfm_ru <- dfm(toks_ru, tolower = FALSE)
-
-model_ru <- textmodel_newsmap(feat_dfm_ru, label_dfm_ru)
-predict(model_ru)
-
 # Japanese classifier
 text_ja <- c(text1 = "これはアイルランドに関する記事です。",
              text2 = "韓国首相が再選された。")
 
 toks_ja <- tokens(text_ja)
-label_toks_ja <- tokens_lookup(toks_ja, data_dictionary_newsmap_ja,
-                                         levels = 3)
+label_toks_ja <- tokens_lookup(toks_ja, data_dictionary_newsmap_ja, levels = 3)
 label_dfm_ja <- dfm(label_toks_ja)
 
 feat_dfm_ja <- dfm(toks_ja, tolower = FALSE)
