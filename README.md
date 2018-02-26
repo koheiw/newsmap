@@ -2,7 +2,7 @@
 Newsmap
 =======
 
-Newsmap is developed to classify news stories according to their geographical focus. Its [online version](http://example.com "International Newsmap") has been working since 2011. It has been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification.
+Newsmap is developed to classify news stories according to their geographical focus. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for English, German and Japanese documents.
 
 How to install
 --------------
@@ -10,6 +10,7 @@ How to install
 This package is not upload to CRAN, so please install by running this command in R. You need to have devtools installed beforehand.
 
 ``` r
+# install.packages("devtools")
 devtools::install_github("koheiw/newsmap")
 ```
 
@@ -29,8 +30,9 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
-## quanteda version 0.99.9025
-## Using 7 of 8 threads for parallel computing
+## Package version: 1.0.5
+## Parallel computing: 3 of 4 threads used.
+## See https://quanteda.io for tutorials and examples.
 ## 
 ## Attaching package: 'quanteda'
 ## The following object is masked from 'package:utils':
@@ -58,12 +60,17 @@ toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding =
 toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
 
 # Traing model using seed dictionary
+# English: data_dictionary_newsmap_en
+# German: data_dictionary_newsmap_de
+# Japanese: data_dictionary_newsmap_ja
+
+# Use data_dictionary_newsmap_en because text corpus in this example contains English texts
 data('data_dictionary_newsmap_en')
 label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3) # level 3 is countries
 label_dfm <- dfm(label_toks)
 
 feat_dfm <- dfm(toks, tolower = FALSE)
-feat_dfm <- dfm_select(feat_dfm, '^[A-Z][A-Za-z1-2]+', valuetype = 'regex', case_insensitive = FALSE) # include only proper nouns to model
+feat_dfm <- dfm_select(feat_dfm, selection = "keep", '^[A-Z][A-Za-z1-2]+', valuetype = 'regex', case_insensitive = FALSE) # include only proper nouns to model
 feat_dfm <- dfm_trim(feat_dfm, min_count = 10)
 
 model <- textmodel_newsmap(feat_dfm, label_dfm)
