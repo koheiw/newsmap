@@ -7,16 +7,18 @@
 #' @param verbose if \code{TRUE}, show progress of training
 #' @export
 #' @examples
+#' require(quanteda)
+#'
 #' # English classifier
 #' text_en <- c(text1 = "This is an article about Ireland.",
 #'              text2 = "The South Korean prime minister was re-elected.")
 #'
-#' toks_en <- quanteda::tokens(text_en)
-#' label_toks_en <- quanteda::tokens_lookup(toks_en, data_dictionary_newsmap_en,
+#' toks_en <- tokens(text_en)
+#' label_toks_en <- tokens_lookup(toks_en, data_dictionary_newsmap_en,
 #'                                          levels = 3)
-#' label_dfm_en <- quanteda::dfm(label_toks_en)
+#' label_dfm_en <- dfm(label_toks_en)
 #'
-#' feat_dfm_en <- quanteda::dfm(toks_en, tolower = FALSE)
+#' feat_dfm_en <- dfm(toks_en, tolower = FALSE)
 #'
 #' model_en <- textmodel_newsmap(feat_dfm_en, label_dfm_en)
 #' predict(model_en)
@@ -25,26 +27,40 @@
 #' text_de <- c(text1 = "Ein Artikel über Irland.",
 #'              text2 = "Der südkoreanische Premierminister wurde wiedergewählt.")
 #'
-#' toks_de <- quanteda::tokens(text_de)
-#' label_toks_de <- quanteda::tokens_lookup(toks_de, data_dictionary_newsmap_de,
+#' toks_de <- tokens(text_de)
+#' label_toks_de <- tokens_lookup(toks_de, data_dictionary_newsmap_de,
 #'                                          levels = 3)
-#' label_dfm_de <- quanteda::dfm(label_toks_de)
+#' label_dfm_de <- dfm(label_toks_de)
 #'
-#' feat_dfm_de <- quanteda::dfm(toks_de, tolower = FALSE)
+#' feat_dfm_de <- dfm(toks_de, tolower = FALSE)
 #'
 #' model_de <- textmodel_newsmap(feat_dfm_de, label_dfm_de)
 #' predict(model_de)
+#'
+#' # Russian classifier
+#' text_ru <- c(text1 = "Это статья об Ирландии.",
+#'              text2 = "Премьер-министр Южной Кореи был переизбран.")
+#'
+#' toks_ru <- tokens(text_ru)
+#' label_toks_ru <- tokens_lookup(toks_ru, data_dictionary_newsmap_ru,
+#'                                          levels = 3)
+#' label_dfm_ru <- dfm(label_toks_ru)
+#'
+#' feat_dfm_ru <- dfm(toks_ru, tolower = FALSE)
+#'
+#' model_ru <- textmodel_newsmap(feat_dfm_ru, label_dfm_ru)
+#' predict(model_ru)
 #'
 #' # Japanese classifier
 #' text_ja <- c(text1 = "これはアイルランドに関する記事です。",
 #'              text2 = "韓国首相が再選された。")
 #'
-#' toks_ja <- quanteda::tokens(text_ja)
-#' label_toks_ja <- quanteda::tokens_lookup(toks_ja, data_dictionary_newsmap_ja,
+#' toks_ja <- tokens(text_ja)
+#' label_toks_ja <- tokens_lookup(toks_ja, data_dictionary_newsmap_ja,
 #'                                          levels = 3)
-#' label_dfm_ja <- quanteda::dfm(label_toks_ja)
+#' label_dfm_ja <- dfm(label_toks_ja)
 #'
-#' feat_dfm_ja <- quanteda::dfm(toks_ja, tolower = FALSE)
+#' feat_dfm_ja <- dfm(toks_ja, tolower = FALSE)
 #'
 #' model_ja <- textmodel_newsmap(feat_dfm_ja, label_dfm_ja)
 #' predict(model_ja)
@@ -97,7 +113,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
                                              type = c("top", "all")) {
 
     type <- match.arg(type)
-    if (rank < 1L || !is.integer(rank)) {
+    if (rank < 1 || !is.numeric(rank)) {
         stop('rank must be positive integer')
     }
     if (is.null(newdata)) {
