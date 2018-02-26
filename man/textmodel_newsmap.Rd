@@ -50,7 +50,6 @@ feat_dfm_de <- dfm(toks_de, tolower = FALSE)
 model_de <- textmodel_newsmap(feat_dfm_de, label_dfm_de)
 predict(model_de)
 
-\dontrun{
 # Japanese classifier
 text_ja <- c(text1 = "これはアイルランドに関する記事です。",
              text2 = "韓国首相が再選された。")
@@ -63,7 +62,7 @@ feat_dfm_ja <- dfm(toks_ja, tolower = FALSE)
 
 model_ja <- textmodel_newsmap(feat_dfm_ja, label_dfm_ja)
 predict(model_ja)
-}
+
 }
 \references{
 Kohei Watanabe. 2017.
