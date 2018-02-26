@@ -130,7 +130,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
             names(result) <- docnames(data)
         }
     } else {
-        result <- temp[,!apply(temp, 2, function(x) all(x == 0))] # drop if all words are zero
+        result <- temp[,!apply(temp, 2, function(x) all(x == 0)),drop = FALSE] # remove if all words are zero
         rownames(result) <- docnames(data)
     }
 
