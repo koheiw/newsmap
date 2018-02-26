@@ -1,11 +1,18 @@
-#' Supervised multinomial classifier for multinomial text classification
+#' Semi-supervised Bayesian multinomial model for geographical document
+#' classification
 #'
-#' Train a model to predict geographical focus of texts (currently English, German, Japanese)
+#' Train a Newsmap model to predict geographical focus of documents using a
+#' pre-defined seed dictionary. Currently seed dictionaries are available in
+#' English, German and Japanese.
 #' @param x dfm from which features will be extracted
 #' @param y dfm in which features will be class labels
 #' @param smooth smoothing parameter for word frequency
 #' @param verbose if \code{TRUE}, show progress of training
 #' @import quanteda
+#' @references Kohei Watanabe. 2017.
+#'   "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
+#'   semi-supervised approach to geographical news classification.}"
+#'   \emph{Digital Journalism}.
 #' @export
 #' @examples
 #' require(quanteda)

@@ -2,7 +2,8 @@
 % Please edit documentation in R/textmodel_newsmap.R
 \name{textmodel_newsmap}
 \alias{textmodel_newsmap}
-\title{Supervised multinomial classifier for multinomial text classification}
+\title{Semi-supervised Bayesian multinomial model for geographical document
+classification}
 \usage{
 textmodel_newsmap(x, y, smooth = 1, verbose = quanteda_options("verbose"))
 }
@@ -16,7 +17,9 @@ textmodel_newsmap(x, y, smooth = 1, verbose = quanteda_options("verbose"))
 \item{verbose}{if \code{TRUE}, show progress of training}
 }
 \description{
-Train a model to predict geographical focus of texts (currently English, German, Japanese)
+Train a Newsmap model to predict geographical focus of documents using a
+pre-defined seed dictionary. Currently seed dictionaries are available in
+English, German and Japanese.
 }
 \examples{
 require(quanteda)
@@ -59,4 +62,10 @@ feat_dfm_ja <- dfm(toks_ja, tolower = FALSE)
 
 model_ja <- textmodel_newsmap(feat_dfm_ja, label_dfm_ja)
 predict(model_ja)
+}
+\references{
+Kohei Watanabe. 2017.
+  "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
+  semi-supervised approach to geographical news classification.}"
+  \emph{Digital Journalism}.
 }
