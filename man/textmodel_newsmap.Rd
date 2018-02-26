@@ -4,7 +4,7 @@
 \alias{textmodel_newsmap}
 \alias{summary.textmodel_newsmap}
 \alias{print.textmodel_newsmap_summary}
-\title{supervised multinomial classifier for multinomial text classification}
+\title{Supervised multinomial classifier for multinomial text classification}
 \usage{
 textmodel_newsmap(x, y, smooth = 1,
   verbose = quanteda::quanteda_options("verbose"))
@@ -29,9 +29,52 @@ textmodel_newsmap(x, y, smooth = 1,
 \item{object}{a fitted Newsmap textmodel}
 }
 \description{
-Train a model to predict geographical focus of texts
+Train a model to predict geographical focus of texts (currently English, German, Japanese)
 
 Summary method for a fitted Newsmap model
 
 Summary method for fitted Newsmap model
+}
+\examples{
+# English classifier
+text_en <- c(text1 = "This is an article about Ireland.",
+             text2 = "The South Korean prime minister was re-elected.")
+
+toks_en <- quanteda::tokens(text_en)
+label_toks_en <- quanteda::tokens_lookup(toks_en, data_dictionary_newsmap_en,
+                                         levels = 3)
+label_dfm_en <- quanteda::dfm(label_toks_en)
+
+feat_dfm_en <- quanteda::dfm(toks_en, tolower = FALSE)
+
+model_en <- textmodel_newsmap(feat_dfm_en, label_dfm_en)
+predict(model_en)
+
+# German classifier
+text_de <- c(text1 = "Ein Artikel über Irland.",
+             text2 = "Der südkoreanische Premierminister wurde wiedergewählt.")
+
+toks_de <- quanteda::tokens(text_de)
+label_toks_de <- quanteda::tokens_lookup(toks_de, data_dictionary_newsmap_de,
+                                         levels = 3)
+label_dfm_de <- quanteda::dfm(label_toks_de)
+
+feat_dfm_de <- quanteda::dfm(toks_de, tolower = FALSE)
+
+model_de <- textmodel_newsmap(feat_dfm_de, label_dfm_de)
+predict(model_de)
+
+# Japanese classifier
+text_ja <- c(text1 = "これはアイルランドに関する記事です。",
+             text2 = "韓国首相が再選された。")
+
+toks_ja <- quanteda::tokens(text_ja)
+label_toks_ja <- quanteda::tokens_lookup(toks_ja, data_dictionary_newsmap_ja,
+                                         levels = 3)
+label_dfm_ja <- quanteda::dfm(label_toks_ja)
+
+feat_dfm_ja <- quanteda::dfm(toks_ja, tolower = FALSE)
+
+model_ja <- textmodel_newsmap(feat_dfm_ja, label_dfm_ja)
+predict(model_ja)
 }

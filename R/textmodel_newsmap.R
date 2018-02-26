@@ -1,11 +1,54 @@
-#' supervised multinomial classifier for multinomial text classification
+#' Supervised multinomial classifier for multinomial text classification
 #'
-#' Train a model to predict geographical focus of texts
+#' Train a model to predict geographical focus of texts (currently English, German, Japanese)
 #' @param x dfm from which features will be extracted
 #' @param y dfm in which features will be class labels
 #' @param smooth smoothing parameter for word frequency
 #' @param verbose if \code{TRUE}, show progress of training
 #' @export
+#' @examples
+#' # English classifier
+#' text_en <- c(text1 = "This is an article about Ireland.",
+#'              text2 = "The South Korean prime minister was re-elected.")
+#'
+#' toks_en <- quanteda::tokens(text_en)
+#' label_toks_en <- quanteda::tokens_lookup(toks_en, data_dictionary_newsmap_en,
+#'                                          levels = 3)
+#' label_dfm_en <- quanteda::dfm(label_toks_en)
+#'
+#' feat_dfm_en <- quanteda::dfm(toks_en, tolower = FALSE)
+#'
+#' model_en <- textmodel_newsmap(feat_dfm_en, label_dfm_en)
+#' predict(model_en)
+#'
+#' # German classifier
+#' text_de <- c(text1 = "Ein Artikel über Irland.",
+#'              text2 = "Der südkoreanische Premierminister wurde wiedergewählt.")
+#'
+#' toks_de <- quanteda::tokens(text_de)
+#' label_toks_de <- quanteda::tokens_lookup(toks_de, data_dictionary_newsmap_de,
+#'                                          levels = 3)
+#' label_dfm_de <- quanteda::dfm(label_toks_de)
+#'
+#' feat_dfm_de <- quanteda::dfm(toks_de, tolower = FALSE)
+#'
+#' model_de <- textmodel_newsmap(feat_dfm_de, label_dfm_de)
+#' predict(model_de)
+#'
+#' # Japanese classifier
+#' text_ja <- c(text1 = "これはアイルランドに関する記事です。",
+#'              text2 = "韓国首相が再選された。")
+#'
+#' toks_ja <- quanteda::tokens(text_ja)
+#' label_toks_ja <- quanteda::tokens_lookup(toks_ja, data_dictionary_newsmap_ja,
+#'                                          levels = 3)
+#' label_dfm_ja <- quanteda::dfm(label_toks_ja)
+#'
+#' feat_dfm_ja <- quanteda::dfm(toks_ja, tolower = FALSE)
+#'
+#' model_ja <- textmodel_newsmap(feat_dfm_ja, label_dfm_ja)
+#' predict(model_ja)
+
 textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda::quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
@@ -39,7 +82,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda::quanteda_opt
     return(result)
 }
 
-#' prediction method for textmodel_newsmap
+#' Prediction method for textmodel_newsmap
 #'
 #' Predict document class using trained a Newsmap model
 #' @param object a fitted Newsmap textmodel

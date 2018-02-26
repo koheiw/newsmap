@@ -3,9 +3,9 @@
 \docType{data}
 \name{data_dictionary_newsmap_ja}
 \alias{data_dictionary_newsmap_ja}
-\title{seed geographical dictionary in Japanese}
+\title{Seed geographical dictionary in Japanese}
 \description{
-seed geographical dictionary in Japanese
+Seed geographical dictionary in Japanese
 }
 \author{
 Kohei Watanabe \email{watana.kohei@gmail.com}

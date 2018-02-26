@@ -2,7 +2,7 @@
 % Please edit documentation in R/textmodel_newsmap.R
 \name{predict.textmodel_newsmap}
 \alias{predict.textmodel_newsmap}
-\title{prediction method for textmodel_newsmap}
+\title{Prediction method for textmodel_newsmap}
 \usage{
 \method{predict}{textmodel_newsmap}(object, newdata = NULL,
   confidence.fit = FALSE, rank = 1L, type = c("top", "all"))
