@@ -8,7 +8,10 @@ Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
 Description: Multinomial Bayesian model for geographical document classification (currently supporting English, German and Japanese texts).
 License: GPL-3
 LazyData: TRUE
+Depends:
+    methods
 Imports:
+    methods,
     Matrix,
     quanteda,
     stringi,
