@@ -11,7 +11,7 @@ AFRICA:
     'MU': [Mauritius, Mauritian*, Port Louis]
     'YT': [Mayotte, Mahoran*, Mamoudzou]
     'MZ': [Mozambique, Mozambican*, Maputo]
-    'RE': [Reunion, Reunionese*, Reunionnais]
+    'RE': [Reunion, Réunion, Réunionese, Reunionese*, Reunionnais]
     'RW': [Rwanda, Rwandan*, Kigali]
     'SC': [Seychelles, Seychelloise, Seychellois]
     'SO': [Somalia, Somali*, Somalian*, Mogadishu]
@@ -22,15 +22,15 @@ AFRICA:
 
   MIDDLE:
     'AO': [Angola, Angolan*, Luanda]
-    'CM': [Cameroon, Cameroonian*, Yaounde]
+    'CM': [Cameroon, Cameroonian*, Yaounde, Yaoundé]
     'CF': [Central African Republic, Central African*, Bangui]
     'TD': [Chad, Chadian*, N'Djamena]
     'CG': [Congo, Congo Republic, Congolese, Brazzaville]
     'CD': [Democratic Republic Congo, DR Congo, DRC, Democratic Republic Congolese, DR Congolese, Kinshasa]
     'GQ': [Equatorial Guinea, Equatorial Guinean*, Equatoguinean*, Malabo]
     'GA': [Gabon, Gabonese, Libreville]
-    'ST': [Sao Tome and Principe, Sao Tomean*]
-  
+    'ST': [Sao Tome and Principe, São Tomé und Príncipe, Sao Tomean*]
+
   NORTH:
     'DZ': [Algeria, Algerian*, Algiers]
     'EG': [Egypt, Egyptian*, Cairo]
@@ -65,7 +65,7 @@ AFRICA:
     'SH': [Saint Helena, St Helena, Saint Helenian*, St Helenian*, Jamestown]
     'SN': [Senegal, Senegalese, Dakar]
     'SL': [Sierra Leone, Sierra Leonean*, Freetown]
-    'TG': [Togo, Togolese, Lome]
+    'TG': [Togo, Togolese, Lome, Lomé]
 
 AMERICA:
   CARIB:
@@ -82,13 +82,13 @@ AMERICA:
     'DO': [Commonwealth of Dominica, Commonwealth Dominican*, Roseau]
     'DM': [Dominican Republic, Dominican*, Santo Domingo]
     'GD': [Grenada, Grenadian*, Saint George's, St George's]
-    'GP': [Guadeloupe, Guadeloupean*, ]
-    'HT': [Haiti, Haitian*, Port au Prince]
+    'GP': [Guadeloupe, Guadeloupean*, Basse-Terre]
+    'HT': [Haiti, Haitian*, Port au Prince, Port-au-Prince ]
     'JM': [Jamaica, Jamaican*, Kingston]
     'MQ': [Martinique, Martinican*, ]
     'MS': [Montserrat, Montserratian*, Brades]
     'PR': [Puerto Rico, Puerto Rican*, San Juan]
-    'BL': [Saint Barthelemy, St Barthelemy, Barthelemois, Gustavia]
+    'BL': [Saint Barthelemy, Saint-Barthelemy, Saint-Barthélemy, St Barthelemy, Barthelemois, Gustavia]
     'KN': [Saint Kitts and Nevis, St Kitts and Nevis, Kittitian*, Nevisian*, Basseterre]
     'LC': [Saint Lucia, St Lucia, Saint Lucian*, St Lucian*, Castries]
     'MF': [Saint Martin, St Martin, Saint Martiner*, St Martiner*, Marigot]
@@ -215,7 +215,7 @@ EUROPE:
     'EE': [Estonia, Estonian*, Tallinn]
     'FO': [Faeroe Islands, Faeroe Island*, Faroese*, Torshavn]
     'FI': [Finland, Finnish, Finn*, Helsinki]
-    'GG': [Guernsey, Guernseie*, Saint Peter Port]
+    'GG': [Guernsey, Guernseie*, Saint Peter Port, St Peter Port]
     'IS': [Iceland, Icelandic, Icelander*, Reykjavik]
     'IE': [Ireland, Irish, Dublin]
     'IM': [Isle of Man, Manx]
@@ -229,7 +229,7 @@ EUROPE:
   SOUTH:
     'AL': [Albania, Albanian*, Tirana]
     'AD': [Andorra, Andorran*]
-    'BA': [Bosnia, Bosnian*, Sarajevo]
+    'BA': [Bosnia, Bosnian*, Bosnia and Herzegovina, Herzegovina, Sarajevo]
     'HR': [Croatia, Croatian*, Croat*, Zagreb]
     'GI': [Gibraltar, Gibraltarian*, Llanitos]
     'GR': [Greece, Greek*, Athens]
