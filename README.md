@@ -1,6 +1,6 @@
 
-Newsmap
-=======
+Newsmap: geographical news classifier
+=====================================
 
 Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German* and *Japanese* documents.
 
