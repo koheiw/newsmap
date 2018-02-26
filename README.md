@@ -4,7 +4,7 @@ Newsmap
 
 Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German* and *Japanese* documents.
 
-The details of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in recent social scientific studies:
+The detail of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in recent social scientific studies:
 
 -   Kohei Watanabe, 2017. "[Measuring News Bias: Russia’s Official News Agency ITAR-TASS’s Coverage of the Ukraine Crisis](http://journals.sagepub.com/eprint/TBc9miIc89njZvY3gyAt/full)", *European Journal Communication*
 -   Kohei Watanabe, 2017. "[The spread of the Kremlin’s narratives by a western news agency during the Ukraine crisis](http://www.tandfonline.com/eprint/h2IHsz2YKce6uJeeCmcd/full)", *Journal of International Communication*
