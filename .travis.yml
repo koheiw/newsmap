@@ -2,3 +2,5 @@ language: r
 cache: packages
 warnings_are_errors: true
 r_check_args: '--ignore-vignettes --no-examples'
+before_install:
+  - sudo apt-get install texlive texlive-latex-extra
