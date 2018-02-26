@@ -130,30 +130,6 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
     return(result)
 }
 
-#' Evaluate classification accuracy in precision and recall
-#' @param x vercor of predicted classes
-#' @param y vector of true classes
-#' @export
-accuracy <- function(x, y) {
-
-    temp <- data.frame(test = x, true = y)
-    temp <- temp[!is.na(temp$true),,drop = FALSE] # remove unknown in true class
-
-    classes <- unique(temp$true)
-    result <- data.frame()
-    for(class in classes){
-        n <- sum(temp$true == class)
-        tp <- sum(temp$true == class & temp$test == class)
-        fp <- sum(temp$true != class & temp$test == class)
-        fn <- sum(temp$true == class & temp$test != class)
-        precision <- tp / (tp + fp)
-        recall <- tp / (tp + fn)
-        result <- rbind(result, data.frame(n, tp, fp, fn, precision, recall))
-    }
-    class(result) <- c('textmodel_newsmap_accuracy', class(result))
-    return(result)
-}
-
 #' Summary method for a fitted Newsmap model
 #' @param object a fitted Newsmap textmodel
 #' @param n number of classes, features and document names to be shown
@@ -182,7 +158,48 @@ print.textmodel_newsmap_summary <- function(x, ...) {
     cat('  ', paste0(x$documents, collapse = ', '), '... ', '\n')
 }
 
-#' Print micro and macro average measures of accuracy
+#' Evaluate classification accuracy in precision and recall
+#'
+# Retuns a confusion matrix that contains number true positive (tp), fales
+# positive (fp), true negative (tn) and false negative (fn) cases for each
+# predicted class. It also calculates precision, recall and F1 score based on
+# these counts.
+#' @param x vercor of predicted classes
+#' @param y vector of true classes
+#' @export
+#' @examples
+#' class_pred <- c('US', 'GB', 'US', 'CN', 'JP', 'FR', 'CN') # prediction
+#' class_true <- c('US', 'FR', 'US', 'CN', 'KP', 'EG', 'US') # true class
+#' acc <- accuracy(class_pred, class_true)
+#' print(acc)
+#' summary(acc)
+accuracy <- function(x, y) {
+
+    temp <- data.frame(test = x, true = y)
+    temp <- temp[!is.na(temp$true),,drop = FALSE] # remove unknown in true class
+
+    label <- unique(temp$true)
+    result <- data.frame()
+    for(l in label){
+        tp <- sum(temp$true == l & temp$test == l)
+        fp <- sum(temp$true != l & temp$test == l)
+        tn <- sum(temp$true != l & temp$test != l)
+        fn <- sum(temp$true == l & temp$test != l)
+        precision <- tp / (tp + fp)
+        recall <- tp / (tp + fn)
+        f1 <- (2 * precision * recall) / (precision + recall)
+        result <- rbind(result, data.frame(tp, fp, tn, fn, precision, recall, f1))
+    }
+    class(result) <- c('textmodel_newsmap_accuracy', class(result))
+    rownames(result) <- label
+    return(result)
+}
+
+#' Calcualte micro and macro average measures of accuracy
+#'
+#' This function calculates micro-averave precision (p) and recall (r) and
+#' macro-average precision (P) and recall (R) based on a confusion matrix from
+#' \code{accuracy()}.
 #' @param object output of accuracy()
 #' @param ... not used.
 #' @method summary textmodel_newsmap_accuracy

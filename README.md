@@ -2,7 +2,7 @@
 Newsmap
 =======
 
-Newsmap was created to classify news stories according to their geographical focus. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German* and *Japanese* documents.
+Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German* and *Japanese* documents.
 
 The details of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in recent social scientific studies:
 
@@ -16,7 +16,7 @@ How to install
 This package is not upload to CRAN, so please install by running this command in R. You need to have devtools installed beforehand.
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("koheiw/newsmap")
 ```
 
