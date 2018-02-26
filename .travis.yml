@@ -1,6 +1,4 @@
 language: r
 cache: packages
 warnings_are_errors: true
-env:
-  global:
-    r_check_args: '--ignore-vignettes --no-examples'
+r_check_args: '--ignore-vignettes --no-examples'
