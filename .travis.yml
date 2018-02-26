@@ -6,5 +6,5 @@ dist: trusty
 latex: false
 before_install:
   - sudo apt-get install texlive texlive-latex-extra
-#r_check_args: '--ignore-vignettes --no-examples'
+r_check_args: '--ignore-vignettes --no-examples'
 
