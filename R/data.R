@@ -2,7 +2,7 @@
 #'
 #' @name data_dictionary_newsmap_en
 #' @docType data
-#' @author Kohei Watanabe \email{watana.kohei@gmail.com}
+#' @author Kohei Watanabe \email{watanabe.kohei@gmail.com}
 #' @keywords data
 NULL
 
@@ -10,7 +10,7 @@ NULL
 #'
 #' @name data_dictionary_newsmap_ja
 #' @docType data
-#' @author Kohei Watanabe \email{watana.kohei@gmail.com}
+#' @author Kohei Watanabe \email{watanabe.kohei@gmail.com}
 #' @keywords data
 NULL
 
