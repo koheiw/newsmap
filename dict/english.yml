@@ -146,7 +146,7 @@ ASIA:
     'TW': [Taiwan, Taiwanese, Taipei]
     'HK': [Hong Kong, Hongkongese]
     'MO': [Macao, Macau, Macanese]
-    'KP': [North Korea, N Korea, North Korean*, N Korean*, Pyongyang]
+    'KP': [North Korea, N Korea, North Korean*, N Korean*, DPRK, Pyongyang]
     'JP': [Japan, Japanese, Tokyo]
     'MN': [Mongolia, Mongolian*, Ulan Bator]
     'KR': [South Korea, S Korea, South Korean, S Korean*, Seoul]
