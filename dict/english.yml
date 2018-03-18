@@ -1,5 +1,5 @@
-Created by Kohei Watanabe for the newsmap package: https://github.com/koheiw/newsmap
----
+# Created by Kohei Watanabe for the newsmap package: https://github.com/koheiw/newsmap
+
 AFRICA:
   EAST:
     'BI': [Burundi, Burundian*, Bujumbura]
@@ -81,8 +81,8 @@ AMERICA:
     'KY': [Cayman Islands, Cayman Island*, Caymanian*]
     'CU': [Cuba, Cuban*, Havana]
     'CW': [Curacao, Curacaoan*, Willemstad]
-    'DO': [Commonwealth of Dominica, Commonwealth Dominican*, Roseau]
-    'DM': [Dominican Republic, Dominican*, Santo Domingo]
+    'DM': [Commonwealth of Dominica, Commonwealth Dominican*, Roseau]
+    'DO': [Dominican Republic, Dominican*, Santo Domingo]
     'GD': [Grenada, Grenadian*, Saint George's, St George's]
     'GP': [Guadeloupe, Guadeloupean*, Basse-Terre]
     'HT': [Haiti, Haitian*, Port au Prince, Port-au-Prince ]

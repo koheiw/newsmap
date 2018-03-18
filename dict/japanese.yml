@@ -1,5 +1,5 @@
-Created by Kohei Watanabe for the newsmap package: https://github.com/koheiw/newsmap
----
+# Created by Kohei Watanabe for the newsmap package: https://github.com/koheiw/newsmap
+
 AFRICA:
   EAST:
      'BI': [ブルンジ*, ブジュンブラ]
@@ -81,8 +81,8 @@ AMERICA:
      'KY': [ケイマン諸島*]
      'CU': [キューバ*, ハバナ]
      'CW': [キュラソー*, ウィレムスタット]
-     'DO': [ドミニカ国*, ロゾー]
-     'DM': [ドミニカ共和国*, サントドミンゴ]
+     'DM': [ドミニカ国*, ロゾー]
+     'DO': [ドミニカ共和国*, サントドミンゴ]
      'GD': [グレナダ*, セントジョージズ]
      'GP': [グアドループ, グアドループーン*]
      'HT': [ハイチ*,  ポルトープランス]
