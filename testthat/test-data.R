@@ -30,7 +30,7 @@ test_that("test that dictionaries have the same countries", {
     ja <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_ja, 3))
 
     expect_true(identical(en, de))
-    #expect_true(identical(en, es))
+    expect_true(identical(en, es))
     expect_true(identical(en, ja))
 
 })
