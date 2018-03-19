@@ -18,7 +18,7 @@ AFRICA:
     'SC': [Seychellen, Seselwa]
     'SO': [Somalia, Somalias, somalisch*, Mogadishu]
     'UG': [Uganda, Ugandas, ugandandisch*, Kampala]
-    'TZ': [Tansania, Tansanias, Dodoma]
+    'TZ': [Tansania, Tansanias, Dodoma, Daressalam, Dar es Salaam, Dar-es-Salam]
     'ZM': [Sambia, Sambias, samibsch*, Lusaka]
     'ZW': [Simbabwe, Simbabwes, simbabwisch*, Harare]
 
@@ -47,7 +47,7 @@ AFRICA:
     'BW': [Botswana, Botswanas, botswanisch*, Gaborone]
     'LS': [Lesotho, Lesothos, lesothonisch*, Maseru]
     'NA': [Namibia, Namibias, namibianisch*, Windhoek]
-    'ZA': [Südafrika, Südafrikas, südafrikanisch*, Cape Town, Kapstadt, Johannesburg]
+    'ZA': [Südafrika, Südafrikas, südafrikanisch*, Cape Town, Kapstadt, Johannesburg, Pretoria]
     'SZ': [Swasiland, Swasilands, Lobamba, Mbabane]
 
   WEST:
@@ -63,7 +63,7 @@ AFRICA:
     'ML': [Mali, Malis, malisch*, Malier, Bamako]
     'MR': [Mauretanien, Mauretaniens, mauretanisch*, Nouakchott]
     'NE': [Niger, Nigers, nigerisch*, Niamey]
-    'NG': [Nigeria, Nigerias, nigerianisch*, Abuja]
+    'NG': [Nigeria, Nigerias, nigerianisch*, Abuja, Lagos]
     'SH': [Saint Helena, St. Helena, Jamestown]
     'SN': [Senegal, Senegals, senegalesisch*, Dakar]
     'SL': [Sierra Leone, Freetown]
@@ -112,7 +112,7 @@ AMERICA:
 
   SOUTH:
     'AR': [Argentinien, Argentiniens, argentinisch*, Buenos Aires]
-    'BO': [Bolvien, Boliviens, bolivianisch*, Sucre]
+    'BO': [Bolvien, Boliviens, bolivianisch*, Sucre, La Paz]
     'BR': [Brasilien, Brasiliens, brasilianisch*, Brasilia, Sao Paulo, Rio]
     'CL': [Chile, Chiles*, chilenisch*, Santiago]
     'CO': [Kolumbien, Kolumbiens, kolumbianisch*, Bogota]
@@ -261,6 +261,7 @@ EUROPE:
 OCEANIA:
   AU-NZ:
     'AU': [Australien, Australiens, australisch*, Canberra, Sydney]
+    'CC': [Cookinseln, Cook Islands,Kūki 'Āirani, Avarua]
     'NZ': [Neuseeland, Neuseelands, Neu-Seeland, neuseeländisch*, Kiwi*, Wellington, Auckland]
     'NF': [Norfolkinseln*]
 
