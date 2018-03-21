@@ -135,11 +135,19 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
 
     if (type == 'top') {
         if (confidence.fit) {
-            result <- list(class = apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank]),
-                           confidence.fit = unname(apply(temp, 1, function(x) sort(x, decreasing = TRUE)[rank])))
+            if (ncol(temp)) {
+                result <- list(class = apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank]),
+                               confidence.fit = unname(apply(temp, 1, function(x) sort(x, decreasing = TRUE)[rank])))
+            } else {
+                result$class <- rep(NA, nrow(temp))
+            }
             names(result$class) <- docnames(data)
         } else {
-            result <- apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank])
+            if (ncol(temp)) {
+                result <- apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank])
+            } else {
+                result <- rep(NA, nrow(temp))
+            }
             names(result) <- docnames(data)
         }
     } else {

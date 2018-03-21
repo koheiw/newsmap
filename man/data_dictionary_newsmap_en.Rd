@@ -8,6 +8,6 @@
 Seed geographical dictionary in English
 }
 \author{
-Kohei Watanabe \email{watana.kohei@gmail.com}
+Kohei Watanabe \email{watanabe.kohei@gmail.com}
 }
 \keyword{data}
