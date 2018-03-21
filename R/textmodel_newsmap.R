@@ -9,10 +9,10 @@
 #' @param smooth smoothing parameter for word frequency
 #' @param verbose if \code{TRUE}, show progress of training
 #' @import quanteda
-#' @references Kohei Watanabe. 2017.
+#' @references Kohei Watanabe. 2018.
 #'   "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
 #'   semi-supervised approach to geographical news classification.}"
-#'   \emph{Digital Journalism}.
+#'   \emph{Digital Journalism} 6(3): 294-309.
 #' @export
 #' @examples
 #' require(quanteda)
