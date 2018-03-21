@@ -56,6 +56,19 @@
 #' model_ja <- textmodel_newsmap(feat_dfm_ja, label_dfm_ja)
 #' predict(model_ja)
 #'
+#' # Spanish classifier
+#' text_es <- c(text1 = "Este es un artículo sobre Irlanda.",
+#'              text2 = "El primer ministro de Corea del Sur fue re-elegido.")
+#'
+#' toks_es <- tokens(text_es)
+#' label_toks_es <- tokens_lookup(toks_es, data_dictionary_newsmap_es, levels = 3)
+#' label_dfm_es <- dfm(label_toks_es)
+#'
+#' feat_dfm_es <- dfm(toks_es, tolower = FALSE)
+#'
+#' model_es <- textmodel_newsmap(feat_dfm_es, label_dfm_es)
+#' predict(model_es)
+#'
 textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
