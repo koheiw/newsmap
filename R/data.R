@@ -29,3 +29,11 @@ NULL
 #' @author Dani Madrid-Morales \email{dani.madrid@my.cityu.edu.hk}
 #' @keywords data
 NULL
+
+#' Seed geographical dictionary in Russian
+#'
+#' @name data_dictionary_newsmap_ru
+#' @docType data
+#' @author Katerina Tertytchnaya \email{katerina.tertytchnaya@gmail.com}
+#' @keywords data
+NULL
