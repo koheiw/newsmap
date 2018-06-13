@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 
 # Newsmap: geographical news classifier 
 
-Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German*, *Spanish* and *Japanese* documents.
+Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German*, *Spanish*, *Japanese*, *Russian* documents.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in recent social scientific studies:
 
@@ -70,6 +70,8 @@ toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding 
 # English: data_dictionary_newsmap_en
 # German: data_dictionary_newsmap_de
 # Japanese: data_dictionary_newsmap_ja
+# Spanish: data_dictionary_newsmap_es
+# Russian: data_dictionary_newsmap_ru
 
 # Use data_dictionary_newsmap_en because text corpus in this example contains English texts
 data('data_dictionary_newsmap_en')
