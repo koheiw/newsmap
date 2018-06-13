@@ -259,7 +259,7 @@ EUROPE:
 OCEANIA:
   AU-NZ:
     'AU': [Australia, Canberra, Melbourne, Sídney, Sidney, australian*]
-    'CC': [Islas Cocos, Islas Keeling, West Island, cocan*]
+    'CK': [Islas Cocos, Islas Keeling, West Island, cocan*]
     'NF': [Isla Norfolk, Kingston, norfolkens*]
     'NZ': [Nueva Zelandia, Nueva Zelanda, Wellington, Auckland, neozeland*]
 
@@ -281,7 +281,6 @@ OCEANIA:
 
   POL:
     'AS': [Samoa Americana, Pago Pago, samoamericano*]
-    'CK': [Islas Cook, Avarua, cookian*]
     'NU': [Niue, Alofi, niueñ*]
     'PF': [Polinesia Francesa, Papeete, francopolinesi*]
     'PN': [Pitcairn, Adamstown, pitcairn*]

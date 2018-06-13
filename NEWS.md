@@ -1,4 +1,11 @@
-# Changes since quanteda v0.4.3
+# Changes since newsmap v0.4.5
+
+### Changes in dictionary
+
+* Add Russian language seed dictionary
+* Correct Cook Islands' country code from CC to CK, and remove it from POL
+
+# Changes since newsmap v0.4.3
 
 ### Changes in dictionary
 

@@ -2,7 +2,7 @@
 Newsmap: geographical news classifier
 =====================================
 
-Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German* and *Japanese* documents.
+Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German*, *Spanish*, *Japanese*, *Russian* documents.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in recent social scientific studies:
 
@@ -36,8 +36,9 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
-## quanteda version 1.0.4
-## Using 7 of 8 threads for parallel computing
+## Package version: 1.3.0
+## Parallel computing: 2 of 8 threads used.
+## See https://quanteda.io for tutorials and examples.
 ## 
 ## Attaching package: 'quanteda'
 ## The following object is masked from 'package:utils':
@@ -68,6 +69,8 @@ toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding 
 # English: data_dictionary_newsmap_en
 # German: data_dictionary_newsmap_de
 # Japanese: data_dictionary_newsmap_ja
+# Spanish: data_dictionary_newsmap_es
+# Russian: data_dictionary_newsmap_ru
 
 # Use data_dictionary_newsmap_en because text corpus in this example contains English texts
 data('data_dictionary_newsmap_en')
@@ -77,11 +80,13 @@ label_dfm <- dfm(label_toks)
 feat_dfm <- dfm(toks, tolower = FALSE)
 feat_dfm <- dfm_select(feat_dfm, selection = "keep", '^[A-Z][A-Za-z1-2]+', valuetype = 'regex', case_insensitive = FALSE) # include only proper nouns to model
 feat_dfm <- dfm_trim(feat_dfm, min_count = 10)
+## Warning in dfm_trim.dfm(feat_dfm, min_count = 10): min_count is deprecated,
+## use min_termfreq
 
 model <- textmodel_newsmap(feat_dfm, label_dfm)
 summary(model, n = 15)
 ## Classes:
-##    bi, km, dj, er, et, ke, mg, mw, mu, yt, mz, re, rw, sc, so ...  
+##    bi, dj, er, et, ke, km, mg, mu, mw, mz, re, rw, sc, so, tz ...  
 ## Features:
 ##    French, Ivanovic, Safarova, PARIS, Former, Open, Ana, Lucie, Czech, Republic, Central, America, President, Barack, Obama ...  
 ## Documents:
@@ -98,5 +103,5 @@ head(country)
 head(sort(table(country), decreasing = TRUE))
 ## country
 ##   gb   us   ru   ua   au   cn 
-## 9819 8071 7848 7021 5854 5630
+## 9819 8069 7845 7021 5848 5630
 ```
