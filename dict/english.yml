@@ -259,7 +259,7 @@ EUROPE:
 OCEANIA:
   AU-NZ:
     'AU': [Australia, Australian*, Aussie*, Oz, Canberra, Sydney]
-    'CC': [Cook Islands, Cook Island*, Avarua]
+    'CK': [Cook Islands, Cook Island*, Avarua]
     'NF': [Norfolk Island, Norfolk Islander*]
     'NZ': [New Zealand, N Zealand, NZ, New Zealander*, Kiwi*, Wellington, Auckland]
 
@@ -281,7 +281,6 @@ OCEANIA:
 
   POL:
     'AS': [American Samoa, American Samoan*, Pago Pago]
-    'CK': [Cook Islands, Cook Island*, Avarua]
     'NU': [Niue, Niuean*, Alofi]
     'PF': [French Polynesia, French Polynesian*, Papeete]
     'PN': [Pitcairn Islands, Pitcairn Island*, Adamstown]
