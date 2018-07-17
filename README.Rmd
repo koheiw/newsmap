@@ -66,15 +66,13 @@ toks <- tokens(sub_corp)
 toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding = TRUE)
 toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
 
-# Train a classifier using seed dictionary
+# Seed dictionaries supplied by this package
 # English: data_dictionary_newsmap_en
 # German: data_dictionary_newsmap_de
 # Japanese: data_dictionary_newsmap_ja
 # Spanish: data_dictionary_newsmap_es
 # Russian: data_dictionary_newsmap_ru
 
-# Use data_dictionary_newsmap_en because text corpus in this example contains English texts
-data('data_dictionary_newsmap_en')
 label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3) # level 3 is countries
 label_dfm <- dfm(label_toks)
 
@@ -83,13 +81,15 @@ feat_dfm <- dfm_select(feat_dfm, selection = "keep", '^[A-Z][A-Za-z1-2]+', value
 feat_dfm <- dfm_trim(feat_dfm, min_count = 10)
 
 model <- textmodel_newsmap(feat_dfm, label_dfm)
-summary(model, n = 15)
+
+# Features with largest weights
+coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
 ```
 
 ### Predict geographical focus of texts 
 
-```{r}
+```{r, fig.width=10}
 country <- predict(model)
-head(country)
-head(sort(table(country), decreasing = TRUE))
+head(country, 10)
+barplot(head(sort(table(country), decreasing = TRUE), 20))
 ```
