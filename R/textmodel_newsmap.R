@@ -158,10 +158,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
     return(result)
 }
 
-#' Summary method for a fitted Newsmap model
-#' @param object a fitted Newsmap textmodel
-#' @param n number of classes, features and document names to be shown
-#' @param ... not used.
+#' @noRd
 #' @method summary textmodel_newsmap
 #' @export
 summary.textmodel_newsmap <- function(object, n = 10, ...) {
@@ -170,6 +167,26 @@ summary.textmodel_newsmap <- function(object, n = 10, ...) {
                    documents = utils::head(rownames(object$data), n))
     class(result) <- 'textmodel_newsmap_summary'
     return(result)
+}
+
+#' @noRd
+#' @method coef textmodel_newsmap
+#' @export
+coef.textmodel_newsmap <- function(object, n = 10, ...) {
+    model <- as(object$model, "dgTMatrix")
+    temp <- model@x
+    names(temp) <- colnames(object$model)[model@j]
+    result <- split(temp, model@i)
+    names(result) <- rownames(object$model)
+    result <- lapply(result, function(x) head(sort(x, decreasing = TRUE), n))
+    return(result)
+}
+
+#' @noRd
+#' @method coefficients textmodel_newsmap
+#' @export
+coefficients.textmodel_newsmap <- function(object, n = 10, ...) {
+    UseMethod("coef")
 }
 
 #' Print method for a fitted Newsmap model
