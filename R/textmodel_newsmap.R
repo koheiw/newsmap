@@ -171,11 +171,13 @@ summary.textmodel_newsmap <- function(object, n = 10, ...) {
 
 #' @noRd
 #' @method coef textmodel_newsmap
+#' @import Matrix
+#' @importFrom stats coef
 #' @export
 coef.textmodel_newsmap <- function(object, n = 10, ...) {
     model <- as(object$model, "dgTMatrix")
     temp <- model@x
-    names(temp) <- colnames(object$model)[model@j]
+    names(temp) <- colnames(object$model)[model@j + 1]
     result <- split(temp, model@i)
     names(result) <- rownames(object$model)
     result <- lapply(result, function(x) head(sort(x, decreasing = TRUE), n))
@@ -184,6 +186,7 @@ coef.textmodel_newsmap <- function(object, n = 10, ...) {
 
 #' @noRd
 #' @method coefficients textmodel_newsmap
+#' @importFrom stats coefficients
 #' @export
 coefficients.textmodel_newsmap <- function(object, n = 10, ...) {
     UseMethod("coef")
