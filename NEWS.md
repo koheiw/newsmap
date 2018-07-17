@@ -1,5 +1,9 @@
 # Changes since newsmap v0.4.5
 
+### New functions
+
+* Add coef() and coefficients() methods
+
 ### Changes in dictionary
 
 * Add Russian language seed dictionary
