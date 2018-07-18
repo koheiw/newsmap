@@ -65,15 +65,13 @@ toks <- tokens(sub_corp)
 toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding = TRUE)
 toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
 
-# Train a classifier using seed dictionary
+# Seed dictionaries supplied by this package
 # English: data_dictionary_newsmap_en
 # German: data_dictionary_newsmap_de
 # Japanese: data_dictionary_newsmap_ja
 # Spanish: data_dictionary_newsmap_es
 # Russian: data_dictionary_newsmap_ru
 
-# Use data_dictionary_newsmap_en because text corpus in this example contains English texts
-data('data_dictionary_newsmap_en')
 label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3) # level 3 is countries
 label_dfm <- dfm(label_toks)
 
@@ -84,24 +82,40 @@ feat_dfm <- dfm_trim(feat_dfm, min_count = 10)
 ## use min_termfreq
 
 model <- textmodel_newsmap(feat_dfm, label_dfm)
-summary(model, n = 15)
-## Classes:
-##    bi, dj, er, et, ke, km, mg, mu, mw, mz, re, rw, sc, so, tz ...  
-## Features:
-##    French, Ivanovic, Safarova, PARIS, Former, Open, Ana, Lucie, Czech, Republic, Central, America, President, Barack, Obama ...  
-## Documents:
-##    text63, text68, text69, text73, text78, text79, text84, text85, text86, text92, text94, text103, text104, text106, text115 ...
+
+# Features with largest weights
+coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
+## $us
+##         US WASHINGTON   American Washington  Americans       YORK 
+##  10.733869  10.031534   9.773099   9.496846   8.234697   6.951198 
+##     States 
+##   6.285434 
+## 
+## $gb
+##   British    London    LONDON   Britain Britain's        UK    Briton 
+## 10.939468 10.653923 10.647544 10.396778  9.754031  9.711121  7.533754 
+## 
+## $fr
+##    French    France     PARIS     Paris     Valls Frenchman    CANNES 
+## 11.348094 11.322555 10.448944 10.259995  8.005111  7.838057  7.742747 
+## 
+## $br
+##    Brazil Brazilian       SAO     PAULO       RIO   JANEIRO       Rio 
+##  11.63429  10.33501  10.28738  10.28285  10.21237  10.20553  10.09799 
+## 
+## $jp
+##     Japan  Japanese     TOKYO     Tokyo       Abe     Abe's    Shinzo 
+## 11.752176 10.938679 10.795813 10.101658  8.653831  8.065616  7.983856
 ```
 
 ### Predict geographical focus of texts
 
 ``` r
 country <- predict(model)
-head(country)
-## text63 text68 text69 text73 text78 text79 
-##   "fr"   "us"   "ug"   "ng"   "es"   "es"
-head(sort(table(country), decreasing = TRUE))
-## country
-##   gb   us   ru   ua   au   cn 
-## 9819 8069 7845 7021 5848 5630
+head(country, 10)
+## text63 text68 text69 text73 text78 text79 text84 text85 text86 text92 
+##   "fr"   "us"   "ug"   "ng"   "es"   "es"   "sc"   "sc"   "bg"   "nz"
+barplot(head(sort(table(country), decreasing = TRUE), 20))
 ```
+
+![](man/images/unnamed-chunk-5-1.png)
