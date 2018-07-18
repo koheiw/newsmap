@@ -13,7 +13,7 @@ The detail of the algorithm is explained in [Newsmap: semi-supervised approach t
 How to install
 --------------
 
-This package is not upload to CRAN, so please install by running this command in R. You need to have devtools installed beforehand.
+This package is not upload to CRAN, so please install by running this command in R. You need to have **devtools** installed beforehand.
 
 ``` r
 install.packages("devtools")
@@ -23,7 +23,7 @@ devtools::install_github("koheiw/newsmap")
 Example
 -------
 
-In the following example, newsmap creates a dicitonary for June 21 2012 with news stories collected from Yahoo News via RSS. Yahoo News stories are not in this package as it is too large, but availabe on request.
+In this example, using a text analysis package [**quanteda**](https://quanteda.io) for preprocessing of textual data, we train a geographical classification model on a corpus of news summaries collected from Yahoo News via RSS in 2014.
 
 ### Download example data
 
@@ -36,7 +36,7 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
-## Package version: 1.3.0
+## Package version: 1.3.4
 ## Parallel computing: 2 of 8 threads used.
 ## See https://quanteda.io for tutorials and examples.
 ## 
