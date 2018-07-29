@@ -4,3 +4,4 @@
 ^README\.Rmd$
 ^dict/
 ^testthat/
+cran-comments.md
