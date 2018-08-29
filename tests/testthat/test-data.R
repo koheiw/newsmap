@@ -1,5 +1,8 @@
+context("test data")
+
 require(quanteda)
 require(stringi)
+require(testthat)
 
 test_that("test that yaml do not contain illegal letters", {
 

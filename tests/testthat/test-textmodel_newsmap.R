@@ -1,4 +1,7 @@
+context("test textmodel_newsmap")
 require(quanteda)
+require(newsmap)
+require(testthat)
 
 test_that("test that English dictionary and prediction work correctly", {
     text_en <- c("This is an article about Ireland.")
@@ -9,7 +12,7 @@ test_that("test that English dictionary and prediction work correctly", {
 
     feat_dfm_en <- dfm(toks_en, tolower = FALSE) %>%
         dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
-                             valuetype = 'regex', case_insensitive = FALSE)
+                   valuetype = 'regex', case_insensitive = FALSE)
     expect_equal(
         as.character(predict(textmodel_newsmap(feat_dfm_en, label_dfm_en))),
         "ie"
@@ -26,7 +29,7 @@ test_that("test that German dictionary and prediction work correctly", {
 
     feat_dfm_de <- dfm(toks_de, tolower = FALSE) %>%
         dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
-                             valuetype = 'regex', case_insensitive = FALSE)
+                   valuetype = 'regex', case_insensitive = FALSE)
 
     expect_equal(
         as.character(predict(textmodel_newsmap(feat_dfm_de, label_dfm_de))),
