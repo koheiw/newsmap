@@ -15,7 +15,7 @@
 #'   \emph{Digital Journalism} 6(3): 294-309.
 #' @export
 #' @examples
-#'
+#' require(quanteda)
 #' text_en <- c(text1 = "This is an article about Ireland.",
 #'              text2 = "The South Korean prime minister was re-elected.")
 #'
@@ -33,6 +33,15 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
 
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfms')
+
+    x <- dfm_trim(x, min_termfreq = 1)
+    y <- dfm_trim(y, min_termfreq = 1)
+
+    if (!nfeat(x))
+        stop("x must have at least one non-zero feature")
+    if (!nfeat(y))
+        stop("y must have at least one non-zero feature")
+
     model <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
                     dimnames = list(colnames(y), colnames(x)))
     if (verbose)
@@ -40,20 +49,11 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     for (key in sort(featnames(y))) {
         if (verbose)
             cat(key, " ", sep = "")
-        temp <- dfm_group(x, ifelse(as.vector(y[,key]) > 0, 'T', 'R'))
-        missing <- setdiff(c('T', 'R'), rownames(temp))
-        attr(temp, 'Dim')[1L] <- attr(temp, 'Dim')[1L] + length(missing)
-        attr(temp, 'Dimnames')$docs <- c(attr(temp, 'Dimnames')$docs, missing)
-
-        # words parameters
+        temp <- dfm_group(x, factor(as.vector(y[,key]) > 0,
+                                    levels = c('TRUE', 'FALSE')), fill = TRUE)
         temp <- temp + smooth
-        sums <- Matrix::rowSums(temp)
-        if (sums['T'] > 1) {
-            temp2 <- (temp) / (sums) # conditional likelihood
-            model[key,] <- as.vector(log(temp2['T',]) - log(temp2['R',])) # calculate likelihood-ratio
-        } else {
-            model[key,] <- NULL
-        }
+        temp <- temp / rowSums(temp) # likelihood
+        model[key,] <- as.vector(log(temp['TRUE',]) - log(temp['FALSE',])) # likelihood-ratio
     }
     if (verbose)
         cat("\n")

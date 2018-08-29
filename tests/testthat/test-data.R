@@ -5,7 +5,6 @@ require(stringi)
 require(testthat)
 
 test_that("test that yaml do not contain illegal letters", {
-
     dir <- '../dict/'
     for (f in list.files(dir, pattern = 'yml')) {
         l <- readLines(paste0(dir, f))
@@ -13,9 +12,7 @@ test_that("test that yaml do not contain illegal letters", {
         expect_true(all(stri_count_charclass(l, "\\p{Z}") == stri_count_fixed(l, " ")))
         expect_true(all(stri_count_charclass(l, "\\p{C}") == 0))
     }
-
 })
-
 
 test_that("test that data file is created correctly", {
 
