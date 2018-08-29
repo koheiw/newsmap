@@ -22,9 +22,7 @@ pre-defined seed dictionary. Currently seed dictionaries are available in
 English, German and Japanese.
 }
 \examples{
-require(quanteda)
 
-# English classifier
 text_en <- c(text1 = "This is an article about Ireland.",
              text2 = "The South Korean prime minister was re-elected.")
 
