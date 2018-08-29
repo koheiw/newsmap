@@ -1,1 +1,2 @@
-testthat::test_check("newsmap")
+require(testthat)
+test_check("newsmap")
