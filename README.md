@@ -10,6 +10,8 @@ The detail of the algorithm is explained in [Newsmap: semi-supervised approach t
 -   Kohei Watanabe, 2017. "[The spread of the Kremlin’s narratives by a western news agency during the Ukraine crisis](http://www.tandfonline.com/eprint/h2IHsz2YKce6uJeeCmcd/full)", *Journal of International Communication*
 -   Tomila Lankina and Kohei Watanabe. 2017. ["Russian Spring’ or ‘Spring Betrayal’? The Media as a Mirror of Putin’s Evolving Strategy in Ukraine](http://www.tandfonline.com/eprint/tWik7KDfsZv8C2KeNkI5/full)", *Europe-Asia Studies*
 
+Please contact [Kohei Watanabe](https://github.com/koheiw) or issue a pull request if you want your publication included in this list.
+
 How to install
 --------------
 
@@ -23,7 +25,7 @@ devtools::install_github("koheiw/newsmap")
 Example
 -------
 
-In this example, using a text analysis package [**quanteda**](https://quanteda.io) for preprocessing of textual data, we train a geographical classification model on a corpus of news summaries collected from Yahoo News via RSS in 2014.
+In this example, using a text analysis package [**quanteda**](https://quanteda.io) for preprocessing of textual data, we train a geographical classification model on a [corpus of news summaries collected from Yahoo News](https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1) via RSS in 2014.
 
 ### Download example data
 
@@ -36,7 +38,7 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
-## Package version: 1.3.4
+## Package version: 1.3.5
 ## Parallel computing: 2 of 8 threads used.
 ## See https://quanteda.io for tutorials and examples.
 ## 
@@ -111,11 +113,14 @@ coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
 ### Predict geographical focus of texts
 
 ``` r
-country <- predict(model)
-head(country, 10)
-## text63 text68 text69 text73 text78 text79 text84 text85 text86 text92 
-##   "fr"   "us"   "ug"   "ng"   "es"   "es"   "sc"   "sc"   "bg"   "nz"
-barplot(head(sort(table(country), decreasing = TRUE), 20))
+pred_data <- data.frame(text = texts(sub_corp), country = predict(model))
 ```
 
-![](man/images/unnamed-chunk-5-1.png)
+|        | text                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | country |
+|--------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------|
+| text63 | '08 French champ Ivanovic loses to Safarova in 3rd. PARIS (AP) - Former French Open champion Ana Ivanovic lost in the third round Saturday, beaten 6-3, 6-3 by 23rd-seeded Lucie Safarova of the Czech Republic.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | fr      |
+| text68 | Up to $1,000 a day to care for child migrants. More than 57,000 unaccompanied children, mostly from Central America, have been caught entering the country illegally since last October, and President Barack Obama has asked for $3.7 billion in emergency funding to address what he has called an "urgent humanitarian solution." "One of the figures that sticks in everybody's mind is we're paying about $250 to $1,000 per child," Senator Jeff Flake told reporters, citing figures presented at a closed-door briefing by Homeland Security Secretary Jeh Johnson. Federal authorities are struggling to find more cost-effective housing, medical care, counseling and legal services for the undocumented minors. The base cost per bed was $250 per day, including other services, Senator Dianne Feinstein said, without providing details. | us      |
+| text69 | 1,000 DRC ex-rebels break out of Uganda camp: army. About 1,000 former fighters from a former Democratic Republic of Congo rebel group broke out Tuesday from a camp where they being held in Uganda just as soldiers were about to repatriate them, the Ugandan army said. "A thousand rebels from the M23 (group) have escaped" from the camp in Bihanga, about 300 kilometres (190 miles) southwest of the Ugandan capital Kampala, a spokesman for the Ugandan army said on the official Twitter account.                                                                                                                                                                                                                                                                                                                                            | ug      |
+| text73 | 1,000 killed in Boko Haram conflict this year. More than 1,000 people have been killed so far this year in three states in northeastern Nigeria worst hit by Boko Haram violence, according to the country's main relief organisation. The National Emergency Management Agency (NEMA) figures are the starkest indication yet of the increase in bloodshed in Borno, Adamawa and Yobe that have caused growing concern. NEMA said in a presentation in Abuja on Tuesday that people living in the states were "caught up in an intensifying conflict", which has been raging since 2009. Violence has increased in northeastern Nigeria since the new year, including a high-profile attack on a boarding school in Yobe, which saw dozens of students slaughtered in their beds.                                                                       | ng      |
+| text78 | 1,000 migrants repulsed at Spanish border. MADRID (AP) - Officials say around 1,000 migrants of sub-Saharan origin have failed in an attempt to get over Spain's three-tier barbed-wire border fence separating its North African enclave of Melilla from Morocco in a bid to enter Europe.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | es      |
+| text79 | Some 1,000 migrants try to reach Spain from Africa. MADRID (AP) - Some 700 migrants stormed a border fence to try to enter Spain's northwest African enclave city of Melilla from Morocco on Tuesday while the sea rescue service said it had picked up some 500 others trying to enter the country clandestinely by crossing the Strait of Gibraltar in boats, officials said.                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | es      |

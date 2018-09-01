@@ -1,3 +1,10 @@
+# Changes since newsmap v0.5
+
+### Bug fixes
+
+* Fix error in textmodel_newsmap() when smooth is < 1.0
+* Fitted models no longer include classes that did not occure in training set
+
 # Changes since newsmap v0.4.5
 
 ### New functions

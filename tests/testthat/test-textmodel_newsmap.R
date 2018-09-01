@@ -1,6 +1,6 @@
 require(quanteda)
 
-test_that("test that English dictionary and prediction work correctly", {
+test_that("test English dictionary and prediction work correctly", {
     text_en <- c("This is an article about Ireland.")
 
     toks_en <- tokens(text_en)
@@ -17,7 +17,7 @@ test_that("test that English dictionary and prediction work correctly", {
 })
 
 
-test_that("test that German dictionary and prediction work correctly", {
+test_that("test German dictionary and prediction work correctly", {
     text_de <- c("Ein Artikel über Irland.")
 
     toks_de <- tokens(text_de)
@@ -34,7 +34,7 @@ test_that("test that German dictionary and prediction work correctly", {
     )
 })
 
-test_that("test that Japanese dictionary and prediction work correctly", {
+test_that("test Japanese dictionary and prediction work correctly", {
     text_ja <- c("アイルランドに関するテキスト.")
 
     toks_ja <- tokens(text_ja)
@@ -42,8 +42,7 @@ test_that("test that Japanese dictionary and prediction work correctly", {
     label_dfm_ja <- dfm(label_toks_ja)
 
     feat_dfm_ja <- dfm(toks_ja, tolower = FALSE) %>%
-        dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
-                             valuetype = 'regex', case_insensitive = FALSE)
+        dfm_select('^[ぁ-ん]+$', selection = "remove", valuetype = 'regex')
 
     expect_equal(
         as.character(predict(textmodel_newsmap(feat_dfm_ja, label_dfm_ja))),
@@ -51,12 +50,12 @@ test_that("test that Japanese dictionary and prediction work correctly", {
     )
 })
 
-test_that("test that methods on textmodel_newsmap works correctly", {
+test_that("test methods on textmodel_newsmap works correctly", {
 
     text <- c("Ireland is famous for Guinness.",
               "Guinness began retailing in India in 2007.",
               "Cork is an Irish coastal city.",
-              "Titanic departed from Cork Harbour in 1912.")
+              "Titanic departed Cork Harbour in 1912.")
 
     toks <- tokens(text)
     label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
@@ -84,4 +83,12 @@ test_that("test that methods on textmodel_newsmap works correctly", {
     expect_equivalent(pred_top$confidence.fit, apply(pred_all, 1, max))
     expect_equivalent(pred_top$confidence.fit[1], pred_top$confidence.fit[3])
 
+})
+
+test_that("test raise error if dfm is empty", {
+    expect_error(textmodel_newsmap(dfm_trim(dfm("a b c"), min_termfreq = 10), dfm("A")),
+                 "x must have at least one non-zero feature")
+
+    expect_error(textmodel_newsmap(dfm("a b c"), dfm_trim(dfm("A"), min_termfreq = 10)),
+                 "y must have at least one non-zero feature")
 })
