@@ -25,7 +25,13 @@ Please contact [Kohei Watanabe](https://github.com/koheiw) or issue a pull reque
 
 ## How to install
 
-This package is not upload to CRAN, so please install by running this command in R. You need to have **devtools** installed beforehand.
+This package is available on CRAN from version 0.6, so you can install it using R Studio GUI or the command.
+
+```{r, eval=FALSE}
+install.packages("newsmap")
+```
+
+If you want to the latest version, please install by running this command in R. You need to have **devtools** installed beforehand.
 
 ```{r, eval=FALSE}
 install.packages("devtools")
