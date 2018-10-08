@@ -2,7 +2,7 @@
 Newsmap: geographical news classifier
 =====================================
 
-Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German*, *Spanish*, *Japanese*, *Russian* documents.
+Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German*, *Spanish*, *Japanese*, *Russian*, *Chinese* documents.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in recent social scientific studies:
 
@@ -15,7 +15,7 @@ Please contact [Kohei Watanabe](https://github.com/koheiw) or issue a pull reque
 How to install
 --------------
 
-This package is available on CRAN from version 0.6, so you can install it using R Studio GUI or the command.
+**newsmap** is available on CRAN since the version 0.6. You can install the package using R Studio GUI or the command.
 
 ``` r
 install.packages("newsmap")
@@ -44,7 +44,7 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
-## Package version: 1.3.7
+## Package version: 1.3.9
 ## Parallel computing: 2 of 8 threads used.
 ## See https://quanteda.io for tutorials and examples.
 ## 

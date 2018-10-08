@@ -20,7 +20,8 @@ textmodel_newsmap(x, y, smooth = 1,
 \description{
 Train a Newsmap model to predict geographical focus of documents using a
 pre-defined seed dictionary. Currently seed dictionaries are available in
-English (en), German (de), Spanish (es), Japanese (ja), Russian and Chinese (zh).
+English (en), German (de), Spanish (es), Japanese (ja), Russian (ru) and
+Chinese (zh).
 }
 \examples{
 require(quanteda)
@@ -41,6 +42,6 @@ predict(model_en)
 \references{
 Kohei Watanabe. 2018.
   "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
-  semi-supervised approach to geographical news classification.}"
+   semi-supervised approach to geographical news classification.}"
   \emph{Digital Journalism} 6(3): 294-309.
 }
