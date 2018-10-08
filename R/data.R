@@ -37,3 +37,11 @@ NULL
 #' @author Katerina Tertytchnaya \email{katerina.tertytchnaya@gmail.com}
 #' @keywords data
 NULL
+
+#' Seed geographical dictionary in Chinese (simplified)
+#'
+#' @name data_dictionary_newsmap_zh
+#' @docType data
+#' @author Ke Cheng \email{kecheng.ac@gmail.com}
+#' @keywords data
+NULL

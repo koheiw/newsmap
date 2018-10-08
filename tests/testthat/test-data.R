@@ -21,6 +21,7 @@ test_that("test that data file is created correctly", {
     expect_equal(length(names(data_dictionary_newsmap_es)), 5)
     expect_equal(length(names(data_dictionary_newsmap_ja)), 5)
     expect_equal(length(names(data_dictionary_newsmap_ru)), 5)
+    expect_equal(length(names(data_dictionary_newsmap_zh)), 5)
 })
 
 test_that("test that dictionaries have the same countries", {
@@ -30,10 +31,11 @@ test_that("test that dictionaries have the same countries", {
     es <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_es, 3))
     ja <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_ja, 3))
     ru <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_ru, 3))
+    zh <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_zh, 3))
 
     expect_true(identical(en, de))
     expect_true(identical(en, es))
     expect_true(identical(en, ja))
     expect_true(identical(en, ru))
-
+    expect_true(identical(en, zh))
 })
