@@ -3,7 +3,8 @@
 #'
 #' Train a Newsmap model to predict geographical focus of documents using a
 #' pre-defined seed dictionary. Currently seed dictionaries are available in
-#' English, German and Japanese.
+#' English (en), German (de), Spanish (es), Japanese (ja), Russian (ru) and
+#' Chinese (zh).
 #' @param x dfm from which features will be extracted
 #' @param y dfm in which features will be class labels
 #' @param smooth smoothing parameter for word frequency
@@ -11,7 +12,7 @@
 #' @import quanteda
 #' @references Kohei Watanabe. 2018.
 #'   "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
-#'   semi-supervised approach to geographical news classification.}"
+#'    semi-supervised approach to geographical news classification.}"
 #'   \emph{Digital Journalism} 6(3): 294-309.
 #' @export
 #' @examples

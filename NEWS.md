@@ -1,3 +1,9 @@
+# Changes since newsmap v0.6
+
+### New data
+
+* Add Chinese seed dictionary
+
 # Changes since newsmap v0.5
 
 ### Bug fixes

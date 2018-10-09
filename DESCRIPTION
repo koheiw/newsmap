@@ -1,11 +1,12 @@
 Package: newsmap
 Type: Package
 Title: Semi-Supervised Model for Geographical Document Classification
-Version: 0.6
+Version: 0.6.1
 Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")), 
              person("Stefan", "Müller", email = "mullers@tcd.ie", role = "aut"),
              person("Dani", "Madrid-Morales", email = "dani.madrid@my.cityu.edu.hk", role = "aut"),
-             person("Katerina", "Tertytchnaya", email = "katerina.tertytchnaya@gmail.com", role = "aut"))
+             person("Katerina", "Tertytchnaya", email = "katerina.tertytchnaya@gmail.com", role = "aut"),
+             person("Ke", "Cheng", email = "kecheng.ac@gmail.com", role = "aut"))
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
 Description: Semi-supervised model for geographical document classification (Watanabe 2018) <doi:10.1080/21670811.2017.1293487>. This package currently contains seed dictionaries in English, German, Spanish, Japanese and Russian.
 License: MIT + file LICENSE
@@ -22,7 +23,7 @@ Imports:
     stringi,
 Suggests:
     testthat,
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Collate:
     textmodel_newsmap.R
     data.R
