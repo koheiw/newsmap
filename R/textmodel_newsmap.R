@@ -3,7 +3,8 @@
 #'
 #' Train a Newsmap model to predict geographical focus of documents using a
 #' pre-defined seed dictionary. Currently seed dictionaries are available in
-#' English, German and Japanese.
+#' English (en), German (de), Spanish (es), Japanese (ja), Russian (ru) and
+#' Chinese (zh).
 #' @param x dfm from which features will be extracted
 #' @param y dfm in which features will be class labels
 #' @param smooth smoothing parameter for word frequency
@@ -11,13 +12,11 @@
 #' @import quanteda
 #' @references Kohei Watanabe. 2018.
 #'   "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
-#'   semi-supervised approach to geographical news classification.}"
+#'    semi-supervised approach to geographical news classification.}"
 #'   \emph{Digital Journalism} 6(3): 294-309.
 #' @export
 #' @examples
 #' require(quanteda)
-#'
-#' # English classifier
 #' text_en <- c(text1 = "This is an article about Ireland.",
 #'              text2 = "The South Korean prime minister was re-elected.")
 #'
@@ -30,49 +29,20 @@
 #' model_en <- textmodel_newsmap(feat_dfm_en, label_dfm_en)
 #' predict(model_en)
 #'
-#' # German classifier
-#' text_de <- c(text1 = "Ein Artikel über Irland.",
-#'              text2 = "Der südkoreanische Premierminister wurde wiedergewählt.")
-#'
-#' toks_de <- tokens(text_de)
-#' label_toks_de <- tokens_lookup(toks_de, data_dictionary_newsmap_de, levels = 3)
-#' label_dfm_de <- dfm(label_toks_de)
-#'
-#' feat_dfm_de <- dfm(toks_de, tolower = FALSE)
-#'
-#' model_de <- textmodel_newsmap(feat_dfm_de, label_dfm_de)
-#' predict(model_de)
-#'
-#' # Japanese classifier
-#' text_ja <- c(text1 = "これはアイルランドに関する記事です。",
-#'              text2 = "韓国首相が再選された。")
-#'
-#' toks_ja <- tokens(text_ja)
-#' label_toks_ja <- tokens_lookup(toks_ja, data_dictionary_newsmap_ja, levels = 3)
-#' label_dfm_ja <- dfm(label_toks_ja)
-#'
-#' feat_dfm_ja <- dfm(toks_ja, tolower = FALSE)
-#'
-#' model_ja <- textmodel_newsmap(feat_dfm_ja, label_dfm_ja)
-#' predict(model_ja)
-#'
-#' # Spanish classifier
-#' text_es <- c(text1 = "Este es un artículo sobre Irlanda.",
-#'              text2 = "El primer ministro de Corea del Sur fue re-elegido.")
-#'
-#' toks_es <- tokens(text_es)
-#' label_toks_es <- tokens_lookup(toks_es, data_dictionary_newsmap_es, levels = 3)
-#' label_dfm_es <- dfm(label_toks_es)
-#'
-#' feat_dfm_es <- dfm(toks_es, tolower = FALSE)
-#'
-#' model_es <- textmodel_newsmap(feat_dfm_es, label_dfm_es)
-#' predict(model_es)
 #'
 textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfms')
+
+    x <- dfm_trim(x, min_termfreq = 1)
+    y <- dfm_trim(y, min_termfreq = 1)
+
+    if (!nfeat(x))
+        stop("x must have at least one non-zero feature")
+    if (!nfeat(y))
+        stop("y must have at least one non-zero feature")
+
     model <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
                     dimnames = list(colnames(y), colnames(x)))
     if (verbose)
@@ -80,20 +50,11 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     for (key in sort(featnames(y))) {
         if (verbose)
             cat(key, " ", sep = "")
-        temp <- dfm_group(x, ifelse(as.vector(y[,key]) > 0, 'T', 'R'))
-        missing <- setdiff(c('T', 'R'), rownames(temp))
-        attr(temp, 'Dim')[1L] <- attr(temp, 'Dim')[1L] + length(missing)
-        attr(temp, 'Dimnames')$docs <- c(attr(temp, 'Dimnames')$docs, missing)
-
-        # words parameters
+        temp <- dfm_group(x, factor(as.vector(y[,key]) > 0,
+                                    levels = c('TRUE', 'FALSE')), fill = TRUE)
         temp <- temp + smooth
-        sums <- Matrix::rowSums(temp)
-        if (sums['T'] > 1) {
-            temp2 <- (temp) / (sums) # conditional likelihood
-            model[key,] <- as.vector(log(temp2['T',]) - log(temp2['R',])) # calculate likelihood-ratio
-        } else {
-            model[key,] <- NULL
-        }
+        temp <- temp / rowSums(temp) # likelihood
+        model[key,] <- as.vector(log(temp['TRUE',]) - log(temp['FALSE',])) # likelihood-ratio
     }
     if (verbose)
         cat("\n")

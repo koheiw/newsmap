@@ -1,14 +1,17 @@
 Package: newsmap
 Type: Package
-Title: Semi-supervised geographical document classification model
-Version: 0.5
+Title: Semi-Supervised Model for Geographical Document Classification
+Version: 0.6.1
 Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")), 
-             person("Stefan", "Müller", email = "mullers@tcd.ie", role = "ctb"),
-             person("Dani", "Madrid-Morales", email = "dani.madrid@my.cityu.edu.hk", role = "ctb"),
-             person("Katerina", "Tertytchnaya", email = "katerina.tertytchnaya@gmail.com", role = "ctb"))
+             person("Stefan", "Müller", email = "mullers@tcd.ie", role = "aut"),
+             person("Dani", "Madrid-Morales", email = "dani.madrid@my.cityu.edu.hk", role = "aut"),
+             person("Katerina", "Tertytchnaya", email = "katerina.tertytchnaya@gmail.com", role = "aut"),
+             person("Ke", "Cheng", email = "kecheng.ac@gmail.com", role = "aut"))
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
-Description: Multinomial Bayesian model for geographical document classification (currently supporting English, German, Spanish and Japanese texts).
-License: GPL-3
+Description: Semi-supervised model for geographical document classification (Watanabe 2018) <doi:10.1080/21670811.2017.1293487>. This package currently contains seed dictionaries in English, German, Spanish, Japanese and Russian.
+License: MIT + file LICENSE
+URL: https://github.com/koheiw/newsmap
+BugReports: https://github.com/koheiw/newsmap/issues
 LazyData: TRUE
 Encoding: UTF-8
 Depends:
@@ -16,9 +19,11 @@ Depends:
 Imports:
     utils,
     Matrix,
-    quanteda,
+    quanteda (> 1.3),
     stringi,
-RoxygenNote: 6.0.1
+Suggests:
+    testthat,
+RoxygenNote: 6.1.0
 Collate:
     textmodel_newsmap.R
     data.R

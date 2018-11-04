@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 
 # Newsmap: geographical news classifier 
 
-Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German*, *Spanish*, *Japanese*, *Russian* documents.
+Semi-supervised Bayesian model for geographical document classification. Its [online version](http://newsmap.koheiw.net) has been working since 2011. It has first been in Python, but recently implemented in R. This program automatically construct a large geographical dictionary from a corpus of news stories for accurate classification. Currently, the **newsmap** package contains seed dictionaries for *English*, *German*, *Spanish*, *Japanese*, *Russian*, *Chinese* documents.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in recent social scientific studies:
 
@@ -21,9 +21,17 @@ The detail of the algorithm is explained in [Newsmap: semi-supervised approach t
 * Kohei Watanabe, 2017. "[The spread of the Kremlin’s narratives by a western news agency during the Ukraine crisis](http://www.tandfonline.com/eprint/h2IHsz2YKce6uJeeCmcd/full)", *Journal of International Communication*
 * Tomila Lankina and Kohei Watanabe. 2017. ["Russian Spring’ or ‘Spring Betrayal’? The Media as a Mirror of Putin’s Evolving Strategy in Ukraine](http://www.tandfonline.com/eprint/tWik7KDfsZv8C2KeNkI5/full)", *Europe-Asia Studies*
 
+Please contact [Kohei Watanabe](https://github.com/koheiw) or issue a pull request if you want your publication included in this list. 
+
 ## How to install
 
-This package is not upload to CRAN, so please install by running this command in R. You need to have **devtools** installed beforehand.
+**newsmap** is available on CRAN since the version 0.6. You can install the package using R Studio GUI or the command.
+
+```{r, eval=FALSE}
+install.packages("newsmap")
+```
+
+If you want to the latest version, please install by running this command in R. You need to have **devtools** installed beforehand.
 
 ```{r, eval=FALSE}
 install.packages("devtools")
@@ -32,7 +40,7 @@ devtools::install_github("koheiw/newsmap")
 
 ## Example
 
-In this example, using a text analysis package [**quanteda**](https://quanteda.io) for preprocessing of textual data, we train a geographical classification model on a corpus of news summaries collected from Yahoo News via RSS in 2014.
+In this example, using a text analysis package [**quanteda**](https://quanteda.io) for preprocessing of textual data, we train a geographical classification model on a [corpus of news summaries collected from Yahoo News](https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1) via RSS in 2014.
 
 ### Download example data
 
@@ -88,8 +96,11 @@ coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
 
 ### Predict geographical focus of texts 
 
-```{r, fig.width=10}
-country <- predict(model)
-head(country, 10)
-barplot(head(sort(table(country), decreasing = TRUE), 20))
+```{r}
+pred_data <- data.frame(text = texts(sub_corp), country = predict(model))
 ```
+
+```{r echo=FALSE}
+knitr::kable(head(pred_data))
+```
+
