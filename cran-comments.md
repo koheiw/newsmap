@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Upload the first CRAN release
+- Change the object type of predicted values
+- Add a Chinese lexical resource
 
 ## Test environments
 
@@ -16,4 +17,4 @@ Upload the first CRAN release
 
 ## Downstream dependencies
 
-There is no reverse dependencies as this is the first release.
+There is no package on CRAN that depends on this package
