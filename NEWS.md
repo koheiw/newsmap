@@ -2,6 +2,7 @@
 
 ### New data
 
+* Change predicted values to factor with all training labels
 * Add Chinese seed dictionary
 
 # Changes since newsmap v0.5
