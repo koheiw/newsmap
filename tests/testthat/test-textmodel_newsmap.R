@@ -12,7 +12,7 @@ test_that("test English dictionary and prediction work correctly", {
                              valuetype = 'regex', case_insensitive = FALSE)
     expect_equal(
         predict(textmodel_newsmap(feat_dfm_en, label_dfm_en)),
-        factor("ie", levels = colnames(label_dfm_en))
+        factor(c(text1 = "ie"), levels = colnames(label_dfm_en))
     )
 })
 
@@ -29,8 +29,8 @@ test_that("test German dictionary and prediction work correctly", {
                              valuetype = 'regex', case_insensitive = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_de, label_dfm_de))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_de, label_dfm_de)),
+        factor(c(text1 = "ie"), levels = colnames(label_dfm_de))
     )
 })
 
@@ -45,8 +45,8 @@ test_that("test Japanese dictionary and prediction work correctly", {
         dfm_select('^[ぁ-ん]+$', selection = "remove", valuetype = 'regex')
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_ja, label_dfm_ja))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_ja, label_dfm_ja)),
+        factor(c(text1 = "ie"), levels = colnames(label_dfm_ja))
     )
 })
 
@@ -73,8 +73,10 @@ test_that("test methods on textmodel_newsmap works correctly", {
     expect_identical(map$feature, featnames(feat_dfm))
 
     # rank argument is working
-    expect_equal(unname(predict(map)), c("ie", "in", "ie", "ie"))
-    expect_equal(unname(predict(map, rank = 2)), c("in", "ie", "in", "in"))
+    expect_equal(unname(predict(map)),
+                 factor(c("ie", "in", "ie", "ie"), levels = colnames(label_dfm)))
+    expect_equal(unname(predict(map, rank = 2)),
+                 factor(c("in", "ie", "in", "in"), levels = colnames(label_dfm)))
     expect_error(predict(map, rank = 0))
 
     # different prediction outputs agree

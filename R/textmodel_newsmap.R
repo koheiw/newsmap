@@ -35,6 +35,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfms')
 
+    label <- featnames(y)
     x <- dfm_trim(x, min_termfreq = 1)
     y <- dfm_trim(y, min_termfreq = 1)
 
@@ -58,7 +59,8 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     }
     if (verbose)
         cat("\n")
-    result <- list(model = model, data = x, feature = colnames(model))
+    result <- list(model = model, data = x,
+                   feature = colnames(model), label = label)
     class(result) <- "textmodel_newsmap"
     return(result)
 }
@@ -90,6 +92,12 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
         data <- newdata
     }
     model <- object$model
+    if ("label" %in% names(object)) {
+        label <- object$label
+    } else {
+        # for backward compatibility
+        label <- rownames(model)
+    }
     data <- dfm_select(data, as.dfm(model))
     data <- dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
@@ -103,7 +111,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
                 result$class <- rep(NA, nrow(temp))
             }
             names(result$class) <- docnames(data)
-            result$class <- factor(result$class, levels = rownames(model))
+            result$class <- factor(result$class, levels = label)
         } else {
             if (ncol(temp)) {
                 result <- apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank])
@@ -111,12 +119,11 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
                 result <- rep(NA, nrow(temp))
             }
             names(result) <- docnames(data)
-            result <- factor(result, levels = rownames(model))
+            result <- factor(result, levels = label)
         }
     } else {
         result <- temp[,!apply(temp, 2, function(x) all(x == 0)),drop = FALSE] # remove if all words are zero
         rownames(result) <- docnames(data)
-        result <- factor(result, levels = rownames(model))
     }
 
     return(result)
