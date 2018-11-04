@@ -142,6 +142,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
                 result$class <- rep(NA, nrow(temp))
             }
             names(result$class) <- docnames(data)
+            result$class <- factor(result$class, levels = rownames(model))
         } else {
             if (ncol(temp)) {
                 result <- apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank])
@@ -149,10 +150,12 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
                 result <- rep(NA, nrow(temp))
             }
             names(result) <- docnames(data)
+            result <- factor(result, levels = rownames(model))
         }
     } else {
         result <- temp[,!apply(temp, 2, function(x) all(x == 0)),drop = FALSE] # remove if all words are zero
         rownames(result) <- docnames(data)
+        result <- factor(result, levels = rownames(model))
     }
 
     return(result)

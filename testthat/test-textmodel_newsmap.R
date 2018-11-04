@@ -11,8 +11,8 @@ test_that("test that English dictionary and prediction work correctly", {
         dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
                              valuetype = 'regex', case_insensitive = FALSE)
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_en, label_dfm_en))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_en, label_dfm_en)),
+        factor("ie", levels = colnames(label_dfm_en))
     )
 })
 
