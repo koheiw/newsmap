@@ -35,6 +35,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfms')
 
+    docvars(x) <- NULL
     x <- dfm_trim(x, min_termfreq = 1)
     y <- dfm_trim(y, min_termfreq = 1)
 
