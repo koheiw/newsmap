@@ -1,7 +1,7 @@
 Package: newsmap
 Type: Package
 Title: Semi-Supervised Model for Geographical Document Classification
-Version: 0.6.1
+Version: 0.6.2
 Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")), 
              person("Stefan", "Müller", email = "mullers@tcd.ie", role = "aut"),
              person("Dani", "Madrid-Morales", email = "dani.madrid@my.cityu.edu.hk", role = "aut"),
@@ -23,7 +23,7 @@ Imports:
     stringi,
 Suggests:
     testthat,
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate:
     textmodel_newsmap.R
     data.R
