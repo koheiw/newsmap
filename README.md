@@ -79,6 +79,8 @@ toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding 
 # Japanese: data_dictionary_newsmap_ja
 # Spanish: data_dictionary_newsmap_es
 # Russian: data_dictionary_newsmap_ru
+# Simplified Chinese: data_dictionary_newsmap_zh
+# Traditional Chinese: data_dictionary_newsmap_zh_hant
 
 label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3) # level 3 is countries
 label_dfm <- dfm(label_toks)

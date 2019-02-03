@@ -6,8 +6,12 @@
 \title{Seed geographical dictionary in Chinese (simplified)}
 \description{
 Seed geographical dictionary in Chinese (simplified)
+
+Seed geographical dictionary in Chinese (traditional)
 }
 \author{
 Ke Cheng \email{kecheng.ac@gmail.com}
+
+Chung-hong Chan \email{chainsawtiney@gmail.com}
 }
 \keyword{data}

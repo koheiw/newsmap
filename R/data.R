@@ -45,3 +45,11 @@ NULL
 #' @author Ke Cheng \email{kecheng.ac@gmail.com}
 #' @keywords data
 NULL
+
+#' Seed geographical dictionary in Chinese (traditional)
+#'
+#' @name data_dictionary_newsmap_zh
+#' @docType data
+#' @author Chung-hong Chan \email{chainsawtiney@gmail.com}
+#' @keywords data
+NULL
