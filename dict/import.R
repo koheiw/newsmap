@@ -15,8 +15,8 @@ save(data_dictionary_newsmap_es, file = 'data/data_dictionary_newsmap_es.RData')
 data_dictionary_newsmap_ru <- dictionary(file = 'dict/russian.yml')
 save(data_dictionary_newsmap_ru, file = 'data/data_dictionary_newsmap_ru.RData')
 
-data_dictionary_newsmap_zh <- dictionary(file = 'dict/chinese_simplified.yml')
-save(data_dictionary_newsmap_zh, file = 'data/data_dictionary_newsmap_zh.RData')
+data_dictionary_newsmap_zh_cn <- dictionary(file = 'dict/chinese_simplified.yml')
+save(data_dictionary_newsmap_zh_cn, file = 'data/data_dictionary_newsmap_zh_cn.RData')
 
-data_dictionary_newsmap_zh_hant <- dictionary(file = 'dict/chinese_traditional.yml')
-save(data_dictionary_newsmap_zh_hant, file = 'data/data_dictionary_newsmap_zh-hant.RData')
+data_dictionary_newsmap_zh_tw <- dictionary(file = 'dict/chinese_traditional.yml')
+save(data_dictionary_newsmap_zh_tw, file = 'data/data_dictionary_newsmap_zh_tw.RData')

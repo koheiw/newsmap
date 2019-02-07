@@ -51,32 +51,32 @@ test_that("test Japanese dictionary and prediction work correctly", {
 })
 
 test_that("test Traditional Chinese dictionary and prediction work correctly", {
-    text_zh_hant <- c("這篇文章關於愛爾蘭。")
+    text_zh_tw <- c("這篇文章關於愛爾蘭。")
 
-    toks_zh_hant <- tokens(text_zh_hant)
-    label_toks_zh_hant <- tokens_lookup(toks_zh_hant, data_dictionary_newsmap_zh_hant, levels = 3)
-    label_dfm_zh_hant <- dfm(label_toks_zh_hant)
+    toks_zh_tw <- tokens(text_zh_tw)
+    label_toks_zh_tw <- tokens_lookup(toks_zh_tw, data_dictionary_newsmap_zh_tw, levels = 3)
+    label_dfm_zh_tw <- dfm(label_toks_zh_tw)
     ## There is no easy way to select only Chinese words
-    feat_dfm_zh_hant <- dfm(toks_zh_hant, tolower = FALSE)
+    feat_dfm_zh_tw <- dfm(toks_zh_tw, tolower = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_zh_hant, label_dfm_zh_hant))),
+        as.character(predict(textmodel_newsmap(feat_dfm_zh_tw, label_dfm_zh_tw))),
         "ie"
     )
 })
 
 
 test_that("test Simplified Chinese dictionary and prediction work correctly", {
-    text_zh <- c("这篇文章关於爱尔兰。")
+    text_zh_cn <- c("这篇文章关於爱尔兰。")
 
-    toks_zh <- tokens(text_zh)
-    label_toks_zh <- tokens_lookup(toks_zh, data_dictionary_newsmap_zh, levels = 3)
-    label_dfm_zh <- dfm(label_toks_zh)
+    toks_zh_cn <- tokens(text_zh_cn)
+    label_toks_zh_cn <- tokens_lookup(toks_zh_cn, data_dictionary_newsmap_zh_cn, levels = 3)
+    label_dfm_zh_cn <- dfm(label_toks_zh_cn)
     ## There is no easy way to select only Chinese words
-    feat_dfm_zh <- dfm(toks_zh, tolower = FALSE)
+    feat_dfm_zh_cn <- dfm(toks_zh_cn, tolower = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_zh, label_dfm_zh))),
+        as.character(predict(textmodel_newsmap(feat_dfm_zh_cn, label_dfm_zh_cn))),
         "ie"
     )
 })

@@ -40,7 +40,7 @@ NULL
 
 #' Seed geographical dictionary in Chinese (simplified)
 #'
-#' @name data_dictionary_newsmap_zh
+#' @name data_dictionary_newsmap_zh_cn
 #' @docType data
 #' @author Ke Cheng \email{kecheng.ac@gmail.com}
 #' @keywords data
@@ -48,7 +48,7 @@ NULL
 
 #' Seed geographical dictionary in Chinese (traditional)
 #'
-#' @name data_dictionary_newsmap_zh
+#' @name data_dictionary_newsmap_zh_tw
 #' @docType data
 #' @author Chung-hong Chan \email{chainsawtiney@gmail.com}
 #' @keywords data
