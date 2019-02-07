@@ -58,7 +58,6 @@ test_that("test Traditional Chinese dictionary and prediction work correctly", {
     toks_zh_tw <- tokens(text_zh_tw)
     label_toks_zh_tw <- tokens_lookup(toks_zh_tw, data_dictionary_newsmap_zh_tw, levels = 3)
     label_dfm_zh_tw <- dfm(label_toks_zh_tw)
-    There is no easy way to select only Chinese words
     feat_dfm_zh_tw <- dfm(toks_zh_tw, tolower = FALSE)
 
     expect_equal(
@@ -76,7 +75,6 @@ test_that("test Simplified Chinese dictionary and prediction work correctly", {
     toks_zh_cn <- tokens(text_zh_cn)
     label_toks_zh_cn <- tokens_lookup(toks_zh_cn, data_dictionary_newsmap_zh_cn, levels = 3)
     label_dfm_zh_cn <- dfm(label_toks_zh_cn)
-    There is no easy way to select only Chinese words
     feat_dfm_zh_cn <- dfm(toks_zh_cn, tolower = FALSE)
 
     expect_equal(
