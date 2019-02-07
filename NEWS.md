@@ -6,7 +6,7 @@
 
 ## New data
 
-* Add Chinese seed dictionary
+* Add Chinese (simplified and traditional) seed dictionaries
 
 # Changes since newsmap v0.5
 
