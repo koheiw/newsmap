@@ -39,6 +39,7 @@ test_that("test French dictionary and prediction work correctly", {
     txt_fr <- c("Ceci est un article sur l'Irlande.")
 
     toks_fr <- tokens(txt_fr)
+    toks_fr <- tokens_split(toks_fr, "'")
     label_toks_fr <- tokens_lookup(toks_fr, data_dictionary_newsmap_fr, levels = 3)
     label_dfm_fr <- dfm(label_toks_fr)
 
