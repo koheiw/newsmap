@@ -34,6 +34,26 @@ test_that("test German dictionary and prediction work correctly", {
     )
 })
 
+
+test_that("test French dictionary and prediction work correctly", {
+    text_fr <- c("Ceci est un article sur l'Irlande.")
+
+    toks_fr <- tokens(text_fr)
+    label_toks_fr <- tokens_lookup(toks_fr, data_dictionary_newsmap_fr, levels = 3)
+    label_dfm_fr <- dfm(label_toks_fr)
+
+    feat_dfm_fr <- dfm(toks_fr, tolower = FALSE) %>%
+        dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
+                   valuetype = 'regex', case_insensitive = FALSE)
+
+    expect_equal(
+        as.character(predict(textmodel_newsmap(feat_dfm_fr, label_dfm_fr))),
+        "ie"
+    )
+})
+
+
+
 test_that("test Japanese dictionary and prediction work correctly", {
     text_ja <- c("アイルランドに関するテキスト.")
 
