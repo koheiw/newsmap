@@ -9,6 +9,9 @@ save(data_dictionary_newsmap_ja, file = 'data/data_dictionary_newsmap_ja.RData')
 data_dictionary_newsmap_de <- dictionary(file = 'dict/german.yml')
 save(data_dictionary_newsmap_de, file = 'data/data_dictionary_newsmap_de.RData')
 
+data_dictionary_newsmap_fr <- dictionary(file = 'dict/french.yml')
+save(data_dictionary_newsmap_fr, file = 'data/data_dictionary_newsmap_fr.RData')
+
 data_dictionary_newsmap_es <- dictionary(file = 'dict/spanish.yml')
 save(data_dictionary_newsmap_es, file = 'data/data_dictionary_newsmap_es.RData')
 

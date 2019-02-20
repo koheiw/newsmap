@@ -1,9 +1,9 @@
 require(quanteda)
 
 test_that("test English dictionary and prediction work correctly", {
-    text_en <- c("This is an article about Ireland.")
+    txt_en <- c("This is an article about Ireland.")
 
-    toks_en <- tokens(text_en)
+    toks_en <- tokens(txt_en)
     label_toks_en <- tokens_lookup(toks_en, data_dictionary_newsmap_en, levels = 3)
     label_dfm_en <- dfm(label_toks_en)
 
@@ -18,9 +18,9 @@ test_that("test English dictionary and prediction work correctly", {
 
 
 test_that("test German dictionary and prediction work correctly", {
-    text_de <- c("Ein Artikel über Irland.")
+    txt_de <- c("Ein Artikel über Irland.")
 
-    toks_de <- tokens(text_de)
+    toks_de <- tokens(txt_de)
     label_toks_de <- tokens_lookup(toks_de, data_dictionary_newsmap_de, levels = 3)
     label_dfm_de <- dfm(label_toks_de)
 
@@ -34,10 +34,31 @@ test_that("test German dictionary and prediction work correctly", {
     )
 })
 
-test_that("test Japanese dictionary and prediction work correctly", {
-    text_ja <- c("アイルランドに関するテキスト.")
 
-    toks_ja <- tokens(text_ja)
+test_that("test French dictionary and prediction work correctly", {
+    txt_fr <- c("Ceci est un article sur l'Irlande.")
+
+    toks_fr <- tokens(txt_fr)
+    toks_fr <- tokens_split(toks_fr, "'")
+    label_toks_fr <- tokens_lookup(toks_fr, data_dictionary_newsmap_fr, levels = 3)
+    label_dfm_fr <- dfm(label_toks_fr)
+
+    feat_dfm_fr <- dfm(toks_fr, tolower = FALSE) %>%
+        dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
+                   valuetype = 'regex', case_insensitive = FALSE)
+
+    expect_equal(
+        as.character(predict(textmodel_newsmap(feat_dfm_fr, label_dfm_fr))),
+        "ie"
+    )
+})
+
+
+
+test_that("test Japanese dictionary and prediction work correctly", {
+    txt_ja <- c("アイルランドに関するテキスト.")
+
+    toks_ja <- tokens(txt_ja)
     label_toks_ja <- tokens_lookup(toks_ja, data_dictionary_newsmap_ja, levels = 3)
     label_dfm_ja <- dfm(label_toks_ja)
 
@@ -53,9 +74,9 @@ test_that("test Japanese dictionary and prediction work correctly", {
 test_that("test Traditional Chinese dictionary and prediction work correctly", {
 
     skip_on_travis()
-    text_zh_tw <- c("這篇文章關於愛爾蘭。")
+    txt_zh_tw <- c("這篇文章關於愛爾蘭。")
 
-    toks_zh_tw <- tokens(text_zh_tw)
+    toks_zh_tw <- tokens(txt_zh_tw)
     label_toks_zh_tw <- tokens_lookup(toks_zh_tw, data_dictionary_newsmap_zh_tw, levels = 3)
     label_dfm_zh_tw <- dfm(label_toks_zh_tw)
     feat_dfm_zh_tw <- dfm(toks_zh_tw, tolower = FALSE)
@@ -70,9 +91,9 @@ test_that("test Traditional Chinese dictionary and prediction work correctly", {
 test_that("test Simplified Chinese dictionary and prediction work correctly", {
 
     skip_on_travis()
-    text_zh_cn <- c("这篇文章关於爱尔兰。")
+    txt_zh_cn <- c("这篇文章关於爱尔兰。")
 
-    toks_zh_cn <- tokens(text_zh_cn)
+    toks_zh_cn <- tokens(txt_zh_cn)
     label_toks_zh_cn <- tokens_lookup(toks_zh_cn, data_dictionary_newsmap_zh_cn, levels = 3)
     label_dfm_zh_cn <- dfm(label_toks_zh_cn)
     feat_dfm_zh_cn <- dfm(toks_zh_cn, tolower = FALSE)

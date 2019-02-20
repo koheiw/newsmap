@@ -2,11 +2,12 @@
 
 ## Bug fixes
 
-* Drop document variables to avoid slow down and warnings
+* Drop document variables to avoid slowdown and warnings
 
 ## New data
 
 * Add Chinese (simplified and traditional) seed dictionaries
+* Add French seed dictionary
 
 # Changes since newsmap v0.5
 
