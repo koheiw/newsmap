@@ -33,7 +33,7 @@
 textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
-        stop('x and y have to be dfms')
+        stop('x and y have to be dfm')
 
     docvars(x) <- NULL
     x <- dfm_trim(x, min_termfreq = 1)
@@ -237,4 +237,27 @@ summary.textmodel_newsmap_accuracy <- function(object, ...) {
     result <- c(p = p, r = r, P = P, R = R)
     return(result)
 }
+
+#' Compute average feature entroy
+#' @param x a dfm for features
+#' @param y a dfm for labels
+#' @param smooth a numeric value for smoothing to include all the features
+#' @export
+afe <- function(x, y, smooth = 1) {
+    if (!is.dfm(x) || !is.dfm(y))
+        stop('x and y have to be dfm')
+    e <- textstat_entropy(group_topics(x, y) + smooth,
+                          margin = "features")
+    return(mean(e))
+}
+
+group_topics <- function(x, y) {
+    result <- matrix(NA, nrow = nfeat(y), ncol = nfeat(x),
+                     dimnames = list(featnames(y), featnames(x)))
+    for (i in seq_len(nfeat(y))) {
+        result[i,] <- colSums(dfm_subset(x, rowSums(y[,i]) > 0))
+    }
+    return(as.dfm(result))
+}
+
 

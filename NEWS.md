@@ -10,6 +10,10 @@
 * Add Chinese (simplified and traditional) seed dictionaries
 * Add French seed dictionary
 
+## New function
+
+* Add a function to compute average feature entropy (AFE)
+
 # Changes since newsmap v0.5
 
 ## Bug fixes

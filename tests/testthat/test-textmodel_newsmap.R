@@ -68,7 +68,6 @@ test_that("Traditional Chinese dictionary and prediction work correctly", {
 
     skip_on_travis()
     txt_zh_tw <- c("這篇文章關於愛爾蘭。")
-
     toks_zh_tw <- tokens(txt_zh_tw)
     label_toks_zh_tw <- tokens_lookup(toks_zh_tw, data_dictionary_newsmap_zh_tw, levels = 3)
     label_dfm_zh_tw <- dfm(label_toks_zh_tw)
@@ -85,7 +84,6 @@ test_that("Simplified Chinese dictionary and prediction work correctly", {
 
     skip_on_travis()
     txt_zh_cn <- c("这篇文章关於爱尔兰。")
-
     toks_zh_cn <- tokens(txt_zh_cn)
     label_toks_zh_cn <- tokens_lookup(toks_zh_cn, data_dictionary_newsmap_zh_cn, levels = 3)
     label_dfm_zh_cn <- dfm(label_toks_zh_cn)
