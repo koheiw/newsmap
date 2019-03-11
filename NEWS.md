@@ -3,6 +3,7 @@
 ### New data
 
 * Add Chinese seed dictionary
+* Return NA for documents that do not have known features 
 
 # Changes since newsmap v0.5
 
