@@ -2,6 +2,7 @@
 
 ## Bug fixes
 
+* Return NA for documents that do not have known features 
 * Drop document variables to avoid slowdown and warnings
 
 ## New data

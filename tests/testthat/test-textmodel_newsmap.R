@@ -1,8 +1,7 @@
 require(quanteda)
 
-test_that("test English dictionary and prediction work correctly", {
+test_that("English dictionary and prediction work correctly", {
     txt_en <- c("This is an article about Ireland.")
-
     toks_en <- tokens(txt_en)
     label_toks_en <- tokens_lookup(toks_en, data_dictionary_newsmap_en, levels = 3)
     label_dfm_en <- dfm(label_toks_en)
@@ -17,9 +16,8 @@ test_that("test English dictionary and prediction work correctly", {
 })
 
 
-test_that("test German dictionary and prediction work correctly", {
+test_that("German dictionary and prediction work correctly", {
     txt_de <- c("Ein Artikel über Irland.")
-
     toks_de <- tokens(txt_de)
     label_toks_de <- tokens_lookup(toks_de, data_dictionary_newsmap_de, levels = 3)
     label_dfm_de <- dfm(label_toks_de)
@@ -34,10 +32,8 @@ test_that("test German dictionary and prediction work correctly", {
     )
 })
 
-
 test_that("test French dictionary and prediction work correctly", {
     txt_fr <- c("Ceci est un article sur l'Irlande.")
-
     toks_fr <- tokens(txt_fr)
     toks_fr <- tokens_split(toks_fr, "'")
     label_toks_fr <- tokens_lookup(toks_fr, data_dictionary_newsmap_fr, levels = 3)
@@ -53,11 +49,8 @@ test_that("test French dictionary and prediction work correctly", {
     )
 })
 
-
-
-test_that("test Japanese dictionary and prediction work correctly", {
+test_that("Japanese dictionary and prediction work correctly", {
     txt_ja <- c("アイルランドに関するテキスト.")
-
     toks_ja <- tokens(txt_ja)
     label_toks_ja <- tokens_lookup(toks_ja, data_dictionary_newsmap_ja, levels = 3)
     label_dfm_ja <- dfm(label_toks_ja)
@@ -71,7 +64,7 @@ test_that("test Japanese dictionary and prediction work correctly", {
     )
 })
 
-test_that("test Traditional Chinese dictionary and prediction work correctly", {
+test_that("Traditional Chinese dictionary and prediction work correctly", {
 
     skip_on_travis()
     txt_zh_tw <- c("這篇文章關於愛爾蘭。")
@@ -88,7 +81,7 @@ test_that("test Traditional Chinese dictionary and prediction work correctly", {
 })
 
 
-test_that("test Simplified Chinese dictionary and prediction work correctly", {
+test_that("Simplified Chinese dictionary and prediction work correctly", {
 
     skip_on_travis()
     txt_zh_cn <- c("这篇文章关於爱尔兰。")
@@ -104,8 +97,8 @@ test_that("test Simplified Chinese dictionary and prediction work correctly", {
     )
 })
 
-test_that("test methods on textmodel_newsmap works correctly", {
 
+test_that("methods for textmodel_newsmap works correctly", {
     text <- c("Ireland is famous for Guinness.",
               "Guinness began retailing in India in 2007.",
               "Cork is an Irish coastal city.",
@@ -139,10 +132,42 @@ test_that("test methods on textmodel_newsmap works correctly", {
 
 })
 
-test_that("test raise error if dfm is empty", {
+test_that("textmodel_newsmap() raises error if dfm is empty", {
     expect_error(textmodel_newsmap(dfm_trim(dfm("a b c"), min_termfreq = 10), dfm("A")),
                  "x must have at least one non-zero feature")
 
     expect_error(textmodel_newsmap(dfm("a b c"), dfm_trim(dfm("A"), min_termfreq = 10)),
                  "y must have at least one non-zero feature")
 })
+
+test_that("predict() returns NA for documents without registered features", {
+
+    text <- c("Ireland is famous for Guinness.",
+              "Guinness began retailing in India in 2007.",
+              "Cork is an Irish coastal city.",
+              "Titanic departed Cork Harbour in 1912.")
+
+    toks <- tokens(text)
+    label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
+    label_dfm <- dfm(label_toks)
+
+    dfmt_feat <- dfm(c("aa bb cc", "aa bb", "bb cc"))
+    dfmt_label <- dfm(c("A", "B", "B"), tolower = FALSE)
+    dfmt_new <- dfm(c("aa bb cc", "aa bb", "zz"))
+    map <- textmodel_newsmap(dfmt_feat, dfmt_label)
+    expect_equal(predict(map),
+                 c(text1 = "A", text2 = "B", text3 = "B"))
+    expect_equal(predict(map, newdata = dfmt_new),
+                 c(text1 = "A", text2 = "B", text3 = NA))
+    pred <- predict(map, confidence.fit = TRUE, newdata = dfmt_new)
+    expect_equal(pred$class,
+                 c(text1 = "A", text2 = "B", text3 = NA))
+    expect_equal(pred$confidence.fit,
+                 c(0.018, 0.048, NA), tolerance = 0.01)
+    expect_equal(predict(map, newdata = dfmt_new, rank = 2),
+                 c(text1 = "B", text2 = "A", text3 = NA))
+    expect_equal(as.numeric(predict(map, newdata = dfmt_new, type = "all")),
+                 c(0.018, -0.048, NA, -0.018, 0.048, NA), tolerance = 0.01)
+
+})
+
