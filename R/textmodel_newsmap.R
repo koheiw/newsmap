@@ -90,33 +90,42 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
         data <- newdata
     }
     model <- object$model
-    data <- dfm_select(data, as.dfm(model))
+    data <- dfm_match(data, colnames(model))
     data <- dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
+
+    is_empty <- rowSums(data) == 0
 
     if (type == 'top') {
         if (confidence.fit) {
             if (ncol(temp)) {
-                result <- list(class = apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank]),
-                               confidence.fit = unname(apply(temp, 1, function(x) sort(x, decreasing = TRUE)[rank])))
+                result <- list(class = apply(temp, 1, function(x) names(get_nth(x, rank))),
+                               confidence.fit = unname(apply(temp, 1, function(x) get_nth(x, rank))))
             } else {
                 result$class <- rep(NA, nrow(temp))
             }
+            result$class[is_empty] <- NA
+            result$confidence.fit[is_empty] <- NA
             names(result$class) <- docnames(data)
         } else {
             if (ncol(temp)) {
-                result <- apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank])
+                result <- apply(temp, 1, function(x) names(get_nth(x, rank)))
             } else {
                 result <- rep(NA, nrow(temp))
             }
+            result[is_empty] <- NA
             names(result) <- docnames(data)
         }
     } else {
-        result <- temp[,!apply(temp, 2, function(x) all(x == 0)),drop = FALSE] # remove if all words are zero
+        result <- temp
+        result[is_empty,] <- NA
         rownames(result) <- docnames(data)
     }
-
     return(result)
+}
+
+get_nth <- function(x, rank) {
+    sort(x, decreasing = TRUE)[rank]
 }
 
 #' @noRd

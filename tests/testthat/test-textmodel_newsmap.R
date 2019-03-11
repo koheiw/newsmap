@@ -1,6 +1,6 @@
 require(quanteda)
 
-test_that("test English dictionary and prediction work correctly", {
+test_that("English dictionary and prediction work correctly", {
     text_en <- c("This is an article about Ireland.")
 
     toks_en <- tokens(text_en)
@@ -17,7 +17,7 @@ test_that("test English dictionary and prediction work correctly", {
 })
 
 
-test_that("test German dictionary and prediction work correctly", {
+test_that("German dictionary and prediction work correctly", {
     text_de <- c("Ein Artikel über Irland.")
 
     toks_de <- tokens(text_de)
@@ -34,7 +34,7 @@ test_that("test German dictionary and prediction work correctly", {
     )
 })
 
-test_that("test Japanese dictionary and prediction work correctly", {
+test_that("Japanese dictionary and prediction work correctly", {
     text_ja <- c("アイルランドに関するテキスト.")
 
     toks_ja <- tokens(text_ja)
@@ -50,7 +50,7 @@ test_that("test Japanese dictionary and prediction work correctly", {
     )
 })
 
-test_that("test methods on textmodel_newsmap works correctly", {
+test_that("methods for textmodel_newsmap works correctly", {
 
     text <- c("Ireland is famous for Guinness.",
               "Guinness began retailing in India in 2007.",
@@ -85,10 +85,42 @@ test_that("test methods on textmodel_newsmap works correctly", {
 
 })
 
-test_that("test raise error if dfm is empty", {
+test_that("textmodel_newsmap() raises error if dfm is empty", {
     expect_error(textmodel_newsmap(dfm_trim(dfm("a b c"), min_termfreq = 10), dfm("A")),
                  "x must have at least one non-zero feature")
 
     expect_error(textmodel_newsmap(dfm("a b c"), dfm_trim(dfm("A"), min_termfreq = 10)),
                  "y must have at least one non-zero feature")
 })
+
+test_that("predict() returns NA for documents without registered features", {
+
+    text <- c("Ireland is famous for Guinness.",
+              "Guinness began retailing in India in 2007.",
+              "Cork is an Irish coastal city.",
+              "Titanic departed Cork Harbour in 1912.")
+
+    toks <- tokens(text)
+    label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
+    label_dfm <- dfm(label_toks)
+
+    dfmt_feat <- dfm(c("aa bb cc", "aa bb", "bb cc"))
+    dfmt_label <- dfm(c("A", "B", "B"), tolower = FALSE)
+    dfmt_new <- dfm(c("aa bb cc", "aa bb", "zz"))
+    map <- textmodel_newsmap(dfmt_feat, dfmt_label)
+    expect_equal(predict(map),
+                 c(text1 = "A", text2 = "B", text3 = "B"))
+    expect_equal(predict(map, newdata = dfmt_new),
+                 c(text1 = "A", text2 = "B", text3 = NA))
+    pred <- predict(map, confidence.fit = TRUE, newdata = dfmt_new)
+    expect_equal(pred$class,
+                 c(text1 = "A", text2 = "B", text3 = NA))
+    expect_equal(pred$confidence.fit,
+                 c(0.018, 0.048, NA), tolerance = 0.01)
+    expect_equal(predict(map, newdata = dfmt_new, rank = 2),
+                 c(text1 = "B", text2 = "A", text3 = NA))
+    expect_equal(as.numeric(predict(map, newdata = dfmt_new, type = "all")),
+                 c(0.018, -0.048, NA, -0.018, 0.048, NA), tolerance = 0.01)
+
+})
+
