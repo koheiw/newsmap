@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Upload the first CRAN release
+Add Chinese and French dictionaries
 
 ## Test environments
 
-* local KDE neon User Edition 5.13, R 3.4.4
+* local KDE neon User Edition 5.13, R 3.5.2
 * local Windows 10, R 3.5
 * win-builder (devel and release)
 
@@ -16,4 +16,4 @@ Upload the first CRAN release
 
 ## Downstream dependencies
 
-There is no reverse dependencies as this is the first release.
+There is no known reverse dependencies.
