@@ -1,10 +1,13 @@
-# Changes since newsmap v0.6
+# Latest changes
+
+* Correct Japanese seed words for DE, MG and EC 
+
+# Changes in v0.6.5
 
 ## Bug fixes
 
 * Return NA for documents that do not have known features 
 * Drop document variables to avoid slowdown and warnings
-* Corrrect Japanese seed words for DE, MG and EC 
 
 ## New data
 
