@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Add Chinese and French dictionaries
+Update Japanese dictionary
 
 ## Test environments
 
