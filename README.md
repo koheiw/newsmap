@@ -69,7 +69,7 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
-## Package version: 1.4.1
+## Package version: 1.5.0
 ## Parallel computing: 2 of 8 threads used.
 ## See https://quanteda.io for tutorials and examples.
 ## 
@@ -108,7 +108,9 @@ toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding 
 # Simplified Chinese: data_dictionary_newsmap_zh
 # Traditional Chinese: data_dictionary_newsmap_zh_hant
 
-label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3) # level 3 is countries
+# quanteda v1.5 introduced 'nested_scope' to reduce ambiguity in dictionary lookup
+label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, 
+                            levels = 3, nested_scope = "dictionary")
 label_dfm <- dfm(label_toks)
 
 feat_dfm <- dfm(toks, tolower = FALSE)
@@ -122,18 +124,18 @@ model <- textmodel_newsmap(feat_dfm, label_dfm)
 # Features with largest weights
 coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
 ## $us
-##         US WASHINGTON   American Washington  Americans       YORK 
-##  10.733869  10.031534   9.773099   9.496846   8.234697   6.951198 
-##     States 
-##   6.285434 
+## WASHINGTON Washington         US  Americans       YORK     States 
+##  10.032215   9.497527   8.788155   8.235378   6.951880   6.286116 
+##        NYC 
+##   6.124919 
 ## 
 ## $gb
-##   British    London    LONDON   Britain Britain's        UK    Briton 
-## 10.939468 10.653923 10.647544 10.396778  9.754031  9.711121  7.533754 
+##    London    LONDON   Britain Britain's        UK   British    Briton 
+## 10.654767 10.648387 10.397621  9.754874  9.711965  7.846397  7.534598 
 ## 
 ## $fr
-##    French    France     PARIS     Paris     Valls Frenchman    CANNES 
-## 11.348094 11.322555 10.448944 10.259995  8.005111  7.838057  7.742747 
+##    France     PARIS     Paris    French     Valls Frenchman    CANNES 
+## 11.323169 10.449557 10.260609  8.167175  8.005725  7.838671  7.743361 
 ## 
 ## $br
 ##    Brazil Brazilian       SAO     PAULO       RIO   JANEIRO       Rio 

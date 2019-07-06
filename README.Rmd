@@ -84,7 +84,9 @@ toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding 
 # Simplified Chinese: data_dictionary_newsmap_zh
 # Traditional Chinese: data_dictionary_newsmap_zh_hant
 
-label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3) # level 3 is countries
+# quanteda v1.5 introduced 'nested_scope' to reduce ambiguity in dictionary lookup
+label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, 
+                            levels = 3, nested_scope = "dictionary")
 label_dfm <- dfm(label_toks)
 
 feat_dfm <- dfm(toks, tolower = FALSE)
