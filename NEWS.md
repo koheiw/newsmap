@@ -1,3 +1,7 @@
+# Changes in v0.6.8
+
+* Add Italian seed dictionary
+
 # Changes in v0.6.7
 
 ## Dictionary updates
