@@ -1,0 +1,291 @@
+# Created by Giuseppe Carteny for the newsmap package: https://github.com/koheiw/newsmap
+
+AFRICA:
+  EAST:
+    'BI': [Burundi, Bujumbura, Gitega, burundes*]
+    'DJ': [Gibuti, gibutian*]
+    'ER': [Eritrea, eritre*, Asmara]
+    'ET': [Etiopia, etiop*, abissin*, Addis Abeba]
+    'KE': [Kenya, keniot*, kenyot*, kenian*, kenyan*, Nairobi]
+    'KM': [Comore, comorian*, Moroni]
+    'MG': [Madagascar, malgasc*, Antananarivo]
+    'MU': [Mauritius, maurizian*, Port Louis]
+    'MW': [Malawi, Malawian*, Lilongwe]
+    'MZ': [Mozambico, mozambican*, Maputo]
+    'RE': [Riunione, Saint-Denis]                                                              #inhabitants' Italian official name is missing
+    'RW': [Ruanda, Kigali, ruandes*]
+    'SC': [Seychelles, Victoria, seychelles*, seicelles*]
+    'SO': [Somalia, Mogadiscio, somal*]
+    'TZ': [Tanzania, Dodoma, Dar es Salaam, tanzanian*]
+    'UG': [Uganda, Kampala, ugandes*]
+    'YT': [Maiotta, Mamoudzou, mahorais*]                                                      #inhabitants' Italian official name is missing
+    'ZM': [Zambia, Lusaka, zambian*]
+    'ZW': [Zimbabwe, Harare, zimbabwes*]
+
+  MIDDLE:
+    'AO': [Angola, Luanda, angolan*]
+    'CD': [Repubblica Democratica del Congo, Congo-Kinshasa, ex Congo belga, Zaire, Kinshasa, congoles*]
+    'CF': [Repubblica Centrafricana, Bangui, centrafrican*]
+    'CG': [Congo, Repubblica del Congo, ex Congo Francese, Congo-Brazzaville, Brazzaville, congoles*]
+    'CM': [Camerun, Yaounde, Yaoundé, camerunens*, camerunes*]
+    'GA': [Gabon, Repubblica Gabonese, Libreville, gabones*]
+    'GQ': [Guinea Equatoriale, Malabo, equatoguinean*]
+    'ST': [Sao Tome e Principe, São Tomé e Príncipe, saotomens*]
+    'TD': [Ciad, N'Djamena, ciadian*]
+
+  NORTH:
+    'DZ': [Algeria, Algeri, algerin*]
+    'EG': [Egitto, Cairo, egizian*]
+    'EH': [Sahara Occidentale, Sahrawi, El Aaiun, El Aaiún, sahrawi]
+    'LY': [Libia, Tripoli, libic*]
+    'MA': [Marocco, Rabat, marocchin*]
+    'SD': [Sudan, Khartum, sudanes*]
+    'SS': [Sud Sudan, Sudan del Sud, Sudan Meridionale, sudsudanes*, Giuba]
+    'TN': [Tunisia, Tunisi, tunisin*]
+
+  SOUTH:
+    'BW': [Botswana, Beciuania, Gaborone, botswan*]
+    'LS': [Lesotho, Maseru, lesothian*]
+    'NA': [Namibia, Windhoek, namibian*]
+    'SZ': [Swaziland, eSwatini, Ngwane, Lobamba, Mbabane, swazilandes*]
+    'ZA': [Sudafrica, Bloemfontein, Città del Capo, Pretoria, sudafrican*]
+
+  WEST:
+    'BF': [Burkina Faso, Ouagadougou, burkinabé*, burkinabe*]
+    'BJ': [Benin, Dahomey, Porto-Novo, benines*] 
+    'CI': [Costa d'Avorio, Côte d'Ivoire, Yamoussoukro, Abidjan, ivorian*]
+    'CV': [Capo Verde, Praia, capoverdian*]
+    'GH': [Ghana, Gana, Accra, ganes*, ghanes*, ganaes*, ghanaes*, ganaens*, ghanaens*]
+    'GM': [Gambia, Banjul, gambian*]
+    'GN': [Guinea, Guinea Conakry, Conakry, guinean*]
+    'GW': [Guinea Bissau, Guinea-Bissau, Bissau, guineens*]
+    'LR': [Liberia, Monrovia, liberian*]
+    'ML': [Mali, Bamako, malian*]
+    'MR': [Mauritania, Nouakchott, mauritan*, mauritanian*]
+    'NE': [Niger, Niamey, nigerin*]
+    'NG': [Nigeria, Abuja, Lagos, nigerian*]
+    'SH': [Sant'Elena, Jamestown]                                                              #inhabitants' Italian official name is missing
+    'SL': [Sierra Leone, Freetown, sierraleones*]
+    'SN': [Senegal, Dakar, senegales*]
+    'TG': [Togo, Repubblica Togolese, Lome, Lomé, togoles*]
+
+AMERICA:
+  CARIB: 
+    'AG': [Antigua e Barbuda, Saint John's, antiguo-barbudan*]
+    'AI': [Anguilla, The Valley, anguillan*]
+    'AW': [Aruba, Oranjestad, aruban*]
+    'BB': [Barbados, Bridgetown, barbadian*]
+    'BL': [Saint-Barthélemy, Saint-Barthelemy, Saint Barthélemy, Saint Barthelemy, Gustavia]   #inhabitants' Italian official name is missing
+    'BQ': [Bonaire, Kralendijk]                                                                #inhabitants' Italian official name is missing
+    'BS': [Bahamas, Bahama, Nassau, bahamens*]
+    'CU': [Cuba, Havana, cuban*]
+    'CW': [Curacao, Curaçao, Willemstad]                                                       #inhabitants' Italian official name is missing
+    'DM': [Dominica, Commonwealth della Dominica, Roseau, dominicens*]
+    'DO': [Repubblica Dominicana, Santo Domingo, dominican*]
+    'GD': [Grenada, Saint George's, St George's, grenadin*]
+    'GP': [Guadalupa, Basse-Terre, guadalup*]
+    'HT': [Haiti, Port au Prince, Port-au-Prince, haitian*]
+    'JM': [Jamaica, Kingston, jamaican*]
+    'KN': [Saint Kitts e Nevis, Saint Christopher e Nevis, Basseterre, nevisian*]
+    'KY': [Isole Cayman, Cayman, caymanian*]
+    'LC': [Saint Lucia, St Lucia, Santa Lucia, Castries, santalucian*]
+    'MF': [Saint Martin, Saint-Martin, Marigot]                                                #inhabitants' Italian official name is missing
+    'MQ': [Martinica, Fort-de-France, martinican*]
+    'MS': [Montserrat, Brades]
+    'PR': [Puerto Rico, Portorico, Porto Rico, San Juan, portorican*]
+    'SX': [Sint Maarten, Philipsburg]                                                          #inhabitants' Italian official name is missing
+    'TC': [Turks e Caicos, Cockburn Town]                                                      #inhabitants' Italian official name is missing
+    'TT': [Trinidad e Tobago, Port of Spain, trinidadian*]
+    'VC': [Saint Vincent e Grenadine, San Vincenzo e Grenadine, Kingstown, sanvincentin*]
+    'VG': [Isole Vergini Britanniche, Road Town]                                               #inhabitants' Italian official name is missing
+    'VI': [Isole Vergini americane, Isole Vergini statunitensi, Charlotte Amalie]              #inhabitants' Italian official name is missing
+
+  CENTER:
+    'BZ': [Belize, Belise, Honduras britannico, Belmopan, belizian*, belisian*]
+    'CR': [Costa Rica, Costarica, San Jose, San José, costarican*]
+    'GT': [Guatemala, Città del Guatemala, guatemaltec*]
+    'HN': [Honduras, Ondura, Tegucigalpa, onduregn*]
+    'MX': [Messico, Città del Messico, messican*]
+    'NI': [Nicaragua, Managua, nicaraguens*]
+    'PA': [Panama, Città di Panama, panamens*]
+    'SV': [El Salvador, San Salvador, salvadoregn*]
+
+  SOUTH:
+    'AR': [Argentina, Buenos Aires, argentin*]
+    'BO': [Bolivia, Sucre, La Paz, bolivian*]
+    'BR': [Brasile, Brasilia, Sao Paulo, São Paulo, Rio, Rio de Janeiro, brasilian*]
+    'CL': [Cile, Santiago del Cile, Santiago, cilen*]
+    'CO': [Colombia, Bogota, colombian*]
+    'EC': [Ecuador, Quito, ecuadoregn*, ecuadorian*, ecuatorian*]
+    'FK': [Isole Falkland, Isole Malvine, Falkland]                                            #inhabitants' Italian official name is missing
+    'GF': [Guyana francese, Guiana francese, Caienna, guianes*]
+    'GY': [Guyana, guianes*]
+    'PE': [Peru, Perù, Lima, peruvian*]
+    'PY': [Paraguay, Paraguai, Asunción, Asuncion, paraguaian*]
+    'SR': [Suriname, Paramaribo, surinames*]
+    'UY': [Uruguay, Montevideo, uruguaian*, uruguagi*] 
+    'VE': [Venezuela, Caracas, venezuelan*]
+
+  NORTH:
+    'BM': [Bermuda, bermudian*]
+    'CA': [Canada, Ottawa, Toronto, Quebec, canades*]
+    'GL': [Groenlandia, Nuuk, groenlandes*]
+    'PM': [Saint-Pierre e Miquelon, Saint-Pierre]                                              #inhabitants' Italian official name is missing
+    'US': [Stati Uniti, Washington, New York, american*]
+
+ASIA:
+  CENTER:
+    'KG': [Kirghizistan, Chirghisia, Bishkek, Bişkek, kirghis*]
+    'KZ': [Kazakistan, Kazakhstan, Kazahstan, Kazachstan, Kazakh*, Astana, Nursultan, kazak*]
+    'TJ': [Tajikistan, Tagichistan, Tajiks*, Dushanbe, Dušanbe, Dusanbe, tagik*]
+    'TM': [Turkmenistan, Repubblica Turkmena, Aşgabat, Asgabat, turkmen*]
+    'UZ': [Uzbekistan, Usbechistàn, Usbechistan, Tashkent, uzbek*]
+
+  EAST:
+    'CN': [Cina, Repubblica Popolare Cinese, Pechino, Shanghai, Sciangai, cines*]                               
+    'HK': [Hong Kong, hongkonghes*]
+    'JP': [Giappone, Tokyo, giappones*]
+    'KP': [Corea del Nord, Repubblica Popolare Democratica di Corea, Nord Corea, Pyongyang, nordcorean*]
+    'KR': [Corea del Sud, Sud Corea, Seoul, sudcorean*]
+    'MN': [Mongolia, Ulan Bator, mongol*]
+    'MO': [Macao]                                                                              #inhabitants' Italian official name is missing
+    'TW': [Taiwan, Taipei, taiwanes*, taiwanens*]
+
+  SOUTH:
+    'AF': [Afghanistan, Afganistan, Kabul, afghan*, afgan*]
+    'BD': [Bangladesh, Dhaka, Dacca, bengales*, banglades*]
+    'BT': [Bhutan, Butan, Thimphu, bhutanes*]
+    'IN': [India, Mumbai, Nuova Delhi, indian*]
+    'IR': [Iran, Tehran, iranian*]
+    'LK': [Sri Lanka, Colombo, Sri Jayewardanapura Kotte, srilankes*, cingales*, singales*]
+    'MV': [Maldive, Male, Malé, maldivian*]
+    'NP': [Nepal, Katmandu, Kathmandu, nepales*]
+    'PK': [Pakistan, Islamabad, pakistan*]
+
+  SOUTH-EAST:
+    'BN': [Brunei, Bandar Seri Begawan, bruneian*]
+    'ID': [Indonesia, Jakarta, Bali, indonesian*]
+    'KH': [Cambogia, Phnom Penh, cambogian*]
+    'LA': [Laos, Vientiane, laotian*, laosian*]
+    'MM': [Myanmar, Birmania, Yangon, Naypyidaw, birman*]
+    'MY': [Malesia, Kuala Lumpur, Putrajaya, males*]
+    'PH': [Filippine, Manila, filippin*]
+    'SG': [Singapore, singaporean*]
+    'TH': [Thailandia, Tailandia, Bangkok, thailandes*, tailandes*]
+    'TL': [Timor Est, Dili, est-timores*]
+    'VN': [Vietnam, Hanoi, Ho Chi Minh, Città di Ho Chi Minh, vietnamit*]
+
+  WEST:
+    'AE': [Emirati Arabi Uniti, UAE, Abu Dhabi, emiratin*, emiratens*]
+    'AM': [Armenia, Yerevan, armen*]
+    'AZ': [Azerbaigian, Baku, azer*]
+    'BH': [Bahrain, Bahrein, Manama, bahreinit*]
+    'CY': [Cipro, Nicosia, cipriot*]
+    'GE': [Georgia, Tbilisi, georgian*]
+    'IL': [Israele, Gerusalemme, Tel Aviv, israelian*]
+    'IQ': [Iraq, Baghdad, irachen*, iraqen*]
+    'JO': [Giorania, Amman, giordan*]
+    'KW': [Kuwait, Kuwait City, Al Kuwait, kuwaitian*]
+    'LB': [Libano, Beirut, libanes*]
+    'OM': [Oman, Mascate, omanit*]
+    'PS': [Palestina, Gaza City, Gaza, Striscia di Gaza, Cisgiordania, Ramallah, palestines*]
+    'QA': [Qatar, Doha, qatarin*, qatariot*, qatarian*]
+    'SA': [Arabia Saudita, Riad, saudit*]
+    'SY': [Siria, Damasco, sirian*]
+    'TR': [Turchia, Ankara, Istanbul, turc*]
+    'YE': [Yemen, Sana'a, Aden, yemenit*, iemenit*]
+
+EUROPE:
+  EAST:
+    'BG': [Bulgaria, Sofia, bulgar*]
+    'BY': [Bielorussia, Russia Bianca, Minsk, bieloruss*]
+    'CZ': [Repubblica Ceca, Praga, cech*]
+    'HU': [Ungheria, Budapest, ungheres*]
+    'MD': [Moldavia, Chisinau, Chișinău, moldav*]
+    'PL': [Polonia, Varsavia, polacc*]
+    'RO': [Romania, Bucarest, romen*, rumen*]
+    'RU': [Russia, Mosca, russ*]
+    'SK': [Slovacchia, Bratislava, slovacc*]
+    'UA': [Ucraina, Kiev, ucrain*]
+
+  NORTH:
+    'AX': [Isole Åland, Isole Aland, Mariehamn, alandes*]
+    'DK': [Danimarca, Copenhagen, danes*]
+    'EE': [Estonia, Tallinn, eston*]
+    'FI': [Finlandia, Helsinki, finlandes*]
+    'FO': [Isole Fær Øer, Isole Far Oer, Torshavn, Tórshavn, faroes*, fering*]
+    'GB': [Regno Unito, Gran Bretagna, Londra, britannic*]
+    'GG': [Guernsey, Saint Peter Port]                                                         #inhabitants' Italian official name is missing
+    'IE': [Irland, Dublino, irlandes*]
+    'IM': [Isola di Man, Mann, mannes*]
+    'IS': [Islanda, Reykjavik, islandes*]
+    'JE': [Isole del Canale]                                                                   #inhabitants' Italian official name is missing
+    'LT': [Lituania, Vilnius, lituan*]
+    'LV': [Lettonia, Riga, letton*]
+    'NO': [Norvegia, Oslo, norveges*]
+    'SE': [Svezia, Stoccolma, svedes*]
+    'SJ': [Svalbard, Svalbarde]                                                                #inhabitants' Italian official name is missing
+
+  SOUTH:
+    'AD': [Andorra, Andorra la Vella, andorran*]
+    'AL': [Albania, Tirana, albanes*]
+    'BA': [Bosnia, Bosnia ed Erzegovina, Bosnia-Erzegovina, Sarajevo, bosniac*, erzegovin*, erzegoves*]
+    'ES': [Spagna, Madrid, Barcellona, spagnol*]
+    'GI': [Gibilterra, gibilterrin*]
+    'GR': [Grecia, Atene, grec*]
+    'HR': [Croazia, Zagabria, croat*]
+    'IT': [Italia, Roma, italian*]
+    'KV': [Kosovo, Cossovo, Pristina, kosovar*, cossovar*]
+    'ME': [Montenegro, Podgorica, montenegrin*]
+    'MK': [Macedonia, Macedonia del Nord, Skopje, macedon*]
+    'MT': [Malta, Valletta, maltes*]
+    'PT': [Portogallo, Lisbona, portoghes*]
+    'RS': [Serbia, Belgrado, serb*]
+    'SI': [Slovenia, Lubiana, sloven*]
+    'SM': [San Marino, sammarines*]
+    'VA': [Vaticano, Città del Vaticano]                                                       #inhabitants' Italian official name is missing
+
+  WEST:
+    'AT': [Austria, Vienna, austriac()]
+    'BE': [Belgio, Bruxelles, belg*]
+    'CH': [Svizzera, Zurigo, Berna, svizzer*]
+    'DE': [Germania, Berlino, Francoforte, tedesc*]
+    'FR': [Francia, Parigi, frances*]
+    'LI': [Liechtenstein, Liechtenstein*, Vaduz, liechtensteinian*]
+    'LU': [Lussemburgo, lussemburghes*]
+    'MC': [Monaco, Principato di Monaco, monegasc*]
+    'NL': [Paesi Bassi, Olanda, Amsterdam, olandes*]
+
+OCEANIA:
+  AU-NZ:
+    'AU': [Australia, Canberra, Sydney, australian*]
+    'CK': [Isole Cook, Avarua, cookes*]
+    'NF': [Isola Norfolk]                                                                      #inhabitants' Italian official name is missing
+    'NZ': [Nuova Zelanda, Wellington, Auckland, neozelandes*]
+
+  MEL:
+    'FJ': [Figi, Suva, figian*]
+    'NC': [Nuova Caledonia, Numea]                                                             #inhabitants' Italian official name is missing
+    'PG': [Papua Nuova Guinea, Port Moresby, papuan*]
+    'SB': [Isole Salomone, Honiara, salomones*]
+    'VU': [Vanuatu, Port Vila, vanuatuan*]
+
+  MIC:
+    'FM': [Micronesia, Palikir, micronesian*]
+    'GU': [Guam, Guamanian*, Hagatna]                                                          #inhabitants' Italian official name is missing
+    'KI': [Kiribati, Tarawa Sud, gilbertes*]
+    'MH': [Isole Marshall, Majuro, Dalap-Uliga-Marrit, marshalles*]
+    'MP': [Isole Marianne, Marianne Settentrionali, Saipan]                                    #inhabitants' Italian official name is missing
+    'NR': [Nauru, Nauruan*, Yaren, nauruan*]
+    'PW': [Palau, Belau, Ngerulmud, palauan*]
+
+  POL:
+    'AS': [Samoa americane, Pago Pago]                                                         #inhabitants' Italian official name is missing
+    'NU': [Niue, Niuean*, Alofi]                                                               #inhabitants' Italian official name is missing
+    'PF': [Polinesia francese, Papeete, polinesian*]
+    'PN': [Isole Pitcairn, Adamstown]                                                          #inhabitants' Italian official name is missing
+    'TK': [Tokelau, Fakaofo, tokelauan*]                                                       #inhabitants' Italian official name is missing
+    'TO': [Tonga, Nuku'alofa, tongan*] 
+    'TV': [Tuvalu, Isole Ellice, Funafuti, tuvaluan*]
+    'WF': [Isole Wallis e Futuna , Mata-Utu]
+    'WS': [Samoa, Apia, samoan*]
