@@ -46,6 +46,14 @@ NULL
 #' @keywords data
 NULL
 
+#' Seed geographical dictionary in Italian
+#'
+#' @name data_dictionary_newsmap_it
+#' @docType data
+#' @author Giuseppe Carteny \email{giuseppe.carteny@unimi.it}
+#' @keywords data
+NULL
+
 #' Seed geographical dictionary in Chinese (simplified)
 #'
 #' @name data_dictionary_newsmap_zh_cn
