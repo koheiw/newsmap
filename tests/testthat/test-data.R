@@ -4,14 +4,20 @@ require(quanteda)
 require(stringi)
 require(testthat)
 
+check_character <- function(x) {
+    x <- unlist(x)
+    expect_true(all(!stri_detect_regex(x, "[^\\p{L}'*?\\-\\u30fb ]")))
+}
+
 test_that("test that yaml do not contain illegal letters", {
-    dir <- '../dict/'
-    for (f in list.files(dir, pattern = 'yml')) {
-        l <- readLines(paste0(dir, f))
-        expect_true(all(stri_count_fixed(l, ';') == 0))
-        expect_true(all(stri_count_charclass(l, "\\p{Z}") == stri_count_fixed(l, " ")))
-        expect_true(all(stri_count_charclass(l, "\\p{C}") == 0))
-    }
+    check_character(data_dictionary_newsmap_en)
+    check_character(data_dictionary_newsmap_de)
+    check_character(data_dictionary_newsmap_fr)
+    check_character(data_dictionary_newsmap_es)
+    check_character(data_dictionary_newsmap_ja)
+    check_character(data_dictionary_newsmap_ru)
+    check_character(data_dictionary_newsmap_zh_cn)
+    check_character(data_dictionary_newsmap_zh_tw)
 })
 
 test_that("test that data file is created correctly", {
