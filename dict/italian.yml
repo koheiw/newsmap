@@ -246,7 +246,7 @@ EUROPE:
     'VA': [Vaticano, Città del Vaticano]
 
   WEST:
-    'AT': [Austria, Vienna, austriac()]
+    'AT': [Austria, Vienna, austriac*]
     'BE': [Belgio, Bruxelles, belg*]
     'CH': [Svizzera, Zurigo, Berna, svizzer*]
     'DE': [Germania, Berlino, Francoforte, tedesc*]
