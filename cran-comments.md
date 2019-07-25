@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Update Japanese dictionary
+Add Italian dictionary
 
 ## Test environments
 
@@ -16,4 +16,4 @@ Update Japanese dictionary
 
 ## Downstream dependencies
 
-There is no known reverse dependencies.
+There is no known reverse dependency.
