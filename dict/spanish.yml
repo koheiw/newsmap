@@ -131,7 +131,7 @@ AMERICA:
     'CA': [Canadá, Ottawa, Toronto, Quebec, canadiense*]
     'GL': [Groenlandia, Nuuk, groenland*]
     'PM': [San Pedro y Miquelón, sampedrin*, Saint Pierre]
-    'US': [Estados Unidos, EE.UU, EEUU, Washington, Nueva York, estadounidens*, estadunidens*]
+    'US': [Estados Unidos, EEUU, Washington, Nueva York, estadounidens*, estadunidens*]
 
 ASIA:
   CENTER:

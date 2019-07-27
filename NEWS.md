@@ -1,3 +1,7 @@
+# Changes in v0.6.9
+
+* Clearn up Italian, German and Spanish seed dictionaries
+
 # Changes in v0.6.8
 
 * Add Italian seed dictionary
