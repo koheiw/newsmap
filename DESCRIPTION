@@ -1,7 +1,7 @@
 Package: newsmap
 Type: Package
 Title: Semi-Supervised Model for Geographical Document Classification
-Version: 0.6.9
+Version: 0.7.0
 Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")), 
              person("Stefan", "Müller", email = "mullers@tcd.ie", role = "aut"),
              person("Dani", "Madrid-Morales", email = "dani.madrid@my.cityu.edu.hk", role = "aut"),
@@ -10,9 +10,10 @@ Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", rol
 	         person("Chung-hong", "Chan", email = "chainsawtiney@gmail.com", role = "aut"),
 	         person("Claude", "Grasland", email = "claude.grasland@parisgeo.cnrs.fr", role = "aut"),
 	         person("Giuseppe", "Carteny", email = "giuseppe.carteny@unimi.it", role = "aut"))
+	         person("Elad", "Segev", email = "eladseg@gmail.com", role = "aut"))
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
 Description: Semi-supervised model for geographical document classification (Watanabe 2018) <doi:10.1080/21670811.2017.1293487>. 
-    This package currently contains seed dictionaries in English, German, French, Spanish, Japanese, Russian and Chinese (Simplified and Traditional).
+    This package currently contains seed dictionaries in English, German, French, Spanish, Japanese, Russian, Hebrew and Chinese (Simplified and Traditional).
 License: MIT + file LICENSE
 URL: https://github.com/koheiw/newsmap
 BugReports: https://github.com/koheiw/newsmap/issues

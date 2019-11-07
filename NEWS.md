@@ -1,3 +1,7 @@
+# Changes in v0.7.0
+
+* Add Hebrew seed dictionary
+
 # Changes in v0.6.9
 
 * Clearn up Italian, German and Spanish seed dictionaries
