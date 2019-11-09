@@ -7,8 +7,8 @@ Its [online version](http://newsmap.koheiw.net) has been working since
 program automatically construct a large geographical dictionary from a
 corpus of news stories for accurate classification. Currently, the
 **newsmap** package contains seed dictionaries for *English*, *German*,
-*French*, *Spanish*, *Russian*, *Italian*, *Japanese*, *Chinese*
-documents.
+*French*, *Spanish*, *Russian*, *Italian*, *Hebrew*, *Japanese*,
+*Chinese* documents.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised
 approach to geographical news
@@ -70,7 +70,7 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
-## Package version: 1.5.1
+## Package version: 2.0.0
 ## Parallel computing: 2 of 8 threads used.
 ## See https://quanteda.io for tutorials and examples.
 ## 
@@ -106,6 +106,7 @@ toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding 
 # Japanese: data_dictionary_newsmap_ja
 # Spanish: data_dictionary_newsmap_es
 # Russian: data_dictionary_newsmap_ru
+# Italian: data_dictionary_newsmap_it
 # Simplified Chinese: data_dictionary_newsmap_zh
 # Traditional Chinese: data_dictionary_newsmap_zh_hant
 
