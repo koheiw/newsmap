@@ -35,18 +35,19 @@ test_that("test that data file is created correctly", {
     expect_equal(length(names(data_dictionary_newsmap_zh_tw)), 5)
 })
 
+
 test_that("test that dictionaries have the same countries", {
 
-    en <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_en, 3))
-    de <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_de, 3))
-    fr <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_fr, 3))
-    es <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_es, 3))
-    ja <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_ja, 3))
-    ru <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_ru, 3))
-    it <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_it, 3))
-    he <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_he, 3))
-    zh_cn <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_zh_cn, 3))
-    zh_tw <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_zh_tw, 3))
+    en <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_en))
+    de <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_de))
+    fr <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_fr))
+    es <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_es))
+    ja <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_ja))
+    ru <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_ru))
+    it <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_it))
+    he <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_he))
+    zh_cn <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_zh_cn))
+    zh_tw <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_zh_tw))
 
     expect_true(identical(en, de))
     expect_true(identical(en, fr))
