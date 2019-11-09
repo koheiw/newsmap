@@ -49,8 +49,20 @@ test_that("test French dictionary and prediction work correctly", {
     )
 })
 
+test_that("Hebrew dictionary and prediction work correctly", {
+    txt_he <- c("טקסט על אירלנד.")
+    toks_he <- tokens(txt_he)
+    label_toks_he <- tokens_lookup(toks_he, data_dictionary_newsmap_he, levels = 3)
+    label_dfm_he <- dfm(label_toks_he)
+    feat_dfm_he <- dfm(toks_he, tolower = FALSE)
+    expect_equal(
+        as.character(predict(textmodel_newsmap(feat_dfm_he, label_dfm_he))),
+        "ie"
+    )
+})
+
 test_that("Japanese dictionary and prediction work correctly", {
-    txt_ja <- c("アイルランドに関するテキスト.")
+    txt_ja <- c("アイルランドに関するテキスト。")
     toks_ja <- tokens(txt_ja)
     label_toks_ja <- tokens_lookup(toks_ja, data_dictionary_newsmap_ja, levels = 3)
     label_dfm_ja <- dfm(label_toks_ja)
