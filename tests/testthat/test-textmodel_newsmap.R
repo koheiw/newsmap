@@ -61,6 +61,18 @@ test_that("Hebrew dictionary and prediction work correctly", {
     )
 })
 
+test_that("Arabic dictionary and prediction work correctly", {
+    txt_ar <- c("هذا مقال عن ايرلندا.")
+    toks_ar <- tokens(txt_ar)
+    label_toks_ar <- tokens_lookup(toks_ar, data_dictionary_newsmap_ar, levels = 3)
+    label_dfm_ar <- dfm(label_toks_ar)
+    feat_dfm_ar <- dfm(toks_ar, tolower = FALSE)
+    expect_equal(
+        as.character(predict(textmodel_newsmap(feat_dfm_ar, label_dfm_ar))),
+        "ie"
+    )
+})
+
 test_that("Japanese dictionary and prediction work correctly", {
     txt_ja <- c("アイルランドに関するテキスト。")
     toks_ja <- tokens(txt_ja)

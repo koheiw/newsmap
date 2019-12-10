@@ -24,6 +24,9 @@ save(data_dictionary_newsmap_it, file = 'data/data_dictionary_newsmap_it.RData')
 data_dictionary_newsmap_he <- dictionary(file = 'dict/hebrew.yml')
 save(data_dictionary_newsmap_he, file = 'data/data_dictionary_newsmap_he.RData')
 
+data_dictionary_newsmap_ar <- dictionary(file = 'dict/arabic.yml')
+save(data_dictionary_newsmap_ar, file = 'data/data_dictionary_newsmap_ar.RData')
+
 data_dictionary_newsmap_zh_cn <- dictionary(file = 'dict/chinese_simplified.yml')
 save(data_dictionary_newsmap_zh_cn, file = 'data/data_dictionary_newsmap_zh_cn.RData')
 
