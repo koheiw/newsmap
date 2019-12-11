@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Add Italian dictionary
+Add Hebrew and Arabic dictionaries
 
 ## Test environments
 
