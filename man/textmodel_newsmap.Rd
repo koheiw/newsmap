@@ -5,8 +5,7 @@
 \title{Semi-supervised Bayesian multinomial model for geographical document
 classification}
 \usage{
-textmodel_newsmap(x, y, smooth = 1,
-  verbose = quanteda_options("verbose"))
+textmodel_newsmap(x, y, smooth = 1, verbose = quanteda_options("verbose"))
 }
 \arguments{
 \item{x}{dfm from which features will be extracted}

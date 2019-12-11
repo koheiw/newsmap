@@ -1,6 +1,7 @@
 require(quanteda)
 
 test_that("English dictionary and prediction work correctly", {
+
     txt_en <- c("This is an article about Ireland.")
     toks_en <- tokens(txt_en)
     label_toks_en <- tokens_lookup(toks_en, data_dictionary_newsmap_en, levels = 3)
@@ -17,6 +18,7 @@ test_that("English dictionary and prediction work correctly", {
 
 
 test_that("German dictionary and prediction work correctly", {
+
     txt_de <- c("Ein Artikel über Irland.")
     toks_de <- tokens(txt_de)
     label_toks_de <- tokens_lookup(toks_de, data_dictionary_newsmap_de, levels = 3)
@@ -33,6 +35,7 @@ test_that("German dictionary and prediction work correctly", {
 })
 
 test_that("test French dictionary and prediction work correctly", {
+
     txt_fr <- c("Ceci est un article sur l'Irlande.")
     toks_fr <- tokens(txt_fr)
     toks_fr <- tokens_split(toks_fr, "'")
@@ -50,6 +53,8 @@ test_that("test French dictionary and prediction work correctly", {
 })
 
 test_that("Hebrew dictionary and prediction work correctly", {
+
+    skip_on_travis()
     txt_he <- c("טקסט על אירלנד.")
     toks_he <- tokens(txt_he)
     label_toks_he <- tokens_lookup(toks_he, data_dictionary_newsmap_he, levels = 3)
@@ -61,7 +66,23 @@ test_that("Hebrew dictionary and prediction work correctly", {
     )
 })
 
+test_that("Arabic dictionary and prediction work correctly", {
+
+    skip_on_travis()
+    txt_ar <- c("هذا مقال عن أيرلندا.")
+    toks_ar <- tokens(txt_ar)
+    label_toks_ar <- tokens_lookup(toks_ar, data_dictionary_newsmap_ar, levels = 3)
+    label_dfm_ar <- dfm(label_toks_ar)
+    feat_dfm_ar <- dfm(toks_ar, tolower = FALSE)
+    expect_equal(
+        as.character(predict(textmodel_newsmap(feat_dfm_ar, label_dfm_ar))),
+        "ie"
+    )
+})
+
 test_that("Japanese dictionary and prediction work correctly", {
+
+    skip_on_travis()
     txt_ja <- c("アイルランドに関するテキスト。")
     toks_ja <- tokens(txt_ja)
     label_toks_ja <- tokens_lookup(toks_ja, data_dictionary_newsmap_ja, levels = 3)

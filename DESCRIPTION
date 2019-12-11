@@ -10,10 +10,11 @@ Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", rol
 	         person("Chung-hong", "Chan", email = "chainsawtiney@gmail.com", role = "aut"),
 	         person("Claude", "Grasland", email = "claude.grasland@parisgeo.cnrs.fr", role = "aut"),
 	         person("Giuseppe", "Carteny", email = "giuseppe.carteny@unimi.it", role = "aut"),
-	         person("Elad", "Segev", email = "eladseg@gmail.com", role = "aut"))
+	         person("Elad", "Segev", email = "eladseg@gmail.com", role = "aut"),
+	         person("Dai", "Yamao", email = "daiyamao@scs.kyushu-u.ac.jp", role = "aut"))
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
 Description: Semi-supervised model for geographical document classification (Watanabe 2018) <doi:10.1080/21670811.2017.1293487>. 
-    This package currently contains seed dictionaries in English, German, French, Spanish, Japanese, Russian, Hebrew and Chinese (Simplified and Traditional).
+    This package currently contains seed dictionaries in English, German, French, Spanish, Russian, Hebrew, Arabic Japanese and Chinese (Simplified and Traditional).
 License: MIT + file LICENSE
 URL: https://github.com/koheiw/newsmap
 BugReports: https://github.com/koheiw/newsmap/issues
@@ -29,4 +30,4 @@ Imports:
     stringi,
 Suggests:
     testthat,
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
