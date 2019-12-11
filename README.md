@@ -7,8 +7,8 @@ Its [online version](http://newsmap.koheiw.net) has been working since
 program automatically construct a large geographical dictionary from a
 corpus of news stories for accurate classification. Currently, the
 **newsmap** package contains seed dictionaries for *English*, *German*,
-*French*, *Spanish*, *Russian*, *Italian*, *Hebrew*, *Japanese*,
-*Chinese* documents.
+*French*, *Spanish*, *Russian*, *Italian*, *Hebrew*, *Arabic*,
+*Japanese*, *Chinese* documents.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised
 approach to geographical news
@@ -70,8 +70,8 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 library(newsmap)
 library(quanteda)
-## Package version: 2.0.0
-## Parallel computing: 2 of 8 threads used.
+## Package version: 1.9.9000
+## Parallel computing: 2 of 10 threads used.
 ## See https://quanteda.io for tutorials and examples.
 ## 
 ## Attaching package: 'quanteda'
@@ -118,18 +118,16 @@ label_dfm <- dfm(label_toks)
 feat_dfm <- dfm(toks, tolower = FALSE)
 feat_dfm <- dfm_select(feat_dfm, selection = "keep", '^[A-Z][A-Za-z1-2]+', valuetype = 'regex', case_insensitive = FALSE) # include only proper nouns to model
 feat_dfm <- dfm_trim(feat_dfm, min_count = 10)
-## Warning in dfm_trim.dfm(feat_dfm, min_count = 10): min_count is deprecated,
-## use min_termfreq
+## Warning in dfm_trim.dfm(feat_dfm, min_count = 10): min_count is deprecated, use
+## min_termfreq
 
 model <- textmodel_newsmap(feat_dfm, label_dfm)
 
 # Features with largest weights
 coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
 ## $us
-## WASHINGTON Washington         US  Americans       YORK     States 
-##  10.032215   9.497527   8.788155   8.235378   6.951880   6.286116 
-##        NYC 
-##   6.124919 
+## WASHINGTON Washington         US  Americans       YORK     States        NYC 
+##  10.032215   9.497527   8.788155   8.235378   6.951880   6.286116   6.124919 
 ## 
 ## $gb
 ##    London    LONDON   Britain Britain's        UK   British    Briton 
