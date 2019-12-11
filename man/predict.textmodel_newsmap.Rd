@@ -4,8 +4,14 @@
 \alias{predict.textmodel_newsmap}
 \title{Prediction method for textmodel_newsmap}
 \usage{
-\method{predict}{textmodel_newsmap}(object, newdata = NULL,
-  confidence.fit = FALSE, rank = 1L, type = c("top", "all"), ...)
+\method{predict}{textmodel_newsmap}(
+  object,
+  newdata = NULL,
+  confidence.fit = FALSE,
+  rank = 1L,
+  type = c("top", "all"),
+  ...
+)
 }
 \arguments{
 \item{object}{a fitted Newsmap textmodel}

@@ -62,7 +62,7 @@ test_that("Hebrew dictionary and prediction work correctly", {
 })
 
 test_that("Arabic dictionary and prediction work correctly", {
-    txt_ar <- c("هذا مقال عن ايرلندا.")
+    txt_ar <- c("هذا مقال عن أيرلندا.")
     toks_ar <- tokens(txt_ar)
     label_toks_ar <- tokens_lookup(toks_ar, data_dictionary_newsmap_ar, levels = 3)
     label_dfm_ar <- dfm(label_toks_ar)
