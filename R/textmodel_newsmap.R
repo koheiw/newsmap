@@ -35,7 +35,6 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
 
-    docvars(x) <- NULL
     x <- dfm_trim(x, min_termfreq = 1)
     y <- dfm_trim(y, min_termfreq = 1)
 
@@ -48,14 +47,14 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
                     dimnames = list(colnames(y), colnames(x)))
     if (verbose)
         cat("Training for class: ")
+    m <- colSums(x)
     for (key in sort(featnames(y))) {
         if (verbose)
             cat(key, " ", sep = "")
-        temp <- dfm_group(x, factor(as.vector(y[,key]) > 0,
-                                    levels = c('TRUE', 'FALSE')), fill = TRUE)
-        temp <- temp + smooth
-        temp <- temp / rowSums(temp) # likelihood
-        model[key,] <- as.vector(log(temp['TRUE',]) - log(temp['FALSE',])) # likelihood-ratio
+        s <- colSums(x[as.logical(y[,key] > 0),])
+        v1 <- s + smooth
+        v0 <- m - s + smooth
+        model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
     }
     if (verbose)
         cat("\n")

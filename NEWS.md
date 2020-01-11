@@ -1,3 +1,7 @@
+# Change in v0.7.1
+
+* Optimize efficiency of `textmodel_newsmap()`
+
 # Changes in v0.7.0
 
 * Add Hebrew and Arabic seed dictionaries
