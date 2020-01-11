@@ -2,9 +2,7 @@
 # Newsmap: geographical news classifier
 
 Semi-supervised Bayesian model for geographical document classification.
-Its [online version](http://newsmap.koheiw.net) has been working since
-2011. It has first been in Python, but recently implemented in R. This
-program automatically construct a large geographical dictionary from a
+Newsmap automatically constructs a large geographical dictionary from a
 corpus of news stories for accurate classification. Currently, the
 **newsmap** package contains seed dictionaries for *English*, *German*,
 *French*, *Spanish*, *Russian*, *Italian*, *Hebrew*, *Arabic*,
@@ -68,10 +66,12 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ### Train Newsmap classifier
 
 ``` r
-library(newsmap)
-library(quanteda)
-## Package version: 1.9.9000
-## Parallel computing: 2 of 10 threads used.
+require(newsmap)
+## Loading required package: newsmap
+require(quanteda)
+## Loading required package: quanteda
+## Package version: 1.9.9007
+## Parallel computing: 2 of 6 threads used.
 ## See https://quanteda.io for tutorials and examples.
 ## 
 ## Attaching package: 'quanteda'
@@ -99,29 +99,17 @@ toks <- tokens(sub_corp)
 toks <- tokens_remove(toks, stopwords('english'), valuetype = 'fixed', padding = TRUE)
 toks <- tokens_remove(toks, c(month, day, agency), valuetype = 'fixed', padding = TRUE)
 
-# Seed dictionaries supplied by this package
-# English: data_dictionary_newsmap_en
-# German: data_dictionary_newsmap_de
-# French: data_dictionary_newsmap_fr
-# Japanese: data_dictionary_newsmap_ja
-# Spanish: data_dictionary_newsmap_es
-# Russian: data_dictionary_newsmap_ru
-# Italian: data_dictionary_newsmap_it
-# Simplified Chinese: data_dictionary_newsmap_zh
-# Traditional Chinese: data_dictionary_newsmap_zh_hant
-
 # quanteda v1.5 introduced 'nested_scope' to reduce ambiguity in dictionary lookup
-label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, 
+toks_label <- tokens_lookup(toks, data_dictionary_newsmap_en, 
                             levels = 3, nested_scope = "dictionary")
-label_dfm <- dfm(label_toks)
+dfmt_label <- dfm(toks_label)
 
-feat_dfm <- dfm(toks, tolower = FALSE)
-feat_dfm <- dfm_select(feat_dfm, selection = "keep", '^[A-Z][A-Za-z1-2]+', valuetype = 'regex', case_insensitive = FALSE) # include only proper nouns to model
-feat_dfm <- dfm_trim(feat_dfm, min_count = 10)
-## Warning in dfm_trim.dfm(feat_dfm, min_count = 10): min_count is deprecated, use
-## min_termfreq
+dfmt_feat <- dfm(toks, tolower = FALSE)
+dfmt_feat <- dfm_select(dfmt_feat, selection = "keep", '^[A-Z][A-Za-z1-2]+', 
+                        valuetype = 'regex', case_insensitive = FALSE) # include only proper nouns to model
+dfmt_feat <- dfm_trim(dfmt_feat, min_termfreq = 10)
 
-model <- textmodel_newsmap(feat_dfm, label_dfm)
+model <- textmodel_newsmap(dfmt_feat, dfmt_label)
 
 # Features with largest weights
 coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
