@@ -237,7 +237,9 @@ summary.textmodel_newsmap_accuracy <- function(object, ...) {
     return(result)
 }
 
-#' Compute average feature entroy
+#' Compute average feature entropy (AFE)
+#'
+#' AFE computes randomness of occurences features in labeled documents.
 #' @param x a dfm for features
 #' @param y a dfm for labels
 #' @param smooth a numeric value for smoothing to include all the features
@@ -247,6 +249,8 @@ afe <- function(x, y, smooth = 1) {
         stop('x and y have to be dfm')
     e <- textstat_entropy(group_topics(x, y) + smooth,
                           margin = "features")
+    if (is.data.frame(e))
+        e <- e$entropy
     return(mean(e))
 }
 
