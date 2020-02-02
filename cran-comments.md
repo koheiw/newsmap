@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Add Hebrew and Arabic dictionaries
+* Address performance issues
+* Prepare changes in depedent packages
 
 ## Test environments
 
