@@ -70,7 +70,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
 #' @param newdata dfm on which prediction should be made
 #' @param confidence.fit if \code{TRUE}, likelihood ratio score will be returned
 #' @param rank rank of class to be predicted. Only used when \code{type = "top"}.
-#' @param type if \code{top}, return the most likely class specified by
+#' @param type if \code{top}, returns the most likely class specified by
 #'   \code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
 #'   possible classes
 #' @param ... not used.
@@ -99,8 +99,8 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
     if (type == 'top') {
         if (confidence.fit) {
             if (ncol(temp)) {
-                result <- list(class = apply(temp, 1, function(x) names(get_nth(x, rank))),
-                               confidence.fit = unname(apply(temp, 1, function(x) get_nth(x, rank))))
+                result <- list(class = get_nth(temp, rank, "class"),
+                               confidence.fit = unname(get_nth(temp, rank, "conf")))
             } else {
                 result$class <- rep(NA, nrow(temp))
             }
@@ -109,7 +109,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
             names(result$class) <- docnames(data)
         } else {
             if (ncol(temp)) {
-                result <- apply(temp, 1, function(x) names(get_nth(x, rank)))
+                result <- get_nth(temp, rank, "class")
             } else {
                 result <- rep(NA, nrow(temp))
             }
@@ -124,8 +124,19 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
     return(result)
 }
 
-get_nth <- function(x, rank) {
-    sort(x, decreasing = TRUE)[rank]
+get_nth <- function(x, rank, type = c("class", "conf")) {
+
+    type <- match.arg(type)
+    for (i in seq_len(rank - 1)) {
+        x <- replace(x, cbind(seq_len(nrow(x)), max.col(x)), -Inf)
+    }
+    if (type == "conf") {
+        result <- x[cbind(seq_len(nrow(x)), max.col(x))]
+    } else {
+        result <- colnames(x)[max.col(x)]
+    }
+    names(result) <- rownames(x)
+    return(result)
 }
 
 #' @noRd
