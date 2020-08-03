@@ -22,7 +22,7 @@
 
 \item{rank}{rank of class to be predicted. Only used when \code{type = "top"}.}
 
-\item{type}{if \code{top}, return the most likely class specified by
+\item{type}{if \code{top}, returns the most likely class specified by
 \code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
 possible classes}
 

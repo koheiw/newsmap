@@ -70,7 +70,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
 #' @param newdata dfm on which prediction should be made
 #' @param confidence.fit if \code{TRUE}, likelihood ratio score will be returned
 #' @param rank rank of class to be predicted. Only used when \code{type = "top"}.
-#' @param type if \code{top}, return the most likely class specified by
+#' @param type if \code{top}, returns the most likely class specified by
 #'   \code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
 #'   possible classes
 #' @param ... not used.
@@ -125,8 +125,8 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
 }
 
 get_nth <- function(x, rank, type = c("class", "conf")) {
-    type <- match.arg(type)
 
+    type <- match.arg(type)
     for (i in seq_len(rank - 1)) {
         x <- replace(x, cbind(seq_len(nrow(x)), max.col(x)), -Inf)
     }
