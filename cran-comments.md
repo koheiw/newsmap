@@ -8,10 +8,10 @@
 
 * local KDE neon User Edition 5.13, R 4.0.2
 * local Windows 10, R 4.0.2
-* Github Action Windows latest (release)
-* Github Action MacOS latest (release)
-* Github Action Linux 18.04 (release)
-* Github Action Linux 18.04 (devel)
+* Github Actions Windows latest (release)
+* Github Actions MacOS latest (release)
+* Github Actions Linux 18.04 (release)
+* Github Actions Linux 18.04 (devel)
 
 ## R CMD check results
 
