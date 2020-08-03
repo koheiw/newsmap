@@ -2,14 +2,12 @@
 
 ## Purpose
 
-* Address performance issues
-* Prepare changes in depedent packages
+* Improve package's performance
 
 ## Test environments
 
-* local KDE neon User Edition 5.13, R 3.5.2
-* local Windows 10, R 3.5
-* win-builder (devel and release)
+* local KDE neon User Edition 5.13, R 4.0.2
+* local Windows 10, R 4.0.2
 
 ## R CMD check results
 
