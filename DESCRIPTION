@@ -26,8 +26,9 @@ Depends:
 Imports:
     utils,
     Matrix,
-    quanteda (>= 1.4),
-    stringi,
+    quanteda (>= 2.1),
+    quanteda.textstats,
+    stringi
 Suggests:
     testthat,
 RoxygenNote: 7.1.1
