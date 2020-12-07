@@ -14,5 +14,5 @@ afe(x, y, smooth = 1)
 \item{smooth}{a numeric value for smoothing to include all the features}
 }
 \description{
-AFE computes randomness of occurences features in labeled documents.
+AFE computes randomness of occurrences features in labelled documents.
 }

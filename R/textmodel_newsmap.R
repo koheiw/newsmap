@@ -9,7 +9,7 @@
 #' @param y dfm in which features will be class labels
 #' @param smooth smoothing parameter for word frequency
 #' @param verbose if \code{TRUE}, show progress of training
-#' @import quanteda
+#' @importFrom quanteda is.dfm dfm_trim nfeat
 #' @references Kohei Watanabe. 2018.
 #'   "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
 #'    semi-supervised approach to geographical news classification.}"
@@ -71,12 +71,13 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
 #' @param confidence.fit if \code{TRUE}, likelihood ratio score will be returned
 #' @param rank rank of class to be predicted. Only used when \code{type = "top"}.
 #' @param type if \code{top}, returns the most likely class specified by
-#'   \code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
+#'   \code{rank}; otherwise return a matrix of likelihood ratio scores for all
 #'   possible classes
 #' @param ... not used.
 #' @method predict textmodel_newsmap
 #' @export
-#' @import quanteda methods
+#' @importFrom methods as
+#' @importFrom quanteda dfm_match dfm_weight docnames featnames quanteda_options
 predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = FALSE, rank = 1L,
                                       type = c("top", "all"), ...) {
 
@@ -193,7 +194,7 @@ print.textmodel_newsmap_summary <- function(x, ...) {
 # positive (fp), true negative (tn) and false negative (fn) cases for each
 # predicted class. It also calculates precision, recall and F1 score based on
 # these counts.
-#' @param x vercor of predicted classes
+#' @param x vector of predicted classes
 #' @param y vector of true classes
 #' @export
 #' @examples
@@ -224,9 +225,9 @@ accuracy <- function(x, y) {
     return(result)
 }
 
-#' Calcualte micro and macro average measures of accuracy
+#' Calculate micro and macro average measures of accuracy
 #'
-#' This function calculates micro-averave precision (p) and recall (r) and
+#' This function calculates micro-average precision (p) and recall (r) and
 #' macro-average precision (P) and recall (R) based on a confusion matrix from
 #' \code{accuracy()}.
 #' @param object output of accuracy()
@@ -250,10 +251,12 @@ summary.textmodel_newsmap_accuracy <- function(object, ...) {
 
 #' Compute average feature entropy (AFE)
 #'
-#' AFE computes randomness of occurences features in labeled documents.
+#' AFE computes randomness of occurrences features in labelled documents.
 #' @param x a dfm for features
 #' @param y a dfm for labels
 #' @param smooth a numeric value for smoothing to include all the features
+#' @importFrom quanteda.textstats textstat_entropy
+#' @importFrom quanteda is.dfm nfeat featnames colSums rowSums dfm_subset as.dfm
 #' @export
 afe <- function(x, y, smooth = 1) {
     if (!is.dfm(x) || !is.dfm(y))
@@ -269,9 +272,7 @@ group_topics <- function(x, y) {
     result <- matrix(NA, nrow = nfeat(y), ncol = nfeat(x),
                      dimnames = list(featnames(y), featnames(x)))
     for (i in seq_len(nfeat(y))) {
-        result[i,] <- colSums(dfm_subset(x, rowSums(y[,i]) > 0))
+        result[i, ] <- colSums(dfm_subset(x, rowSums(y[ ,i]) > 0))
     }
     return(as.dfm(result))
 }
-
-
