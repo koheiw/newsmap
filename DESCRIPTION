@@ -30,5 +30,7 @@ Imports:
     quanteda.textstats,
     stringi
 Suggests:
-    testthat,
+    testthat
+Language: en-GB
 RoxygenNote: 7.1.1
+

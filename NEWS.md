@@ -13,7 +13,7 @@
 
 # Changes in v0.6.9
 
-* Clearn up Italian, German and Spanish seed dictionaries
+* Clean up Italian, German and Spanish seed dictionaries
 
 # Changes in v0.6.8
 
@@ -46,7 +46,7 @@
 ## Bug fixes
 
 * Fix error in textmodel_newsmap() when smooth is < 1.0
-* Fitted models no longer include classes that did not occure in training set
+* Fitted models no longer include classes that did not occur in training set
 
 # Changes in v0.4.6
 

@@ -71,7 +71,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
 #' @param confidence.fit if \code{TRUE}, likelihood ratio score will be returned
 #' @param rank rank of class to be predicted. Only used when \code{type = "top"}.
 #' @param type if \code{top}, returns the most likely class specified by
-#'   \code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
+#'   \code{rank}; otherwise return a matrix of likelihood ratio scores for all
 #'   possible classes
 #' @param ... not used.
 #' @method predict textmodel_newsmap
@@ -194,7 +194,7 @@ print.textmodel_newsmap_summary <- function(x, ...) {
 # positive (fp), true negative (tn) and false negative (fn) cases for each
 # predicted class. It also calculates precision, recall and F1 score based on
 # these counts.
-#' @param x vercor of predicted classes
+#' @param x vector of predicted classes
 #' @param y vector of true classes
 #' @export
 #' @examples
@@ -225,9 +225,9 @@ accuracy <- function(x, y) {
     return(result)
 }
 
-#' Calcualte micro and macro average measures of accuracy
+#' Calculate micro and macro average measures of accuracy
 #'
-#' This function calculates micro-averave precision (p) and recall (r) and
+#' This function calculates micro-average precision (p) and recall (r) and
 #' macro-average precision (P) and recall (R) based on a confusion matrix from
 #' \code{accuracy()}.
 #' @param object output of accuracy()
@@ -251,7 +251,7 @@ summary.textmodel_newsmap_accuracy <- function(object, ...) {
 
 #' Compute average feature entropy (AFE)
 #'
-#' AFE computes randomness of occurences features in labeled documents.
+#' AFE computes randomness of occurrences features in labelled documents.
 #' @param x a dfm for features
 #' @param y a dfm for labels
 #' @param smooth a numeric value for smoothing to include all the features
