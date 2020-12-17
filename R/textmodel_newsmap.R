@@ -8,12 +8,12 @@
 #' @param x dfm from which features will be extracted
 #' @param y dfm in which features will be class labels
 #' @param smooth smoothing parameter for word frequency
-#' @param verbose if \code{TRUE}, show progress of training
+#' @param verbose if `TRUE`, show progress of training
 #' @importFrom quanteda is.dfm dfm_trim nfeat
 #' @references Kohei Watanabe. 2018.
-#'   "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
-#'    semi-supervised approach to geographical news classification.}"
-#'   \emph{Digital Journalism} 6(3): 294-309.
+#'   "[Newsmap:
+#'    semi-supervised approach to geographical news classification.](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full)"
+#'   *Digital Journalism* 6(3): 294-309.
 #' @export
 #' @examples
 #' require(quanteda)
@@ -68,10 +68,10 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
 #' Predict document class using trained a Newsmap model
 #' @param object a fitted Newsmap textmodel
 #' @param newdata dfm on which prediction should be made
-#' @param confidence.fit if \code{TRUE}, likelihood ratio score will be returned
-#' @param rank rank of class to be predicted. Only used when \code{type = "top"}.
-#' @param type if \code{top}, returns the most likely class specified by
-#'   \code{rank}; otherwise return a matrix of likelihood ratio scores for all
+#' @param confidence.fit if `TRUE`, likelihood ratio score will be returned
+#' @param rank rank of class to be predicted. Only used when `type = "top"`.
+#' @param type if `top`, returns the most likely class specified by
+#'   `rank`; otherwise return a matrix of likelihood ratio scores for all
 #'   possible classes
 #' @param ... not used.
 #' @method predict textmodel_newsmap
@@ -229,7 +229,7 @@ accuracy <- function(x, y) {
 #'
 #' This function calculates micro-average precision (p) and recall (r) and
 #' macro-average precision (P) and recall (R) based on a confusion matrix from
-#' \code{accuracy()}.
+#' `accuracy()`.
 #' @param object output of accuracy()
 #' @param ... not used.
 #' @method summary textmodel_newsmap_accuracy

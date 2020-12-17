@@ -40,7 +40,6 @@ predict(model_en)
 }
 \references{
 Kohei Watanabe. 2018.
-  "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
-   semi-supervised approach to geographical news classification.}"
-  \emph{Digital Journalism} 6(3): 294-309.
+"\href{https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap: semi-supervised approach to geographical news classification.}"
+\emph{Digital Journalism} 6(3): 294-309.
 }
