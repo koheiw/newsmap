@@ -2,7 +2,7 @@
 
 ## Purpose
 
-* Improve package's performance
+- Update to reflect new modular structure of quanteda + quanteda.textstats
 
 ## Test environments
 
