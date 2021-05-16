@@ -8,12 +8,12 @@
 #' @param x dfm from which features will be extracted
 #' @param y dfm in which features will be class labels
 #' @param smooth smoothing parameter for word frequency
-#' @param verbose if \code{TRUE}, show progress of training
-#' @import quanteda
+#' @param verbose if `TRUE`, show progress of training
+#' @importFrom quanteda is.dfm dfm_trim nfeat
 #' @references Kohei Watanabe. 2018.
-#'   "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
-#'    semi-supervised approach to geographical news classification.}"
-#'   \emph{Digital Journalism} 6(3): 294-309.
+#'   "[Newsmap:
+#'    semi-supervised approach to geographical news classification.](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full)"
+#'   *Digital Journalism* 6(3): 294-309.
 #' @export
 #' @examples
 #' require(quanteda)
@@ -33,7 +33,7 @@
 textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
-        stop('x and y have to be dfms')
+        stop('x and y have to be dfm')
 
     label <- featnames(y)
     x <- dfm_trim(x, min_termfreq = 1)
@@ -48,14 +48,14 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
                     dimnames = list(colnames(y), colnames(x)))
     if (verbose)
         cat("Training for class: ")
+    m <- colSums(x)
     for (key in sort(featnames(y))) {
         if (verbose)
             cat(key, " ", sep = "")
-        temp <- dfm_group(x, factor(as.vector(y[,key]) > 0,
-                                    levels = c('TRUE', 'FALSE')), fill = TRUE)
-        temp <- temp + smooth
-        temp <- temp / rowSums(temp) # likelihood
-        model[key,] <- as.vector(log(temp['TRUE',]) - log(temp['FALSE',])) # likelihood-ratio
+        s <- colSums(x[as.logical(y[,key] > 0),])
+        v1 <- s + smooth
+        v0 <- m - s + smooth
+        model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
     }
     if (verbose)
         cat("\n")
@@ -70,15 +70,16 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
 #' Predict document class using trained a Newsmap model
 #' @param object a fitted Newsmap textmodel
 #' @param newdata dfm on which prediction should be made
-#' @param confidence.fit if \code{TRUE}, likelihood ratio score will be returned
-#' @param rank rank of class to be predicted. Only used when \code{type = "top"}.
-#' @param type if \code{top}, return the most likely class specified by
-#'   \code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
+#' @param confidence.fit if `TRUE`, likelihood ratio score will be returned
+#' @param rank rank of class to be predicted. Only used when `type = "top"`.
+#' @param type if `top`, returns the most likely class specified by
+#'   `rank`; otherwise return a matrix of likelihood ratio scores for all
 #'   possible classes
 #' @param ... not used.
 #' @method predict textmodel_newsmap
 #' @export
-#' @import quanteda methods
+#' @importFrom methods as
+#' @importFrom quanteda dfm_match dfm_weight docnames featnames quanteda_options
 predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = FALSE, rank = 1L,
                                       type = c("top", "all"), ...) {
 
@@ -98,34 +99,54 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
         # for backward compatibility
         label <- rownames(model)
     }
-    data <- dfm_select(data, as.dfm(model))
+    data <- dfm_match(data, colnames(model))
     data <- dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
+
+    is_empty <- rowSums(data) == 0
 
     if (type == 'top') {
         if (confidence.fit) {
             if (ncol(temp)) {
-                result <- list(class = apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank]),
-                               confidence.fit = unname(apply(temp, 1, function(x) sort(x, decreasing = TRUE)[rank])))
+                result <- list(class = get_nth(temp, rank, "class"),
+                               confidence.fit = unname(get_nth(temp, rank, "conf")))
             } else {
                 result$class <- rep(NA, nrow(temp))
             }
+            result$class[is_empty] <- NA
+            result$confidence.fit[is_empty] <- NA
             names(result$class) <- docnames(data)
             result$class <- factor(result$class, levels = label)
         } else {
             if (ncol(temp)) {
-                result <- apply(temp, 1, function(x) names(sort(x, decreasing = TRUE))[rank])
+                result <- get_nth(temp, rank, "class")
             } else {
                 result <- rep(NA, nrow(temp))
             }
+            result[is_empty] <- NA
             names(result) <- docnames(data)
             result <- factor(result, levels = label)
         }
     } else {
-        result <- temp[,!apply(temp, 2, function(x) all(x == 0)),drop = FALSE] # remove if all words are zero
+        result <- temp
+        result[is_empty,] <- NA
         rownames(result) <- docnames(data)
     }
+    return(result)
+}
 
+get_nth <- function(x, rank, type = c("class", "conf")) {
+
+    type <- match.arg(type)
+    for (i in seq_len(rank - 1)) {
+        x <- replace(x, cbind(seq_len(nrow(x)), max.col(x)), -Inf)
+    }
+    if (type == "conf") {
+        result <- x[cbind(seq_len(nrow(x)), max.col(x))]
+    } else {
+        result <- colnames(x)[max.col(x)]
+    }
+    names(result) <- rownames(x)
     return(result)
 }
 
@@ -183,7 +204,7 @@ print.textmodel_newsmap_summary <- function(x, ...) {
 # positive (fp), true negative (tn) and false negative (fn) cases for each
 # predicted class. It also calculates precision, recall and F1 score based on
 # these counts.
-#' @param x vercor of predicted classes
+#' @param x vector of predicted classes
 #' @param y vector of true classes
 #' @export
 #' @examples
@@ -214,11 +235,11 @@ accuracy <- function(x, y) {
     return(result)
 }
 
-#' Calcualte micro and macro average measures of accuracy
+#' Calculate micro and macro average measures of accuracy
 #'
-#' This function calculates micro-averave precision (p) and recall (r) and
+#' This function calculates micro-average precision (p) and recall (r) and
 #' macro-average precision (P) and recall (R) based on a confusion matrix from
-#' \code{accuracy()}.
+#' `accuracy()`.
 #' @param object output of accuracy()
 #' @param ... not used.
 #' @method summary textmodel_newsmap_accuracy
@@ -238,3 +259,30 @@ summary.textmodel_newsmap_accuracy <- function(object, ...) {
     return(result)
 }
 
+#' Compute average feature entropy (AFE)
+#'
+#' AFE computes randomness of occurrences features in labelled documents.
+#' @param x a dfm for features
+#' @param y a dfm for labels
+#' @param smooth a numeric value for smoothing to include all the features
+#' @importFrom quanteda.textstats textstat_entropy
+#' @importFrom quanteda is.dfm nfeat featnames colSums rowSums dfm_subset as.dfm
+#' @export
+afe <- function(x, y, smooth = 1) {
+    if (!is.dfm(x) || !is.dfm(y))
+        stop('x and y have to be dfm')
+    e <- textstat_entropy(group_topics(x, y) + smooth,
+                          margin = "features")
+    if (is.data.frame(e))
+        e <- e$entropy
+    return(mean(e))
+}
+
+group_topics <- function(x, y) {
+    result <- matrix(NA, nrow = nfeat(y), ncol = nfeat(x),
+                     dimnames = list(featnames(y), featnames(x)))
+    for (i in seq_len(nfeat(y))) {
+        result[i, ] <- colSums(dfm_subset(x, rowSums(y[ ,i]) > 0))
+    }
+    return(as.dfm(result))
+}

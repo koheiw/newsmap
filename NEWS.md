@@ -1,32 +1,67 @@
-# Changes since newsmap v0.6
-
-### New data
+# Changen in v0.7.3
 
 * Change predicted values to factor with all training labels
-* Add Chinese seed dictionary
 
-# Changes since newsmap v0.5
+# Change in v0.7.2
 
-### Bug fixes
+* Significantly improve speed of `predict()`
+
+# Change in v0.7.1
+
+* Improve efficiency of `textmodel_newsmap()`
+* Add compatibility with newer `textstat_entropy()`
+
+# Changes in v0.7.0
+
+* Add Hebrew and Arabic seed dictionaries
+
+# Changes in v0.6.9
+
+* Clean up Italian, German and Spanish seed dictionaries
+
+# Changes in v0.6.8
+
+* Add Italian seed dictionary
+
+# Changes in v0.6.7
+
+## Dictionary updates
+
+* Correct Japanese seed words for DE, MG and EC 
+
+# Changes in v0.6.4
+
+## Bug fixes
+
+* Return NA for documents that do not have known features 
+* Drop document variables to avoid slowdown and warnings
+
+## New data
+
+* Add Chinese (simplified and traditional) seed dictionaries
+* Add French seed dictionary
+
+## New function
+
+* Add a function to compute average feature entropy (AFE)
+
+# Changes in v0.6.0  
+
+## Bug fixes
 
 * Fix error in textmodel_newsmap() when smooth is < 1.0
-* Fitted models no longer include classes that did not occure in training set
+* Fitted models no longer include classes that did not occur in training set
 
-# Changes since newsmap v0.4.5
+# Changes in v0.4.6
 
-### New functions
+## New functions
 
 * Add coef() and coefficients() methods
 
-### Changes in dictionary
+## Dictionary updates
 
 * Add Russian language seed dictionary
 * Correct Cook Islands' country code from CC to CK, and remove it from POL
-
-# Changes since newsmap v0.4.3
-
-### Changes in dictionary
-
 * De facto capital cities of TZ, ZA, NG and BO are added to all dictionaries
 * CC is added to DE, JA and EN dictionaries
 * Dictionary entries are sorted in alphabetical order of country code

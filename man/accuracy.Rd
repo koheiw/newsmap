@@ -7,7 +7,7 @@
 accuracy(x, y)
 }
 \arguments{
-\item{x}{vercor of predicted classes}
+\item{x}{vector of predicted classes}
 
 \item{y}{vector of true classes}
 }

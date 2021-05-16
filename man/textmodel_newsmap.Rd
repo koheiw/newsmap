@@ -5,8 +5,7 @@
 \title{Semi-supervised Bayesian multinomial model for geographical document
 classification}
 \usage{
-textmodel_newsmap(x, y, smooth = 1,
-  verbose = quanteda_options("verbose"))
+textmodel_newsmap(x, y, smooth = 1, verbose = quanteda_options("verbose"))
 }
 \arguments{
 \item{x}{dfm from which features will be extracted}
@@ -41,7 +40,6 @@ predict(model_en)
 }
 \references{
 Kohei Watanabe. 2018.
-  "\href{http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap:
-   semi-supervised approach to geographical news classification.}"
-  \emph{Digital Journalism} 6(3): 294-309.
+"\href{https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap: semi-supervised approach to geographical news classification.}"
+\emph{Digital Journalism} 6(3): 294-309.
 }

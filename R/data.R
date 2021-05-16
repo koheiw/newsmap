@@ -22,6 +22,14 @@ NULL
 #' @keywords data
 NULL
 
+#' Seed geographical dictionary in French
+#'
+#' @name data_dictionary_newsmap_fr
+#' @docType data
+#' @author Claude Grasland \email{claude.grasland@parisgeo.cnrs.fr}
+#' @keywords data
+NULL
+
 #' Seed geographical dictionary in Spanish
 #'
 #' @name data_dictionary_newsmap_es
@@ -38,10 +46,42 @@ NULL
 #' @keywords data
 NULL
 
+#' Seed geographical dictionary in Italian
+#'
+#' @name data_dictionary_newsmap_it
+#' @docType data
+#' @author Giuseppe Carteny \email{giuseppe.carteny@unimi.it}
+#' @keywords data
+NULL
+
+#' Seed geographical dictionary in Hebrew
+#'
+#' @name data_dictionary_newsmap_he
+#' @docType data
+#' @author Elad Segev \email{eladseg@gmail.com}
+#' @keywords data
+NULL
+
+#' Seed geographical dictionary in Arabic
+#'
+#' @name data_dictionary_newsmap_ar
+#' @docType data
+#' @author Dai Yamao \email{daiyamao@scs.kyushu-u.ac.jp}
+#' @keywords data
+NULL
+
 #' Seed geographical dictionary in Chinese (simplified)
 #'
-#' @name data_dictionary_newsmap_zh
+#' @name data_dictionary_newsmap_zh_cn
 #' @docType data
 #' @author Ke Cheng \email{kecheng.ac@gmail.com}
+#' @keywords data
+NULL
+
+#' Seed geographical dictionary in Chinese (traditional)
+#'
+#' @name data_dictionary_newsmap_zh_tw
+#' @docType data
+#' @author Chung-hong Chan \email{chainsawtiney@gmail.com}
 #' @keywords data
 NULL

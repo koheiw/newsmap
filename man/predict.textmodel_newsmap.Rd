@@ -4,8 +4,14 @@
 \alias{predict.textmodel_newsmap}
 \title{Prediction method for textmodel_newsmap}
 \usage{
-\method{predict}{textmodel_newsmap}(object, newdata = NULL,
-  confidence.fit = FALSE, rank = 1L, type = c("top", "all"), ...)
+\method{predict}{textmodel_newsmap}(
+  object,
+  newdata = NULL,
+  confidence.fit = FALSE,
+  rank = 1L,
+  type = c("top", "all"),
+  ...
+)
 }
 \arguments{
 \item{object}{a fitted Newsmap textmodel}
@@ -16,8 +22,8 @@
 
 \item{rank}{rank of class to be predicted. Only used when \code{type = "top"}.}
 
-\item{type}{if \code{top}, return the most likely class specified by
-\code{rank}; otherswise return a matrix of lilelyhood ratio scores for all
+\item{type}{if \code{top}, returns the most likely class specified by
+\code{rank}; otherwise return a matrix of likelihood ratio scores for all
 possible classes}
 
 \item{...}{not used.}
