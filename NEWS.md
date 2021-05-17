@@ -1,12 +1,13 @@
-# Changen in v0.7.3
+# Changens in v0.7.3
 
-* Change predicted values to factor with all training labels
+* Update tests for quanteda v3.0
+* Change predicted values to factor with all labels in training data
 
-# Change in v0.7.2
+# Changes in v0.7.2
 
-* Significantly improve speed of `predict()`
+* Make `predict()` significantly faster
 
-# Change in v0.7.1
+# Changes in v0.7.1
 
 * Improve efficiency of `textmodel_newsmap()`
 * Add compatibility with newer `textstat_entropy()`
