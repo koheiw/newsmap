@@ -35,7 +35,6 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
 
-    label <- featnames(y)
     x <- dfm_trim(x, min_termfreq = 1)
     y <- dfm_trim(y, min_termfreq = 1)
 
@@ -59,9 +58,8 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     }
     if (verbose)
         cat("\n")
-    # save label saprately to keep model compact without NA
     result <- list(model = model, data = x,
-                   feature = colnames(model), label = label)
+                   feature = colnames(model))
     class(result) <- "textmodel_newsmap"
     return(result)
 }
@@ -94,12 +92,6 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
         data <- newdata
     }
     model <- object$model
-    if ("label" %in% names(object)) {
-        label <- object$label
-    } else {
-        # for backward compatibility
-        label <- rownames(model)
-    }
     data <- dfm_match(data, colnames(model))
     data <- dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
@@ -117,7 +109,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
             result$class[is_empty] <- NA
             result$confidence.fit[is_empty] <- NA
             names(result$class) <- docnames(data)
-            result$class <- factor(result$class, levels = label)
+            result$class <- factor(result$class, levels = rownames(model))
         } else {
             if (ncol(temp)) {
                 result <- get_nth(temp, rank, "class")
@@ -126,7 +118,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
             }
             result[is_empty] <- NA
             names(result) <- docnames(data)
-            result <- factor(result, levels = label)
+            result <- factor(result, levels = rownames(model))
         }
     } else {
         result <- temp

@@ -12,7 +12,7 @@ test_that("English dictionary and prediction work correctly", {
                              valuetype = 'regex', case_insensitive = FALSE)
     expect_equal(
         predict(textmodel_newsmap(feat_dfm_en, label_dfm_en)),
-        factor(c(text1 = "ie"), levels = colnames(label_dfm_en))
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -30,7 +30,7 @@ test_that("German dictionary and prediction work correctly", {
 
     expect_equal(
         predict(textmodel_newsmap(feat_dfm_de, label_dfm_de)),
-        factor(c(text1 = "ie"), levels = colnames(label_dfm_de))
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -47,8 +47,8 @@ test_that("test French dictionary and prediction work correctly", {
                    valuetype = 'regex', case_insensitive = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_fr, label_dfm_fr))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_fr, label_dfm_fr)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -60,9 +60,10 @@ test_that("Hebrew dictionary and prediction work correctly", {
     label_toks_he <- tokens_lookup(toks_he, data_dictionary_newsmap_he, levels = 3)
     label_dfm_he <- dfm(label_toks_he)
     feat_dfm_he <- dfm(toks_he, tolower = FALSE)
+
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_he, label_dfm_he))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_he, label_dfm_he)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -74,9 +75,10 @@ test_that("Arabic dictionary and prediction work correctly", {
     label_toks_ar <- tokens_lookup(toks_ar, data_dictionary_newsmap_ar, levels = 3)
     label_dfm_ar <- dfm(label_toks_ar)
     feat_dfm_ar <- dfm(toks_ar, tolower = FALSE)
+
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_ar, label_dfm_ar))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_ar, label_dfm_ar)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -93,7 +95,7 @@ test_that("Japanese dictionary and prediction work correctly", {
 
     expect_equal(
         predict(textmodel_newsmap(feat_dfm_ja, label_dfm_ja)),
-        factor(c(text1 = "ie"), levels = colnames(label_dfm_ja))
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -107,8 +109,8 @@ test_that("Traditional Chinese dictionary and prediction work correctly", {
     feat_dfm_zh_tw <- dfm(toks_zh_tw, tolower = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_zh_tw, label_dfm_zh_tw))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_zh_tw, label_dfm_zh_tw)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -123,8 +125,8 @@ test_that("Simplified Chinese dictionary and prediction work correctly", {
     feat_dfm_zh_cn <- dfm(toks_zh_cn, tolower = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_zh_cn, label_dfm_zh_cn))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_zh_cn, label_dfm_zh_cn)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -152,9 +154,9 @@ test_that("methods for textmodel_newsmap works correctly", {
 
     # rank argument is working
     expect_equal(unname(predict(map)),
-                 factor(c("ie", "in", "ie", "ie"), levels = colnames(label_dfm)))
+                 factor(c("ie", "in", "ie", "ie"), levels = c("in", "ie")))
     expect_equal(unname(predict(map, rank = 2)),
-                 factor(c("in", "ie", "in", "in"), levels = colnames(label_dfm)))
+                 factor(c("in", "ie", "in", "in"), levels = c("in", "ie")))
     expect_error(predict(map, rank = 0))
 
     # different prediction outputs agree
