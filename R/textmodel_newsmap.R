@@ -59,6 +59,7 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     }
     if (verbose)
         cat("\n")
+    # save label saprately to keep model compact without NA
     result <- list(model = model, data = x,
                    feature = colnames(model), label = label)
     class(result) <- "textmodel_newsmap"
