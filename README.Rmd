@@ -54,10 +54,10 @@ require(newsmap)
 require(quanteda)
 
 # Load data
-data <- readRDS('~/yahoo-news.RDS')
-data$text <- paste0(data$head, ". ", data$body)
-data$body <- NULL
-corp <- corpus(data, text_field = 'text')
+dat <- readRDS('~/yahoo-news.RDS')
+dat$text <- paste0(dat$head, ". ", dat$body)
+dat$body <- NULL
+corp <- corpus(dat, text_field = 'text')
 
 # Custom stopwords
 month <- c('January', 'February', 'March', 'April', 'May', 'June',
@@ -92,7 +92,7 @@ coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
 ### Predict geographical focus of texts 
 
 ```{r}
-pred_data <- data.frame(text = texts(sub_corp), country = predict(model))
+pred_data <- data.frame(text = as.character(sub_corp), country = predict(model))
 ```
 
 ```{r echo=FALSE}
