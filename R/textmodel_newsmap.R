@@ -58,7 +58,8 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     }
     if (verbose)
         cat("\n")
-    result <- list(model = model, data = x, feature = colnames(model))
+    result <- list(model = model, data = x,
+                   feature = colnames(model))
     class(result) <- "textmodel_newsmap"
     return(result)
 }
@@ -108,6 +109,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
             result$class[is_empty] <- NA
             result$confidence.fit[is_empty] <- NA
             names(result$class) <- docnames(data)
+            result$class <- factor(result$class, levels = rownames(model))
         } else {
             if (ncol(temp)) {
                 result <- get_nth(temp, rank, "class")
@@ -116,6 +118,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
             }
             result[is_empty] <- NA
             names(result) <- docnames(data)
+            result <- factor(result, levels = rownames(model))
         }
     } else {
         result <- temp

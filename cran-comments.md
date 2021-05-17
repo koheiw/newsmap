@@ -2,7 +2,7 @@
 
 ## Purpose
 
-- Update to reflect new modular structure of quanteda + quanteda.textstats
+- Change the object type of predicted values
 
 ## Test environments
 
@@ -20,3 +20,4 @@
 ## Downstream dependencies
 
 There is no known reverse dependency.
+

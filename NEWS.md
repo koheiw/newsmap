@@ -1,3 +1,7 @@
+# Changen in v0.7.3
+
+* Change predicted values to factor with all training labels
+
 # Change in v0.7.2
 
 * Significantly improve speed of `predict()`
