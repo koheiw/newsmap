@@ -58,8 +58,10 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     }
     if (verbose)
         cat("\n")
-    result <- list(model = model, data = x,
-                   feature = colnames(model))
+    result <- list(model = model,
+                   data = x,
+                   feature = colnames(model),
+                   call = match.call())
     class(result) <- "textmodel_newsmap"
     return(result)
 }

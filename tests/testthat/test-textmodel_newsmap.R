@@ -165,6 +165,17 @@ test_that("methods for textmodel_newsmap works correctly", {
     expect_equivalent(pred_top$confidence.fit, apply(pred_all, 1, max))
     expect_equivalent(pred_top$confidence.fit[1], pred_top$confidence.fit[3])
 
+    # print
+    expect_output(
+        print(map),
+        paste0('\n',
+               'Call:\n',
+               'textmodel_newsmap(x = feat_dfm, y = label_dfm)\n',
+               '\n',
+               'Labels:\n',
+               '[1] "in" "ie"'), fixed = TRUE
+    )
+
 })
 
 test_that("textmodel_newsmap() raises error if dfm is empty", {
