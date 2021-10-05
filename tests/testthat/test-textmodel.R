@@ -168,12 +168,22 @@ test_that("methods for textmodel_newsmap works correctly", {
     # print
     expect_output(
         print(map),
-        paste0('\n',
-               'Call:\n',
-               'textmodel_newsmap(x = feat_dfm, y = label_dfm)\n',
+        paste0('(\n)',
+               'Call:(\n)',
+               'textmodel_newsmap\\(.*\\)(\n)')
+    )
+
+    expect_output(
+        print(summary(map)),
+        paste0('(\n)',
+               'Call:(\n)',
+               'textmodel_newsmap\\(.*\\)(\n)',
                '\n',
-               'Labels:\n',
-               '[1] "in" "ie"'), fixed = TRUE
+               'Labels:(\n)',
+               '\\[1\\] "in" "ie"(\n)',
+               '(\n)',
+               'Data Dimension:(\n)',
+               '\\[1\\] 4 7(\n)')
     )
 
 })

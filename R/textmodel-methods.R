@@ -22,8 +22,8 @@ print.summary.textmodel <- function(x, digits = max(3L, getOption("digits") - 3L
         } else {
             print(x[[i]], digits = digits)
         }
-
     }
+    cat("\n")
 }
 
 #' Assign the summary.textmodel class to a list
