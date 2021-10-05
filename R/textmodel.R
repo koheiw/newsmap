@@ -58,8 +58,10 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
     }
     if (verbose)
         cat("\n")
-    result <- list(model = model, data = x,
-                   feature = colnames(model))
+    result <- list(model = model,
+                   data = x,
+                   feature = colnames(model),
+                   call = match.call())
     class(result) <- "textmodel_newsmap"
     return(result)
 }
@@ -147,11 +149,13 @@ get_nth <- function(x, rank, type = c("class", "conf")) {
 #' @method summary textmodel_newsmap
 #' @export
 summary.textmodel_newsmap <- function(object, n = 10, ...) {
-    result <- list(classes = utils::head(rownames(object$model), n),
-                   features = utils::head(colnames(object$model), n),
-                   documents = utils::head(rownames(object$data), n))
-    class(result) <- 'textmodel_newsmap_summary'
-    return(result)
+    result <- list(
+        "call" = object$call,
+        "labels" = rownames(object$model)
+    )
+    if (!is.null(object$data))
+        result$data.dimension <- dim(object$data)
+    as.summary.textmodel(result)
 }
 
 #' @noRd
