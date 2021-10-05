@@ -1,7 +1,13 @@
-# Changens in v0.7.3
+
+* Add `print()` methods for fitted models
+
+# Changens in v0.7.4
+
+* Change predicted values to factor with all labels in training data
+
+# Changes in v0.7.3
 
 * Update tests for quanteda v3.0
-* Change predicted values to factor with all labels in training data
 
 # Changes in v0.7.2
 
@@ -50,14 +56,14 @@
 
 ## Bug fixes
 
-* Fix error in textmodel_newsmap() when smooth is < 1.0
+* Fix error in `textmodel_newsmap()` when smooth is < 1.0
 * Fitted models no longer include classes that did not occur in training set
 
 # Changes in v0.4.6
 
 ## New functions
 
-* Add coef() and coefficients() methods
+* Add `coef()` and `coefficients()` methods
 
 ## Dictionary updates
 
