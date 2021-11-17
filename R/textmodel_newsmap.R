@@ -30,13 +30,15 @@
 #' predict(model_en)
 #'
 #'
-textmodel_newsmap <- function(x, y, smooth = 1, measure = c("likelihood", "entropy"),
+textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"), smooth = 0.001,
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
 
     measure <- match.arg(measure)
+    if (smooth >= 1.0)
+        warning("The value of smooth should be fractional after v0.8.0. See the manual for the detail.")
 
     x <- dfm_trim(x, min_termfreq = 1)
     y <- dfm_trim(y, min_termfreq = 1)
@@ -57,9 +59,9 @@ textmodel_newsmap <- function(x, y, smooth = 1, measure = c("likelihood", "entro
             if (verbose)
                 cat(key, " ", sep = "")
             s <- colSums(x[as.logical(y[,key] > 0),])
-            v1 <- s# + smooth
-            v0 <- m - s# + smooth
-            model[key,] <- log(v1 / sum(v1) + 0.001) - log(v0 / sum(v0) + 0.001) # log-likelihood ratio
+            v1 <- s
+            v0 <- m - s
+            model[key,] <- log(v1 / sum(v1) + smooth) - log(v0 / sum(v0) + smooth) # log-likelihood ratio
         }
     } else {
         e0 <- get_entropy(group_topics(x, y))
@@ -67,12 +69,15 @@ textmodel_newsmap <- function(x, y, smooth = 1, measure = c("likelihood", "entro
             if (verbose)
                 cat(key, " ", sep = "")
             e1 <- get_entropy(x[as.logical(y[,key] > 0),])
-            model[key,] <- log(e1 + 0.001) - log(e0 + 0.001) # log-entropy ratio
+            model[key,] <- log(e1 + smooth) - log(e0 + smooth) # log-entropy ratio
         }
     }
     if (verbose)
         cat("\n")
-    result <- list(model = model, data = x, feature = colnames(model))
+    result <- list(model = model,
+                   measure = measure,
+                   data = x,
+                   feature = colnames(model))
     class(result) <- "textmodel_newsmap"
     return(result)
 }
