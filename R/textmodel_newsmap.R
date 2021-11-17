@@ -107,7 +107,6 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
     data <- dfm_match(data, colnames(model))
     data <- dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
-    browser()
     is_empty <- rowSums(data) == 0
 
     if (type == 'top') {
