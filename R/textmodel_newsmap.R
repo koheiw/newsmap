@@ -30,10 +30,13 @@
 #' predict(model_en)
 #'
 #'
-textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verbose')) {
+textmodel_newsmap <- function(x, y, smooth = 1, measure = c("likelihood", "entropy"),
+                              verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
+
+    measure <- match.arg(measure)
 
     x <- dfm_trim(x, min_termfreq = 1)
     y <- dfm_trim(y, min_termfreq = 1)
@@ -47,14 +50,25 @@ textmodel_newsmap <- function(x, y, smooth = 1, verbose = quanteda_options('verb
                     dimnames = list(colnames(y), colnames(x)))
     if (verbose)
         cat("Training for class: ")
-    m <- colSums(x)
-    for (key in sort(featnames(y))) {
-        if (verbose)
-            cat(key, " ", sep = "")
-        s <- colSums(x[as.logical(y[,key] > 0),])
-        v1 <- s + smooth
-        v0 <- m - s + smooth
-        model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
+
+    if (measure == "likelihood") {
+        m <- colSums(x)
+        for (key in sort(featnames(y))) {
+            if (verbose)
+                cat(key, " ", sep = "")
+            s <- colSums(x[as.logical(y[,key] > 0),])
+            v1 <- s# + smooth
+            v0 <- m - s# + smooth
+            model[key,] <- log(v1 / sum(v1) + 0.001) - log(v0 / sum(v0) + 0.001) # log-likelihood ratio
+        }
+    } else {
+        e0 <- get_entropy(group_topics(x, y))
+        for (key in sort(featnames(y))) {
+            if (verbose)
+                cat(key, " ", sep = "")
+            e1 <- get_entropy(x[as.logical(y[,key] > 0),])
+            model[key,] <- log(e1 + 0.001) - log(e0 + 0.001) # log-entropy ratio
+        }
     }
     if (verbose)
         cat("\n")
@@ -93,7 +107,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
     data <- dfm_match(data, colnames(model))
     data <- dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
-
+    browser()
     is_empty <- rowSums(data) == 0
 
     if (type == 'top') {
@@ -258,8 +272,7 @@ summary.textmodel_newsmap_accuracy <- function(object, ...) {
 afe <- function(x, y, smooth = 1) {
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
-    e <- textstat_entropy(group_topics(x, y) + smooth,
-                          margin = "features")
+    e <- get_entropy(group_topics(x, y) + smooth)
     if (is.data.frame(e))
         e <- e$entropy
     return(mean(e))
@@ -274,4 +287,13 @@ group_topics <- function(x, y) {
     return(as.dfm(result))
 }
 
+get_entropy <- function(x, base = 2) {
 
+    x <- t(x)
+    x <- dfm_weight(x, "prop")
+    x <- as(x, "dgTMatrix")
+    result <- unlist(lapply(split(x@x, factor(x@i + 1L, levels = seq_len(nrow(x)))),
+                       function(y) sum(y * log(y, base)) * -1), use.names = FALSE)
+    names(result) <- rownames(x)
+    return(result)
+}
