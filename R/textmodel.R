@@ -30,15 +30,15 @@
 #' predict(model_en)
 #'
 #'
-textmodel_newsmap <- function(x, y, measure = c("old", "likelihood", "entropy"), smooth = 0.001,
+textmodel_newsmap <- function(x, y, measure = c("old", "likelihood", "entropy"), smooth = 1.0,
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
 
     measure <- match.arg(measure)
-    if (smooth >= 1.0)
-        warning("The value of smooth should be fractional after v0.8.0. See the manual for the detail.")
+    #if (smooth >= 1.0)
+    #    warning("The value of smooth should be fractional after v0.8.0. See the manual for the detail.")
 
     x <- dfm_trim(x, min_termfreq = 1)
     y <- dfm_trim(y, min_termfreq = 1)
@@ -77,8 +77,8 @@ textmodel_newsmap <- function(x, y, measure = c("old", "likelihood", "entropy"),
             if (verbose)
                 cat(key, " ", sep = "")
             s <- colSums(x[as.logical(y[,key] > 0),])
-            v1 <- s + 1
-            v0 <- m - s + 1
+            v1 <- s + smooth
+            v0 <- m - s + smooth
             model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
         }
     }
