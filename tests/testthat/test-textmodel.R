@@ -10,9 +10,14 @@ test_that("English dictionary and prediction work correctly", {
     feat_dfm_en <- dfm(toks_en, tolower = FALSE) %>%
         dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
                              valuetype = 'regex', case_insensitive = FALSE)
+    map_en <- textmodel_newsmap(feat_dfm_en, label_dfm_en)
     expect_equal(
-        predict(textmodel_newsmap(feat_dfm_en, label_dfm_en)),
+        predict(map_en),
         factor(c(text1 = "ie"), levels = "ie")
+    )
+    expect_equivalent(
+        coef(map_en),
+        list()
     )
 })
 
@@ -27,10 +32,14 @@ test_that("German dictionary and prediction work correctly", {
     feat_dfm_de <- dfm(toks_de, tolower = FALSE) %>%
         dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
                              valuetype = 'regex', case_insensitive = FALSE)
-
+    map_de <- textmodel_newsmap(feat_dfm_de, label_dfm_de)
     expect_equal(
-        predict(textmodel_newsmap(feat_dfm_de, label_dfm_de)),
+        predict(map_de),
         factor(c(text1 = "ie"), levels = "ie")
+    )
+    expect_equivalent(
+        coef(map_en),
+        list()
     )
 })
 
@@ -45,10 +54,14 @@ test_that("test French dictionary and prediction work correctly", {
     feat_dfm_fr <- dfm(toks_fr, tolower = FALSE) %>%
         dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
                    valuetype = 'regex', case_insensitive = FALSE)
-
+    map_fr <- textmodel_newsmap(feat_dfm_fr, label_dfm_fr)
     expect_equal(
-        predict(textmodel_newsmap(feat_dfm_fr, label_dfm_fr)),
+        predict(map_fr),
         factor(c(text1 = "ie"), levels = "ie")
+    )
+    expect_equivalent(
+        coef(map_fr),
+        list()
     )
 })
 
@@ -60,10 +73,14 @@ test_that("Hebrew dictionary and prediction work correctly", {
     label_toks_he <- tokens_lookup(toks_he, data_dictionary_newsmap_he, levels = 3)
     label_dfm_he <- dfm(label_toks_he)
     feat_dfm_he <- dfm(toks_he, tolower = FALSE)
-
+    map_he <- textmodel_newsmap(feat_dfm_he, label_dfm_he)
     expect_equal(
-        predict(textmodel_newsmap(feat_dfm_he, label_dfm_he)),
+        predict(map_he),
         factor(c(text1 = "ie"), levels = "ie")
+    )
+    expect_equivalent(
+        coef(map_he),
+        list()
     )
 })
 
@@ -75,10 +92,14 @@ test_that("Arabic dictionary and prediction work correctly", {
     label_toks_ar <- tokens_lookup(toks_ar, data_dictionary_newsmap_ar, levels = 3)
     label_dfm_ar <- dfm(label_toks_ar)
     feat_dfm_ar <- dfm(toks_ar, tolower = FALSE)
-
+    map_ar <- textmodel_newsmap(feat_dfm_ar, label_dfm_ar)
     expect_equal(
-        predict(textmodel_newsmap(feat_dfm_ar, label_dfm_ar)),
+        predict(map_ar),
         factor(c(text1 = "ie"), levels = "ie")
+    )
+    expect_equivalent(
+        coef(map_ar),
+        list()
     )
 })
 
@@ -92,10 +113,14 @@ test_that("Japanese dictionary and prediction work correctly", {
 
     feat_dfm_ja <- dfm(toks_ja, tolower = FALSE) %>%
         dfm_select('^[ぁ-ん]+$', selection = "remove", valuetype = 'regex')
-
+    map_ja <- textmodel_newsmap(feat_dfm_ja, label_dfm_ja)
     expect_equal(
-        predict(textmodel_newsmap(feat_dfm_ja, label_dfm_ja)),
+        predict(map_ja),
         factor(c(text1 = "ie"), levels = "ie")
+    )
+    expect_equivalent(
+        coef(map_ja),
+        list()
     )
 })
 
@@ -107,10 +132,14 @@ test_that("Traditional Chinese dictionary and prediction work correctly", {
     label_toks_zh_tw <- tokens_lookup(toks_zh_tw, data_dictionary_newsmap_zh_tw, levels = 3)
     label_dfm_zh_tw <- dfm(label_toks_zh_tw)
     feat_dfm_zh_tw <- dfm(toks_zh_tw, tolower = FALSE)
-
+    map_zh_tw <- textmodel_newsmap(feat_dfm_zh_tw, label_dfm_zh_tw)
     expect_equal(
-        predict(textmodel_newsmap(feat_dfm_zh_tw, label_dfm_zh_tw)),
+        predict(map_zh_tw),
         factor(c(text1 = "ie"), levels = "ie")
+    )
+    expect_equivalent(
+        coef(map_zh_tw),
+        list()
     )
 })
 
@@ -123,10 +152,14 @@ test_that("Simplified Chinese dictionary and prediction work correctly", {
     label_toks_zh_cn <- tokens_lookup(toks_zh_cn, data_dictionary_newsmap_zh_cn, levels = 3)
     label_dfm_zh_cn <- dfm(label_toks_zh_cn)
     feat_dfm_zh_cn <- dfm(toks_zh_cn, tolower = FALSE)
-
+    map_zh_cn <- textmodel_newsmap(feat_dfm_zh_cn, label_dfm_zh_cn)
     expect_equal(
-        predict(textmodel_newsmap(feat_dfm_zh_cn, label_dfm_zh_cn)),
+        predict(map_zh_cn),
         factor(c(text1 = "ie"), levels = "ie")
+    )
+    expect_equivalent(
+        coef(map_zh_cn),
+        list()
     )
 })
 
