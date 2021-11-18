@@ -38,7 +38,7 @@ test_that("German dictionary and prediction work correctly", {
         factor(c(text1 = "ie"), levels = "ie")
     )
     expect_equivalent(
-        coef(map_en),
+        coef(map_de),
         list()
     )
 })
