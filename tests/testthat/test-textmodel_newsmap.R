@@ -164,10 +164,11 @@ test_that("methods for textmodel_newsmap works correctly", {
 })
 
 test_that("textmodel_newsmap() raises error if dfm is empty", {
-    expect_error(textmodel_newsmap(dfm_trim(dfm("a b c"), min_termfreq = 10), dfm("A")),
+    dfmt <- dfm(tokens("a b c"))
+    expect_error(textmodel_newsmap(dfm_trim(dfmt, min_termfreq = 10), dfm(tokens("A"))),
                  "x must have at least one non-zero feature")
 
-    expect_error(textmodel_newsmap(dfm("a b c"), dfm_trim(dfm("A"), min_termfreq = 10)),
+    expect_error(textmodel_newsmap(dfmt, dfm_trim(dfm(tokens("A")), min_termfreq = 10)),
                  "y must have at least one non-zero feature")
 })
 
@@ -182,9 +183,9 @@ test_that("predict() returns NA for documents without registered features", {
     label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
     label_dfm <- dfm(label_toks)
 
-    dfmt_feat <- dfm(c("aa bb cc", "aa bb", "bb cc"))
-    dfmt_label <- dfm(c("A", "B", "B"), tolower = FALSE)
-    dfmt_new <- dfm(c("aa bb cc", "aa bb", "zz"))
+    dfmt_feat <- dfm(tokens(c("aa bb cc", "aa bb", "bb cc")))
+    dfmt_label <- dfm(tokens(c("A", "B", "B")), tolower = FALSE)
+    dfmt_new <- dfm(tokens(c("aa bb cc", "aa bb", "zz")))
     map <- textmodel_newsmap(dfmt_feat, dfmt_label)
     expect_equal(predict(map),
                  c(text1 = "A", text2 = "B", text3 = "B"))
