@@ -30,7 +30,7 @@
 #' predict(model_en)
 #'
 #'
-textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"), smooth = 0.001,
+textmodel_newsmap <- function(x, y, measure = c("old", "likelihood", "entropy"), smooth = 0.001,
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
@@ -60,16 +60,26 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"), smooth
                 cat(key, " ", sep = "")
             s <- colSums(x[as.logical(y[,key] > 0),])
             v1 <- s
-            v0 <- m - s
+            v0 <- m
             model[key,] <- log(v1 / sum(v1) + smooth) - log(v0 / sum(v0) + smooth) # log-likelihood ratio
         }
-    } else {
+    } else if (measure == "entropy") {
         e0 <- get_entropy(group_topics(x, y))
         for (key in sort(featnames(y))) {
             if (verbose)
                 cat(key, " ", sep = "")
             e1 <- get_entropy(x[as.logical(y[,key] > 0),])
             model[key,] <- log(e1 + smooth) - log(e0 + smooth) # log-entropy ratio
+        }
+    } else {
+        m <- colSums(x)
+        for (key in sort(featnames(y))) {
+            if (verbose)
+                cat(key, " ", sep = "")
+            s <- colSums(x[as.logical(y[,key] > 0),])
+            v1 <- s + 1
+            v0 <- m - s + 1
+            model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
         }
     }
     if (verbose)
