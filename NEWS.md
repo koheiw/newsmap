@@ -1,8 +1,19 @@
-# Change in v0.7.2
 
-* Significantly improve speed of `predict()`
+* Add `print()` methods for fitted models
 
-# Change in v0.7.1
+# Changens in v0.7.4
+
+* Change predicted values to factor with all labels in training data
+
+# Changes in v0.7.3
+
+* Update tests for quanteda v3.0
+
+# Changes in v0.7.2
+
+* Make `predict()` significantly faster
+
+# Changes in v0.7.1
 
 * Improve efficiency of `textmodel_newsmap()`
 * Add compatibility with newer `textstat_entropy()`
@@ -13,7 +24,7 @@
 
 # Changes in v0.6.9
 
-* Clearn up Italian, German and Spanish seed dictionaries
+* Clean up Italian, German and Spanish seed dictionaries
 
 # Changes in v0.6.8
 
@@ -45,14 +56,14 @@
 
 ## Bug fixes
 
-* Fix error in textmodel_newsmap() when smooth is < 1.0
-* Fitted models no longer include classes that did not occure in training set
+* Fix error in `textmodel_newsmap()` when smooth is < 1.0
+* Fitted models no longer include classes that did not occur in training set
 
 # Changes in v0.4.6
 
 ## New functions
 
-* Add coef() and coefficients() methods
+* Add `coef()` and `coefficients()` methods
 
 ## Dictionary updates
 

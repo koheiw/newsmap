@@ -11,8 +11,8 @@ test_that("English dictionary and prediction work correctly", {
         dfm_select('^[A-Z][A-Za-z1-2]+', selection = "keep",
                              valuetype = 'regex', case_insensitive = FALSE)
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_en, label_dfm_en))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_en, label_dfm_en)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -29,8 +29,8 @@ test_that("German dictionary and prediction work correctly", {
                              valuetype = 'regex', case_insensitive = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_de, label_dfm_de))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_de, label_dfm_de)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -47,8 +47,8 @@ test_that("test French dictionary and prediction work correctly", {
                    valuetype = 'regex', case_insensitive = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_fr, label_dfm_fr))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_fr, label_dfm_fr)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -60,9 +60,10 @@ test_that("Hebrew dictionary and prediction work correctly", {
     label_toks_he <- tokens_lookup(toks_he, data_dictionary_newsmap_he, levels = 3)
     label_dfm_he <- dfm(label_toks_he)
     feat_dfm_he <- dfm(toks_he, tolower = FALSE)
+
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_he, label_dfm_he))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_he, label_dfm_he)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -74,9 +75,10 @@ test_that("Arabic dictionary and prediction work correctly", {
     label_toks_ar <- tokens_lookup(toks_ar, data_dictionary_newsmap_ar, levels = 3)
     label_dfm_ar <- dfm(label_toks_ar)
     feat_dfm_ar <- dfm(toks_ar, tolower = FALSE)
+
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_ar, label_dfm_ar))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_ar, label_dfm_ar)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -92,8 +94,8 @@ test_that("Japanese dictionary and prediction work correctly", {
         dfm_select('^[ぁ-ん]+$', selection = "remove", valuetype = 'regex')
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_ja, label_dfm_ja))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_ja, label_dfm_ja)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -107,8 +109,8 @@ test_that("Traditional Chinese dictionary and prediction work correctly", {
     feat_dfm_zh_tw <- dfm(toks_zh_tw, tolower = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_zh_tw, label_dfm_zh_tw))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_zh_tw, label_dfm_zh_tw)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -123,8 +125,8 @@ test_that("Simplified Chinese dictionary and prediction work correctly", {
     feat_dfm_zh_cn <- dfm(toks_zh_cn, tolower = FALSE)
 
     expect_equal(
-        as.character(predict(textmodel_newsmap(feat_dfm_zh_cn, label_dfm_zh_cn))),
-        "ie"
+        predict(textmodel_newsmap(feat_dfm_zh_cn, label_dfm_zh_cn)),
+        factor(c(text1 = "ie"), levels = "ie")
     )
 })
 
@@ -151,8 +153,10 @@ test_that("methods for textmodel_newsmap works correctly", {
     expect_identical(map$feature, featnames(feat_dfm))
 
     # rank argument is working
-    expect_equal(unname(predict(map)), c("ie", "in", "ie", "ie"))
-    expect_equal(unname(predict(map, rank = 2)), c("in", "ie", "in", "in"))
+    expect_equal(unname(predict(map)),
+                 factor(c("ie", "in", "ie", "ie"), levels = c("in", "ie")))
+    expect_equal(unname(predict(map, rank = 2)),
+                 factor(c("in", "ie", "in", "in"), levels = c("in", "ie")))
     expect_error(predict(map, rank = 0))
 
     # different prediction outputs agree
@@ -161,14 +165,36 @@ test_that("methods for textmodel_newsmap works correctly", {
     expect_equivalent(pred_top$confidence.fit, apply(pred_all, 1, max))
     expect_equivalent(pred_top$confidence.fit[1], pred_top$confidence.fit[3])
 
+    # print
+    expect_output(
+        print(map),
+        paste0('(\n)',
+               'Call:(\n)',
+               'textmodel_newsmap\\(.*\\)(\n)')
+    )
+
+    expect_output(
+        print(summary(map)),
+        paste0('(\n)',
+               'Call:(\n)',
+               'textmodel_newsmap\\(.*\\)(\n)',
+               '\n',
+               'Labels:(\n)',
+               '\\[1\\] "in" "ie"(\n)',
+               '(\n)',
+               'Data Dimension:(\n)',
+               '\\[1\\] 4 7(\n)')
+    )
+
 })
 
 test_that("textmodel_newsmap() raises error if dfm is empty", {
-    dfmt <- dfm(tokens("a b c"))
-    expect_error(textmodel_newsmap(dfm_trim(dfmt, min_termfreq = 10), dfm(tokens("A"))),
+    dfmt1 <- dfm(tokens("a b c"))
+    dfmt2 <- dfm(tokens("A"))
+    expect_error(textmodel_newsmap(dfm_trim(dfmt1, min_termfreq = 10), dfmt2),
                  "x must have at least one non-zero feature")
 
-    expect_error(textmodel_newsmap(dfmt, dfm_trim(dfm(tokens("A")), min_termfreq = 10)),
+    expect_error(textmodel_newsmap(dfmt1, dfm_trim(dfmt2, min_termfreq = 10)),
                  "y must have at least one non-zero feature")
 })
 
@@ -188,16 +214,16 @@ test_that("predict() returns NA for documents without registered features", {
     dfmt_new <- dfm(tokens(c("aa bb cc", "aa bb", "zz")))
     map <- textmodel_newsmap(dfmt_feat, dfmt_label)
     expect_equal(predict(map),
-                 c(text1 = "A", text2 = "B", text3 = "B"))
+                 factor(c(text1 = "A", text2 = "B", text3 = "B")))
     expect_equal(predict(map, newdata = dfmt_new),
-                 c(text1 = "A", text2 = "B", text3 = NA))
+                 factor(c(text1 = "A", text2 = "B", text3 = NA)))
     pred <- predict(map, confidence.fit = TRUE, newdata = dfmt_new)
     expect_equal(pred$class,
-                 c(text1 = "A", text2 = "B", text3 = NA))
+                 factor(c(text1 = "A", text2 = "B", text3 = NA)))
     expect_equal(pred$confidence.fit,
                  c(0.018, 0.048, NA), tolerance = 0.01)
     expect_equal(predict(map, newdata = dfmt_new, rank = 2),
-                 c(text1 = "B", text2 = "A", text3 = NA))
+                 factor(c(text1 = "B", text2 = "A", text3 = NA)))
     expect_equal(as.numeric(predict(map, newdata = dfmt_new, type = "all")),
                  c(0.018, -0.048, NA, -0.018, 0.048, NA), tolerance = 0.01)
 

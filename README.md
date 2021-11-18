@@ -10,21 +10,21 @@ corpus of news stories for accurate classification. Currently, the
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised
 approach to geographical news
-classification](http://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full).
+classification](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full).
 **newsmap** has also been used in recent social scientific studies:
 
-  - Kohei Watanabe, 2017. “[Measuring News Bias: Russia’s Official News
+-   Kohei Watanabe, 2017. “[Measuring News Bias: Russia’s Official News
     Agency ITAR-TASS’s Coverage of the Ukraine
-    Crisis](http://journals.sagepub.com/eprint/TBc9miIc89njZvY3gyAt/full)”,
+    Crisis](https://journals.sagepub.com/eprint/TBc9miIc89njZvY3gyAt/full)”,
     *European Journal Communication*
-  - Kohei Watanabe, 2017. “[The spread of the Kremlin’s narratives by a
+-   Kohei Watanabe, 2017. “[The spread of the Kremlin’s narratives by a
     western news agency during the Ukraine
-    crisis](http://www.tandfonline.com/eprint/h2IHsz2YKce6uJeeCmcd/full)”,
+    crisis](https://www.tandfonline.com/eprint/h2IHsz2YKce6uJeeCmcd/full)”,
     *Journal of International Communication*
-  - Tomila Lankina and Kohei Watanabe. 2017. ["Russian Spring’ or
+-   Tomila Lankina and Kohei Watanabe. 2017. ["Russian Spring’ or
     ‘Spring Betrayal’? The Media as a Mirror of Putin’s Evolving
     Strategy in
-    Ukraine](http://www.tandfonline.com/eprint/tWik7KDfsZv8C2KeNkI5/full)",
+    Ukraine](https://www.tandfonline.com/eprint/tWik7KDfsZv8C2KeNkI5/full)",
     *Europe-Asia Studies*
 
 Please contact [Kohei Watanabe](https://github.com/koheiw) or issue a
@@ -54,8 +54,7 @@ In this example, using a text analysis package
 we train a geographical classification model on a [corpus of news
 summaries collected from Yahoo
 News](https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1) via
-RSS in
-2014.
+RSS in 2014.
 
 ### Download example data
 
@@ -68,22 +67,21 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 require(newsmap)
 ## Loading required package: newsmap
+## Warning in .recacheSubclasses(def@className, def, env): undefined subclass
+## "numericVector" of class "Mnumeric"; definition not updated
 require(quanteda)
 ## Loading required package: quanteda
-## Package version: 2.1.1
-## Parallel computing: 2 of 8 threads used.
+## Package version: 3.0.9000
+## Unicode version: 13.0
+## ICU version: 66.1
+## Parallel computing: 6 of 6 threads used.
 ## See https://quanteda.io for tutorials and examples.
-## 
-## Attaching package: 'quanteda'
-## The following object is masked from 'package:utils':
-## 
-##     View
 
 # Load data
-data <- readRDS('~/yahoo-news.RDS')
-data$text <- paste0(data$head, ". ", data$body)
-data$body <- NULL
-corp <- corpus(data, text_field = 'text')
+dat <- readRDS('~/yahoo-news.RDS')
+dat$text <- paste0(dat$head, ". ", dat$body)
+dat$body <- NULL
+corp <- corpus(dat, text_field = 'text')
 
 # Custom stopwords
 month <- c('January', 'February', 'March', 'April', 'May', 'June',
@@ -137,11 +135,11 @@ coef(model, n = 7)[c("us", "gb", "fr", "br", "jp")]
 ### Predict geographical focus of texts
 
 ``` r
-pred_data <- data.frame(text = texts(sub_corp), country = predict(model))
+pred_data <- data.frame(text = as.character(sub_corp), country = predict(model))
 ```
 
 |        | text                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | country |
-| :----- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ |
+|:-------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------|
 | text63 | ’08 French champ Ivanovic loses to Safarova in 3rd. PARIS (AP) — Former French Open champion Ana Ivanovic lost in the third round Saturday, beaten 6-3, 6-3 by 23rd-seeded Lucie Safarova of the Czech Republic.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | fr      |
 | text68 | Up to $1,000 a day to care for child migrants. More than 57,000 unaccompanied children, mostly from Central America, have been caught entering the country illegally since last October, and President Barack Obama has asked for $3.7 billion in emergency funding to address what he has called an “urgent humanitarian solution.” “One of the figures that sticks in everybody’s mind is we’re paying about $250 to $1,000 per child,” Senator Jeff Flake told reporters, citing figures presented at a closed-door briefing by Homeland Security Secretary Jeh Johnson. Federal authorities are struggling to find more cost-effective housing, medical care, counseling and legal services for the undocumented minors. The base cost per bed was $250 per day, including other services, Senator Dianne Feinstein said, without providing details. | us      |
 | text69 | 1,000 DRC ex-rebels break out of Uganda camp: army. About 1,000 former fighters from a former Democratic Republic of Congo rebel group broke out Tuesday from a camp where they being held in Uganda just as soldiers were about to repatriate them, the Ugandan army said. “A thousand rebels from the M23 (group) have escaped” from the camp in Bihanga, about 300 kilometres (190 miles) southwest of the Ugandan capital Kampala, a spokesman for the Ugandan army said on the official Twitter account.                                                                                                                                                                                                                                                                                                                                            | ug      |

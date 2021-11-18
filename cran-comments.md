@@ -2,7 +2,7 @@
 
 ## Purpose
 
-* Improve package's performance
+- Change the object type of predicted values
 
 ## Test environments
 
@@ -20,3 +20,4 @@
 ## Downstream dependencies
 
 There is no known reverse dependency.
+
