@@ -193,7 +193,7 @@ coef.textmodel_newsmap <- function(object, n = 10, ...) {
     model <- as(object$model, "dgTMatrix")
     temp <- model@x
     names(temp) <- colnames(object$model)[model@j + 1]
-    result <- split(temp, rownames(model)[model@i])
+    result <- split(temp, rownames(model)[model@i + 1])
     result <- lapply(result, function(x) head(sort(x, decreasing = TRUE), n))
     return(result)
 }
