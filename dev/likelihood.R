@@ -22,3 +22,7 @@ map1$model
 map2$model
 map3$model
 
+predict(map1, confidence.fit = TRUE)
+predict(map2, confidence.fit = TRUE)
+predict(map3, confidence.fit = TRUE)
+

@@ -16,11 +16,11 @@ label_dfm <- dfm(label_toks)
 feat_dfm <- dfm(toks) %>%
     dfm_remove(stopwords()) %>%
     dfm_select('^[a-z1-2]+', selection = "keep", valuetype = 'regex')
-map_lr <- textmodel_newsmap(feat_dfm, label_dfm)
-coef(map_lr)
-
+map_lr <- textmodel_newsmap(feat_dfm, label_dfm, measure = "likelihood")
 map_et <- textmodel_newsmap(feat_dfm, label_dfm, measure = "entropy")
-coef(map_et)
+
+map_lr$model
+map_et$model
 
 predict(map_lr, confidence.fit = TRUE)
 predict(map_et, confidence.fit = TRUE)
