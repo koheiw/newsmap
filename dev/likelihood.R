@@ -16,6 +16,9 @@ dfmt_feat <- dfm(toks, tolower = FALSE) %>%
 
 map1 <- textmodel_newsmap(dfmt_feat, dfmt_label)
 map2 <- textmodel_newsmap(dfmt_feat, dfmt_label, measure = "likelihood")
+map3 <- textmodel_newsmap(dfmt_feat, dfmt_label, measure = "likelihood", smooth = 0.001)
 
 map1$model
 map2$model
+map3$model
+
