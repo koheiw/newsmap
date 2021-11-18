@@ -233,15 +233,6 @@ test_that("textmodel_newsmap() raises error if dfm is empty", {
 
 test_that("predict() returns NA for documents without registered features", {
 
-    txt <- c("Ireland is famous for Guinness.",
-              "Guinness began retailing in India in 2007.",
-              "Cork is an Irish coastal city.",
-              "Titanic departed Cork Harbour in 1912.")
-
-    toks <- tokens(txt)
-    label_toks <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
-    label_dfm <- dfm(label_toks)
-
     dfmt_feat <- dfm(tokens(c("aa bb cc", "aa bb", "bb cc")))
     dfmt_label <- dfm(tokens(c("A", "B", "B")), tolower = FALSE)
     dfmt_new <- dfm(tokens(c("aa bb cc", "aa bb", "zz")))
@@ -261,3 +252,4 @@ test_that("predict() returns NA for documents without registered features", {
                  c(0.018, -0.048, NA, -0.018, 0.048, NA), tolerance = 0.01)
 
 })
+
