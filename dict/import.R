@@ -15,6 +15,9 @@ save(data_dictionary_newsmap_fr, file = 'data/data_dictionary_newsmap_fr.RData')
 data_dictionary_newsmap_es <- dictionary(file = 'dict/spanish.yml')
 save(data_dictionary_newsmap_es, file = 'data/data_dictionary_newsmap_es.RData')
 
+data_dictionary_newsmap_pt <- dictionary(file = 'dict/portuguese.yml')
+save(data_dictionary_newsmap_pt, file = 'data/data_dictionary_newsmap_pt.RData')
+
 data_dictionary_newsmap_ru <- dictionary(file = 'dict/russian.yml')
 save(data_dictionary_newsmap_ru, file = 'data/data_dictionary_newsmap_ru.RData')
 
