@@ -131,7 +131,7 @@ AMERICA:
     'CA': [Canadá, Canadense*, Canadian*, Ottawa, Otava, Toronto, Quebec, Cidade de Quebec]
     'GL': [Gronelândia, Groenlândia, Groelândia, Gronelandês*, Groenlandês, Nuuk, Nuque]
     'PM': [São Pedro e Miquelão, São Pedro e Miquelon, Saint-Pierre e Miquelon, Coletividade de Ultramar de São Pedro e Miquelão, Miquelonês*, São-Pedrense*, São Pedro]
-    'US': [Estados Unidos, Estados Unidos da América, América, EUA, Washington, Washington D.C., Nova Iorque, Nova York, Cidade de Nova Iorque]
+    'US': [Estados Unidos, Estados Unidos da América, América, EUA, Washington, Nova Iorque, Nova York, Cidade de Nova Iorque]
 
 ASIA:
   MIDDLE:
