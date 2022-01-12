@@ -14,8 +14,8 @@ AFRICA:
     'MZ': [Moçambique, Moçambican*, Maputo]
     'RE': [Reunião, Ilha da Reunião, Reunionense*, Reunionês*, Reuniones*]
     'RW': [Ruanda, Ruandês*, Quigali]
-    'SC': [Seicheles, Seychelles, Seychellense*, Seichelense*, Seicheles]
-    'SO': [Somália, Somali*, Somalian*, Somaliense*, Mogadíscio, Mogadixo]
+    'SC': [Seicheles, Seychelles, Seychellense*, Seichelense*]
+    'SO': [Somália, Somali*, Mogadíscio, Mogadixo]
     'TZ': [Tanzânia, Tanzania, Tanzanian*, Dodoma, Dar es Salaam, Dar es Salã]
     'UG': [Uganda, Ugandense*, Ugandês*, Campala]
     'YT': [Mayotte, Maiote, Maiotense*, Mamudzu]
@@ -24,7 +24,7 @@ AFRICA:
 
   MIDDLE:
     'AO': [Angola, Angolan*, Angolense*, Luanda]
-    'CD': [República Democrática do Congo, RDC, RD Congo, Congo, Congo-Quinxassa, Congo-Quinxasa, Congolês*, Congolense*, Conguês*, Quinxassa, Quinxasa, Kinshasa]
+    'CD': [República Democrática do Congo, RDC, Congo, Congo-Quinxassa, Congo-Quinxasa, Congolês*, Congolense*, Conguês*, Quinxassa, Quinxasa, Kinshasa]
     'CF': [República Centro-Africana, República da África-Central, Centro-African*, Bangui]
     'CG': [República do Congo, Congo-Brazavile, Congo-Brazzaville , Congolês*, Conguês*, Conguito*, Congolense*, Brazavile, Brazzaville]
     'CM': [Camarões, Cameronense*, Cameronês*, Iaundê, Iaundé]
@@ -58,13 +58,13 @@ AFRICA:
     'GH': [Gana, Ganês*, Ganense*, Acra]
     'GM': [Gâmbia, Gambian*, Banjul]
     'GN': [Guiné, Guinean*, Guineense*, Conacri]
-    'GW': [Guiné-Bissau, Guineense*, Bissau, Sector Autónomo de Bissau]
+    'GW': [Guiné-Bissau, Guineense*, Bissau]
     'LR': [Libéria, Liberian*, Monróvia]
     'ML': [Mali, Máli, Malian*, Malinês*, Malês*, Bamaco]
     'MR': [Mauritânia, Mauritan*, Nuaquexote, Nuaquechote]
     'NE': [Níger, Nigerin*, Nigerenseé*, Niamei, Niamey]
     'NG': [Nigéria, Nigerian*, Abuja, Lagos]
-    'SH': [Santa Helena, Santo, Santa-Helenense*, Jamestown, Cidade de Jamestown]
+    'SH': [Santa Helena, Santo, Santa-Helenense*, Jamestown]
     'SL': [Serra Leoa, Serra-Leonês*, Serra-Leonin*, Freetown]
     'SN': [Senegal, Senegalês*, Senegales*, Dacar, Dakar]
     'TG': [Togo, Togolês*, Togoles*, Lomé]
@@ -92,7 +92,7 @@ AMERICA:
     'MF': [São Martinho, São-Martinhense*, Marigot]
     'MQ': [Martinica, Martinican*]
     'MS': [Monserrate, Monserratense*, Brades, Brades Estate]
-    'PR': [Porto Rico, Porto-Riquenh*, Porto-Riquense*, San Juan, São João, Município da Cidade Capital São João Batista]
+    'PR': [Porto Rico, Porto-Riquenh*, Porto-Riquense*, San Juan, São João]
     'SX': [São Martinho, São-Martinhense*, Philipsburg]
     'TC': [Ilhas Turcas e Caicos, Turquense*, Turco-Caicense*, Cockburn Town]
     'TT': [Trindade e Tobago, Trinidade e Tobago, Trinidad e Tobago, Trinitári*, Trinitin*, Trinitário-Tobagense*, Tobaguian*, Port of Spain, Porto da Espanha, Porto de Espanha]
@@ -124,14 +124,14 @@ AMERICA:
     'PY': [Paraguai, Paraguai*, Paraguaian*, Assunção]
     'SR': [Suriname, Surinamense*, Surinamês*, Paramaribo]
     'UY': [Uruguai, Uruguai*, Montevidéu, Montevideu]
-    'VE': [Venezuela, Venezuelan*, Caracas, Santiago de León de Caracas]
+    'VE': [Venezuela, Venezuelan*, Caracas]
 
   NORTH:
     'BM': [Bermudas, Bermudenh*, Bermudense*]
     'CA': [Canadá, Canadense*, Canadian*, Ottawa, Otava, Toronto, Quebec, Cidade de Quebec]
     'GL': [Gronelândia, Groenlândia, Groelândia, Gronelandês*, Groenlandês, Nuuk, Nuque]
     'PM': [São Pedro e Miquelão, São Pedro e Miquelon, Saint-Pierre e Miquelon, Miquelonês*, São-Pedrense*, São Pedro]
-    'US': [Estados Unidos, Estados Unidos da América, América, EUA, Washington, Nova Iorque, Nova York, Cidade de Nova Iorque]
+    'US': [Estados Unidos, Estados Unidos da América, América, EUA, Washington, Nova Iorque, Nova York]
 
 ASIA:
   CENTER:
@@ -144,9 +144,9 @@ ASIA:
   EAST:
     'CN': [China, RPC, Chines*, Chinês*, Pequim, Xangai, Shanghai]
     'HK': [Hong Kong, Honconguês, Honcongues*]
-    'JP': [Japão, Japonês*, Japones*, Japonense*, Japônic*, Japónic*, Nipônic*, Nipónic*, Tóquio, Metrópole de Tóquio]
+    'JP': [Japão, Japonês*, Japones*, Japonense*, Japônic*, Japónic*, Nipônic*, Nipónic*, Tóquio]
     'KP': [Coreia do Norte, Coréia do Norte, República Popular Democrática da Coreia, RPDC, Norte-Corean*, Pyongyang, Pionguiangue]
-    'KR': [Coreia do Sul, Coréia do Sul, República da Coreia, Coreia, Sul-Corean*, Seul, Cidade Especial de Seul]
+    'KR': [Coreia do Sul, Coréia do Sul, República da Coreia, Coreia, Sul-Corean*, Seul]
     'MN': [Mongólia, Mongol*, Mongólic*, Ulã Bator, Ulan Bator]
     'MO': [Macau, Macauense*, Macaense*, Macaíst*]
     'TW': [Taiwan, Taiwanês*, Formosan*, Formosin*, Taiuanês*, Taipé, Cidade de Taipé]
@@ -163,7 +163,7 @@ ASIA:
     'PK': [Paquistão, Paquistanês*, Islamabade, Islamabad]
 
   SOUTH-EAST:
-    'BN': [Brunei, Estado de Brunei Darussalam, Estado de Brunei Darussalã, Brunean*, Bruneín*]
+    'BN': [Brunei, Brunean*, Bruneín*]
     'ID': [Indonésia, Indonési*, Jacarta]
     'KH': [Camboja, Cambodja, Cambojan*, Phnom Penh, Pnom Pen, Pnom Pene, Penome Pene]
     'LA': [Laos, Laosian*, Laocian*, Vientiane, Vienciana]
@@ -188,7 +188,7 @@ ASIA:
     'KW': [Kuwait, Kuwaitian*, Koweitian*, Cuwaitian*, Coveitian*, Kowaitian*, Cuvait*, Kuwait*, Cuait*, Koweit, Coveite, Couaite, Quaite]
     'LB': [Líbano,  Libanês*, Beirute]
     'OM': [Omã, Omão, Omanense*, Omanian*, Omani, Mascate]
-    'PS': [Palestina, Palestin*, Palestinian*, Gaza, Cisjordânia]
+    'PS': [Palestina, Palestin*, Gaza, Cisjordânia]
     'QA': [Catar, Qatar, Catarense*, Catari*, Catarian*, Doha, Doa]
     'SA': [Arábia Saudita, Saudit*, Riade]
     'SY': [Síria, Siríac*, Sírio*, Síria*, Damasco]
@@ -214,7 +214,7 @@ EUROPE:
     'EE': [Estónia, Estônia, Estonian*, Estóni*, Estónic*, Tallinn, Talim, Taline, Talin]
     'FI': [Finlândia, Finlandês*, Finlandes*, Helsínquia, Helsinque]
     'FO': [Ilhas Feroe, Ilhas Féroe, Ilhas Faroé, Ilhas Faroés, Feroês*, Feroic*, Tórshavn]
-    'GB': [Reino Unido, Reino Unido da Grã-Bretanha e Irlanda do Norte, Britânic*, Bretã*, Bretões, Londres]
+    'GB': [Reino Unido, Britânic*, Bretã*, Bretões, Londres]
     'GG': [Guernsey, Guernesey, Guérnesei, Guernesei, Guernsian*, Saint Peter Port, Porto de São Pedro, São Pedro Porto]
     'IE': [Irlanda, Eire, Irlandês*, Irlandes*, Dublin, Dublim]
     'IM': [Ilha de Man, Manês*, Manes*]
@@ -229,7 +229,7 @@ EUROPE:
   SOUTH:
     'AD': [Andorra, Andorran*, Andorrense*, Andorrian*, Andorrenh*]
     'AL': [Albânia, Albanês*, Tirana]
-    'BA': [Bósnia e Herzegovina, Bósnia, Bósni*, Sarajevo, Saraievo]
+    'BA': [Bósnia e Herzegovina, Bósni*, Sarajevo, Saraievo]
     'ES': [Espanha, Espanhol*, Espanhóis, Madrid, Madri, Barcelona]
     'GI': [Gibraltar, Gibraltarin*, Gibraltin*, Llanit*, Llanis*]
     'GR': [Grécia, República Helênica, República Helénica, Grego*, Grega*, Atenas]
@@ -247,12 +247,12 @@ EUROPE:
 
   WEST:
     'AT': [Áustria, Austríac*, Viena]
-    'BE': [Bélgica, Belga*, Bélgic*, Bruxelas, Região da Capital Bruxelas]
+    'BE': [Bélgica, Belga*, Bélgic*, Bruxelas]
     'CH': [Suíça, Suíç*, Zurique, Berna]
-    'DE': [Alemanha, Alemã*, Berlim, Frankfurt am Main, Frankfurt sobre o Meno, Francoforte do Meno, Frankfurt, Francoforte]
+    'DE': [Alemanha, Alemã*, Berlim, Frankfurt, Francoforte]
     'FR': [França, República Francesa, Francês*, Frances*, Paris]
     'LI': [Liechtenstein, Listenstaine, Liechtensteinense*, Liechtensteiniense*, Liechtensteinian*, Listenstainian*, Listenstainês*, Vaduz]
-    'LU': [Luxemburgo, Luxemburguês*, Cidade do Luxemburgo]
+    'LU': [Luxemburgo, Luxemburguês*]
     'MC': [Mónaco, Mônaco, Monegasc*]
     'NL': [Países Baixos, Holanda, Neerlandês*, Holandês*, Amesterdão, Amsterdão, Amsterdã, Amesterdã]
 
@@ -271,7 +271,7 @@ OCEANIA:
     'VU': [Vanuatu, Vanuatuense*, Porto Vila]
 
   MIC:
-    'FM': [Estados Federados da Micronésia, EFM, Micronésia, Micronési*, Paliquir]
+    'FM': [Estados Federados da Micronésia, EFM, Micronési*, Paliquir]
     'GU': [Guam, Guão, Guame, Guamês*, Guames*, Aganha]
     'KI': [Kiribati, Quiribáti, Quiribati, Kiribatian*, Etemaquian*, Kiribatin*, Taraua, Taraua do Sul, Tarawa do Sul]
     'MH': [Ilhas Marshall, Marshallin*, Marshalês*, Majuro]
@@ -283,9 +283,9 @@ OCEANIA:
     'AS': [Samoa Americana, Estadunidense*, Samoan*, Pago Pago]
     'NU': [Niue, Niuê, Niuean*, Alofi]
     'PF': [Polinésia Francesa, Franco-Polinési*, Papeete]
-    'PN': [Ilhas Pitcairn, Ilhas Picárnia, Ilhas Pitcairn, Henderson, Ducie e Oeno, Grupo de Ilhas Pitcairn, Pitcairnês*, Pitcairnes*, Pitcairan*, Adamstown]
+    'PN': [Ilhas Pitcairn, Ilhas Picárnia, Henderson, Ducie e Oeno, Pitcairnês*, Pitcairnes*, Pitcairan*, Adamstown]
     'TK': [Toquelau, Ilhas da União, Toquelauan*, Nukunonu]
     'TO': [Tonga, Tonga*, Tonganês*, Nucualofa]
     'TV': [Tuvalu, Ilhas Ellice, Tuvaluan*, Funafuti]
-    'WF': [Wallis e Futuna, de Wallis e Futuna, Wallisense*, Mata Utu]
+    'WF': [Wallis e Futuna, Wallisense*, Mata Utu]
     'WS': [Samoa, Samoan*, Apia]
