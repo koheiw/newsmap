@@ -100,7 +100,7 @@ AMERICA:
     'VG': [Ilhas Virgens Britânicas, Virginense*, Road Town]
     'VI': [Ilhas Virgens Americanas, Ilhas Virgens dos Estados Unidos, Virginense*, Charlotte Amalie, Carlota Amália]
 
-  MIDDLE:
+  CENTER:
     'BZ': [Belize, Belizenh*, Belizense*, Belmopan, Belmopã]
     'CR': [Costa Rica, Costa-Riquenh*, Costa-Riquense*, Costarriquense*, Costa-Ricense*, Costarricense*, Ticos, San José, São José]
     'GT': [Guatemala, Guatemaltec*, Guatemalense*, Guatemalês*, Guatemales*, Cidade da Guatemala]
@@ -134,7 +134,7 @@ AMERICA:
     'US': [Estados Unidos, Estados Unidos da América, América, EUA, Washington, Nova Iorque, Nova York, Cidade de Nova Iorque]
 
 ASIA:
-  MIDDLE:
+  CENTER:
     'KG': [Quirguistão, Quirguizistão, Quirguízia, República Quirguiz, Quirguiz*, Quirguistanês*, Bisqueque]
     'KZ': [Cazaquistão, Cazaque*, Cazaquistanês*, Casac*, Nur-Sultã, Nur Sultã]
     'TJ': [Tajiquistão, Tadjiquistão, Tajique*, Tadjique*, Tajiquistanês*, Tadjiquistanês*, Duxambé, Duchambé]
@@ -162,7 +162,7 @@ ASIA:
     'NP': [Nepal, Nepalês, Nepales*, Catmandu]
     'PK': [Paquistão, Paquistanês*, Islamabade, Islamabad]
 
-  SOUTH EAST:
+  SOUTH-EAST:
     'BN': [Brunei, Estado de Brunei Darussalam, Estado de Brunei Darussalã, Brunean*, Bruneín*]
     'ID': [Indonésia, Indonési*, Jacarta]
     'KH': [Camboja, Cambodja, Cambojan*, Phnom Penh, Pnom Pen, Pnom Pene, Penome Pene]
@@ -195,7 +195,7 @@ ASIA:
     'TR': [Turquia, Turc*, Ancara, Istambul]
     'YE': [Iémen, Iêmen, Iemenit*, Saná, Sanaa, Sanaá]
 
-EUROPA:
+EUROPE:
   EAST:
     'BG': [Bulgária, Búlgar*, Sófia]
     'BY': [Bielorrússia, Belarus, Bielorruss*, Belaruss* Minsk, Minsque]
