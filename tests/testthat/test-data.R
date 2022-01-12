@@ -5,15 +5,14 @@ require(testthat)
 check_character <- function(x) {
     x <- unlist(x)
     k <- duplicated(x)
-    if (any(k))
-        cat("Duplicated:\n", paste0(x[k], collapse = "\n"), "\n\n")
-    #expect_false(any(k))
+    #if (any(k))
+    #    cat("Duplicated:\n", paste0(x[k], collapse = "\n"), "\n\n")
 
     ## \\u30fb katakana middle dot
     ## \\p{M} combining character
     l <- stri_detect_regex(x, "^[\\p{L}\\p{M}'\"*?\\-\\u30fb ]+$")
-    if (!all(l))
-        cat("Invalid:\n", paste0(x[!l], collapse = "\n"), "\n\n")
+    #if (!all(l))
+    #    cat("Invalid:\n", paste0(x[!l], collapse = "\n"), "\n\n")
     expect_true(all(l))
 }
 
