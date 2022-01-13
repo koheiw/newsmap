@@ -1,32 +1,36 @@
 Package: newsmap
 Type: Package
-Title: Semi-Supervised Model for Geographical Document Classification
-Version: 0.6.7
+Title: Semisupervised Model for Geographical Document Classification
+Version: 0.7.4
 Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")), 
              person("Stefan", "Müller", email = "mullers@tcd.ie", role = "aut"),
              person("Dani", "Madrid-Morales", email = "dani.madrid@my.cityu.edu.hk", role = "aut"),
              person("Katerina", "Tertytchnaya", email = "katerina.tertytchnaya@gmail.com", role = "aut"),
              person("Ke", "Cheng", email = "kecheng.ac@gmail.com", role = "aut"),
 	         person("Chung-hong", "Chan", email = "chainsawtiney@gmail.com", role = "aut"),
-	         person("Claude", "Grasland", email = "claude.grasland@parisgeo.cnrs.fr", role = "aut"))
+	         person("Claude", "Grasland", email = "claude.grasland@parisgeo.cnrs.fr", role = "aut"),
+	         person("Giuseppe", "Carteny", email = "giuseppe.carteny@unimi.it", role = "aut"),
+	         person("Elad", "Segev", email = "eladseg@gmail.com", role = "aut"),
+	         person("Dai", "Yamao", email = "daiyamao@scs.kyushu-u.ac.jp", role = "aut"))
 Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
-Description: Semi-supervised model for geographical document classification (Watanabe 2018) <doi:10.1080/21670811.2017.1293487>. 
-    This package currently contains seed dictionaries in English, German, French, Spanish, Japanese, Russian and Chinese (Simplified and Traditional).
+Description: Semissupervised model for geographical document classification (Watanabe 2018) <doi:10.1080/21670811.2017.1293487>. 
+    This package currently contains seed dictionaries in English, German, French, Spanish, Italian, Russian, Hebrew, Arabic Japanese and Chinese (Simplified and Traditional).
 License: MIT + file LICENSE
 URL: https://github.com/koheiw/newsmap
 BugReports: https://github.com/koheiw/newsmap/issues
 LazyData: TRUE
 Encoding: UTF-8
 Depends:
+    R (>= 3.5),
     methods
 Imports:
     utils,
     Matrix,
-    quanteda (> 1.4),
-    stringi,
+    quanteda (>= 2.1),
+    quanteda.textstats,
+    stringi
 Suggests:
-    testthat,
-RoxygenNote: 6.1.1
-Collate:
-    textmodel_newsmap.R
-    data.R
+    testthat
+Language: en-GB
+RoxygenNote: 7.1.2
+Roxygen: list(markdown = TRUE)
