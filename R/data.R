@@ -42,7 +42,7 @@ NULL
 #'
 #' @name data_dictionary_newsmap_pt
 #' @docType data
-#' @author Barbara Ellynes Zucchi Nobre Silva \email{xx@yyy}
+#' @author Barbara Ellynes Zucchi Nobre Silva \email{barbara@zucchi.science}
 #' @keywords data
 NULL
 

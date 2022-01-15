@@ -8,6 +8,6 @@
 Seed geographical dictionary in Portuguese
 }
 \author{
-Barbara Ellynes Zucchi Nobre Silva \email{xx@yyy}
+Barbara Ellynes Zucchi Nobre Silva \email{barbara@zucchi.science}
 }
 \keyword{data}
