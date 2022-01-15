@@ -173,7 +173,7 @@ ASIA:
     'SG': [Singapura, Cingapura, Singapurense*, Singapuran*]
     'TH': [Tailândia, Tailandês*, Banguecoque, Bangkok, Bancoque]
     'TL': [Timor-Leste, Timorense*, Maubere*, Díli]
-    'VN': [Vietnã, Vietname, Vietnamit*, Vietnamês*, Vietnamense*, Vietnamian*, Hanói, Cidade de Ho Chi Minh, Saigon, Saigão]
+    'VN': [Vietnã, Vietname, Vietnamit*, Vietnamês*, Vietnamense*, Vietnamian*, Hanói, Ho Chi Minh, Saigon, Saigão]
 
   WEST:
     'AE': [Emirados Árabes Unidos, EAU, Emiradense*, Emirátic*, Dubai, Abu Dhabi, Abu Dabi]
