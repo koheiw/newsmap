@@ -30,7 +30,7 @@
 #' predict(model_en)
 #'
 #'
-textmodel_newsmap <- function(x, y, measure = c("old", "likelihood", "entropy"), smooth = 1.0,
+textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy", "both"), smooth = 1.0,
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
@@ -53,15 +53,21 @@ textmodel_newsmap <- function(x, y, measure = c("old", "likelihood", "entropy"),
     if (verbose)
         cat("Training for class: ")
 
-    if (measure == "likelihood") {
+    if (measure == "likelihood" || measure == "both") {
         m <- colSums(x)
         for (key in sort(featnames(y))) {
             if (verbose)
                 cat(key, " ", sep = "")
             s <- colSums(x[as.logical(y[,key] > 0),])
-            v1 <- s
-            v0 <- m
-            model[key,] <- log(v1 / sum(v1) + smooth) - log(v0 / sum(v0) + smooth) # log-likelihood ratio
+            v0 <- m - s + smooth
+            v1 <- s + smooth
+            lr <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
+            if (measure == "both") {
+                e <- get_entropy(x[as.logical(y[,key] > 0),]) # can base be ndoc(x)?
+            } else {
+                e <- 1.0
+            }
+            model[key,] <- lr * e
         }
     } else if (measure == "entropy") {
         e0 <- get_entropy(group_topics(x, y))
@@ -71,17 +77,8 @@ textmodel_newsmap <- function(x, y, measure = c("old", "likelihood", "entropy"),
             e1 <- get_entropy(x[as.logical(y[,key] > 0),])
             model[key,] <- log(e1 + smooth) - log(e0 + smooth) # log-entropy ratio
         }
-    } else {
-        m <- colSums(x)
-        for (key in sort(featnames(y))) {
-            if (verbose)
-                cat(key, " ", sep = "")
-            s <- colSums(x[as.logical(y[,key] > 0),])
-            v1 <- s + smooth
-            v0 <- m - s + smooth
-            model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
-        }
     }
+
     if (verbose)
         cat("\n")
     result <- list(model = model,
@@ -318,4 +315,3 @@ get_entropy <- function(x, base = 2) {
     names(result) <- rownames(x)
     return(result)
 }
-

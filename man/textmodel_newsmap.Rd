@@ -8,8 +8,8 @@ classification}
 textmodel_newsmap(
   x,
   y,
+  measure = c("likelihood", "entropy", "both"),
   smooth = 1,
-  measure = c("likelihood", "entropy"),
   verbose = quanteda_options("verbose")
 )
 }
