@@ -31,7 +31,7 @@
 #'
 #'
 textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
-                              weight = c("none", "entropy", "entropy2"), smooth = 1.0,
+                              weight = c("none", "entropy", "entropy2", "entropy3"), smooth = 1.0,
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
@@ -70,6 +70,8 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
             lr <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
             if (weight == "entropy") {
                 e <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
+            } else if (weight == "entropy3") {
+                e <- get_entropy(z, nrow(x)) # e = 1.0 for uniform distribution
             } else if (weight == "none") {
                 e <- 1.0
             }
