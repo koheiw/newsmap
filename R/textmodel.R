@@ -30,13 +30,16 @@
 #' predict(model_en)
 #'
 #'
-textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy", "both"), smooth = 1.0,
+textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
+                              weight = c("none", "entropy"), smooth = 1.0,
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
 
     measure <- match.arg(measure)
+    weight <- match.arg(weight)
+
     #if (smooth >= 1.0)
     #    warning("The value of smooth should be fractional after v0.8.0. See the manual for the detail.")
 
@@ -53,28 +56,31 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy", "both")
     if (verbose)
         cat("Training for class: ")
 
-    if (measure == "likelihood" || measure == "both") {
+    if (measure == "likelihood") {
         m <- colSums(x)
         for (key in sort(featnames(y))) {
             if (verbose)
                 cat(key, " ", sep = "")
-            s <- colSums(x[as.logical(y[,key] > 0),])
+            z <- x[as.logical(y[,key] > 0),]
+            s <- colSums(z)
             v0 <- m - s + smooth
             v1 <- s + smooth
             lr <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
-            if (measure == "both") {
-                e <- get_entropy(x[as.logical(y[,key] > 0),]) # can base be ndoc(x)?
+            if (weight == "entropy") {
+                e <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
             } else {
                 e <- 1.0
             }
             model[key,] <- lr * e
         }
-    } else if (measure == "entropy") {
-        e0 <- get_entropy(group_topics(x, y))
+    } else if (measure == "entropy") { # TODO: change to conditional entropy
+        e0 <- get_entropy(group_topics(x, y), ncol(y))
         for (key in sort(featnames(y))) {
             if (verbose)
                 cat(key, " ", sep = "")
-            e1 <- get_entropy(x[as.logical(y[,key] > 0),])
+            z <- x[as.logical(y[,key] > 0),]
+            e1 <- get_entropy(z, nrow(z))
+            #model[key,] <- log(e1 + smooth) - log(e0 + smooth) # log-entropy ratio
             model[key,] <- log(e1 + smooth) - log(e0 + smooth) # log-entropy ratio
         }
     }
