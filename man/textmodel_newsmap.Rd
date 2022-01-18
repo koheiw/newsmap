@@ -9,7 +9,7 @@ textmodel_newsmap(
   x,
   y,
   measure = c("likelihood", "entropy"),
-  weight = c("none", "entropy"),
+  weight = c("none", "entropy", "entropy2"),
   smooth = 1,
   verbose = quanteda_options("verbose")
 )
