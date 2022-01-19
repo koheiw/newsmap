@@ -37,7 +37,6 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
 
-    measure <- match.arg(measure)
     entropy <- match.arg(entropy)
 
     #if (smooth >= 1.0)
@@ -98,9 +97,11 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
     result <- list(model = model,
                    entropy = entropy,
                    data = x,
-                   weight = weight,
+                   weight = NULL,
                    feature = colnames(model),
                    call = match.call())
+    if (entropy != "none")
+        result$weight <- weight
     class(result) <- "textmodel_newsmap"
     return(result)
 }
