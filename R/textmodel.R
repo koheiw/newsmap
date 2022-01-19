@@ -69,7 +69,11 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
             v1 <- s + smooth
             lr <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
             if (weight == "entropy") {
-                e <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
+                if (nrow(z) > 1) {
+                    e <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
+                } else {
+                    e <- 0
+                }
             } else if (weight == "entropy3") {
                 e <- get_entropy(z, nrow(x)) # e = 1.0 for uniform distribution
             } else if (weight == "none") {
