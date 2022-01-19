@@ -30,8 +30,8 @@
 #' predict(model_en)
 #'
 #'
-textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
-                              entropy = c("none", "local", "average", "global"), smooth = 1.0,
+textmodel_newsmap <- function(x, y, smooth = 1.0,
+                              entropy = c("none", "local", "average", "global"),
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
@@ -59,11 +59,11 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
 
     if (entropy == "global") {
         e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
-        ent <- matrix(rep(e, each = 4), ncol = ncol(x), nrow = ncol(y),
-                      dimnames = list(colnames(y), colnames(x)))
+        weight <- matrix(rep(e, each = 4), ncol = ncol(x), nrow = ncol(y),
+                         dimnames = list(colnames(y), colnames(x)))
     } else {
-        ent <- matrix(rep(1, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
-                      dimnames = list(colnames(y), colnames(x)))
+        weight <- matrix(rep(1, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
+                         dimnames = list(colnames(y), colnames(x)))
     }
 
     m <- colSums(x)
@@ -77,27 +77,28 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
         model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
         if (entropy %in% c("local", "average")) {
             if (nrow(z) > 1) {
-                ent[key,] <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
+                weight[key,] <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
             } else {
                 if (entropy == "local") {
-                    ent[key,] <- 0
+                    weight[key,] <- 0
                 } else {
-                    ent[key,] <- NA
+                    weight[key,] <- NA
                 }
             }
         }
     }
     if (entropy == "average") {
-        model <- t(t(model) * colMeans(ent, na.rm = TRUE))
+        model <- t(t(model) * colMeans(weight, na.rm = TRUE))
     } else if (entropy %in% c("global", "local")) {
-        model <- model * ent
+        model <- model * weight
     }
 
     if (verbose)
         cat("\n")
     result <- list(model = model,
-                   measure = measure,
+                   entropy = entropy,
                    data = x,
+                   weight = weight,
                    feature = colnames(model),
                    call = match.call())
     class(result) <- "textmodel_newsmap"
