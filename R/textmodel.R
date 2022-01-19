@@ -54,16 +54,21 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
 
     model <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
                     dimnames = list(colnames(y), colnames(x)))
-    ent <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
-                  dimnames = list(colnames(y), colnames(x)))
+
     if (verbose)
         cat("Training for class: ")
 
+    if (weight == "entropy2") {
+        e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
+        ent <- matrix(rep(e, each = 4), ncol = ncol(x), nrow = ncol(y),
+                      dimnames = list(colnames(y), colnames(x)))
+    } else {
+        ent <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
+                      dimnames = list(colnames(y), colnames(x)))
+    }
+
     if (measure == "likelihood") {
         m <- colSums(x)
-        if (weight == "entropy2")
-            e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
-
         for (key in sort(featnames(y))) {
             if (verbose)
                 cat(key, " ", sep = "")
@@ -80,8 +85,6 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
                 }
             } else if (weight == "entropy3") {
                 ent[key,] <- get_entropy(z, nrow(x)) # e = 1.0 for uniform distribution
-            } else if (weight == "entropy2") {
-                ent[key,] <- e
             }
         }
         if (weight == "entropy4") {
