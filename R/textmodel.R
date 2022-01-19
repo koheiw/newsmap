@@ -31,15 +31,14 @@
 #'
 #'
 textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
-                              # entropy = c("none", "class"", "all"),
-                              weight = c("none", "entropy", "entropy2", "entropy3", "entropy4"), smooth = 1.0,
+                              entropy = c("none", "local", "average", "global"), smooth = 1.0,
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
         stop('x and y have to be dfm')
 
     measure <- match.arg(measure)
-    weight <- match.arg(weight)
+    entropy <- match.arg(entropy)
 
     #if (smooth >= 1.0)
     #    warning("The value of smooth should be fractional after v0.8.0. See the manual for the detail.")
@@ -58,51 +57,40 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
     if (verbose)
         cat("Training for class: ")
 
-    if (weight == "entropy2") {
+    if (entropy == "global") {
         e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
         ent <- matrix(rep(e, each = 4), ncol = ncol(x), nrow = ncol(y),
                       dimnames = list(colnames(y), colnames(x)))
     } else {
-        ent <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
+        ent <- matrix(rep(1, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
                       dimnames = list(colnames(y), colnames(x)))
     }
 
-    if (measure == "likelihood") {
-        m <- colSums(x)
-        for (key in sort(featnames(y))) {
-            if (verbose)
-                cat(key, " ", sep = "")
-            z <- x[as.logical(y[,key] > 0),]
-            s <- colSums(z)
-            v0 <- m - s + smooth
-            v1 <- s + smooth
-            model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
-            if (weight == "entropy" || weight == "entropy4") {
-                if (nrow(z) > 1) {
-                    ent[key,] <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
-                } else {
+    m <- colSums(x)
+    for (key in sort(featnames(y))) {
+        if (verbose)
+            cat(key, " ", sep = "")
+        z <- x[as.logical(y[,key] > 0),]
+        s <- colSums(z)
+        v0 <- m - s + smooth
+        v1 <- s + smooth
+        model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
+        if (entropy %in% c("local", "average")) {
+            if (nrow(z) > 1) {
+                ent[key,] <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
+            } else {
+                if (entropy == "local") {
                     ent[key,] <- 0
+                } else {
+                    ent[key,] <- NA
                 }
-            } else if (weight == "entropy3") {
-                ent[key,] <- get_entropy(z, nrow(x)) # e = 1.0 for uniform distribution
             }
         }
-        if (weight == "entropy4") {
-            model <- t(t(model) * colMeans(ent))
-        } else if (weight != "none") {
-            model <- model * ent
-        }
-
-    } else if (measure == "entropy") { # TODO: change to conditional entropy
-        e0 <- get_entropy(group_topics(x, y), ncol(y))
-        for (key in sort(featnames(y))) {
-            if (verbose)
-                cat(key, " ", sep = "")
-            z <- x[as.logical(y[,key] > 0),]
-            e1 <- get_entropy(z, nrow(z))
-            #model[key,] <- log(e1 + smooth) - log(e0 + smooth) # log-entropy ratio
-            model[key,] <- log(e1 + smooth) - log(e0 + smooth) # log-entropy ratio
-        }
+    }
+    if (entropy == "average") {
+        model <- t(t(model) * colMeans(ent, na.rm = TRUE))
+    } else if (entropy %in% c("global", "local")) {
+        model <- model * ent
     }
 
     if (verbose)
