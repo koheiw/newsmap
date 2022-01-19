@@ -58,7 +58,7 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
 
     if (entropy == "global") {
         e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
-        weight <- matrix(rep(e, each = ncol(x)), ncol = ncol(x), nrow = ncol(y),
+        weight <- matrix(rep(e, each = ncol(y)), ncol = ncol(x), nrow = ncol(y),
                          dimnames = list(colnames(y), colnames(x)))
     } else {
         weight <- matrix(rep(1, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
