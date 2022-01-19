@@ -109,20 +109,22 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
 #' Prediction method for textmodel_newsmap
 #'
 #' Predict document class using trained a Newsmap model
-#' @param object a fitted Newsmap textmodel
-#' @param newdata dfm on which prediction should be made
-#' @param confidence.fit if `TRUE`, likelihood ratio score will be returned
-#' @param rank rank of class to be predicted. Only used when `type = "top"`.
-#' @param type if `top`, returns the most likely class specified by
-#'   `rank`; otherwise return a matrix of likelihood ratio scores for all
-#'   possible classes
+#' @param object a fitted Newsmap textmodel.
+#' @param newdata dfm on which prediction should be made.
+#' @param confidence.fit if `TRUE`, it returns likelihood ratio score.
+#' @param rank rank of the class to be predicted. Only used when `type = "top"`.
+#' @param type if `top`, returns the most likely class specified by `rank`;
+#'   otherwise return a matrix of likelihood ratio scores for all possible
+#'   classes.
+#' @param rescale if `TRUE`, likelihood ratio scores are normalized using [scale()]. This affects
+#'   both types of results.
 #' @param ... not used.
 #' @method predict textmodel_newsmap
 #' @export
 #' @importFrom methods as
 #' @importFrom quanteda dfm_match dfm_weight docnames featnames quanteda_options
 predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = FALSE, rank = 1L,
-                                      type = c("top", "all"), ...) {
+                                      type = c("top", "all"), rescale = FALSE, ...) {
 
     type <- match.arg(type)
     if (rank < 1 || !is.numeric(rank)) {
@@ -138,6 +140,9 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
     data <- dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
     is_empty <- rowSums(data) == 0
+
+    if (rescale)
+        temp <- as(scale(temp), 'denseMatrix')
 
     if (type == 'top') {
         if (confidence.fit) {
