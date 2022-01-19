@@ -31,7 +31,8 @@
 #'
 #'
 textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
-                              weight = c("none", "entropy", "entropy2", "entropy3"), smooth = 1.0,
+                              # entropy = c("none", "class"", "all"),
+                              weight = c("none", "entropy", "entropy2", "entropy3", "entropy4"), smooth = 1.0,
                               verbose = quanteda_options('verbose')) {
 
     if (!is.dfm(x) || !is.dfm(y))
@@ -53,6 +54,8 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
 
     model <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
                     dimnames = list(colnames(y), colnames(x)))
+    ent <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
+                  dimnames = list(colnames(y), colnames(x)))
     if (verbose)
         cat("Training for class: ")
 
@@ -60,6 +63,7 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
         m <- colSums(x)
         if (weight == "entropy2")
             e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
+
         for (key in sort(featnames(y))) {
             if (verbose)
                 cat(key, " ", sep = "")
@@ -67,20 +71,25 @@ textmodel_newsmap <- function(x, y, measure = c("likelihood", "entropy"),
             s <- colSums(z)
             v0 <- m - s + smooth
             v1 <- s + smooth
-            lr <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
-            if (weight == "entropy") {
+            model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
+            if (weight == "entropy" || weight == "entropy4") {
                 if (nrow(z) > 1) {
-                    e <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
+                    ent[key,] <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
                 } else {
-                    e <- 0
+                    ent[key,] <- 0
                 }
             } else if (weight == "entropy3") {
-                e <- get_entropy(z, nrow(x)) # e = 1.0 for uniform distribution
-            } else if (weight == "none") {
-                e <- 1.0
+                ent[key,] <- get_entropy(z, nrow(x)) # e = 1.0 for uniform distribution
+            } else if (weight == "entropy2") {
+                ent[key,] <- e
             }
-            model[key,] <- lr * e
         }
+        if (weight == "entropy4") {
+            model <- t(t(model) * colMeans(ent))
+        } else if (weight != "none") {
+            model <- model * ent
+        }
+
     } else if (measure == "entropy") { # TODO: change to conditional entropy
         e0 <- get_entropy(group_topics(x, y), ncol(y))
         for (key in sort(featnames(y))) {
