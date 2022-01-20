@@ -50,7 +50,7 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
     if (!nfeat(y))
         stop("y must have at least one non-zero feature")
 
-    model <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
+    temp <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
                     dimnames = list(colnames(y), colnames(x)))
 
     if (verbose)
@@ -73,7 +73,8 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
         s <- colSums(z)
         v0 <- m - s + smooth
         v1 <- s + smooth
-        model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
+        temp[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
+
         if (entropy %in% c("local", "average")) {
             if (nrow(z) > 1) {
                 weight[key,] <- get_entropy(z, nrow(z)) # e = 1.0 for uniform distribution
@@ -86,10 +87,13 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
             }
         }
     }
+
     if (entropy == "average") {
-        model <- t(t(model) * colMeans(weight, na.rm = TRUE))
+        model <- t(t(temp) * colMeans(weight, na.rm = TRUE))
     } else if (entropy %in% c("global", "local")) {
-        model <- model * weight
+        model <- temp * weight
+    } else {
+        model <- temp
     }
 
     if (verbose)
@@ -98,10 +102,13 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
                    entropy = entropy,
                    data = x,
                    weight = NULL,
+                   bias = NULL,
                    feature = colnames(model),
                    call = match.call())
-    if (entropy != "none")
+    if (entropy != "none") {
         result$weight <- weight
+        result$bias <- model - temp
+    }
     class(result) <- "textmodel_newsmap"
     return(result)
 }
