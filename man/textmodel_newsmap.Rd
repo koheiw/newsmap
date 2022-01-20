@@ -8,9 +8,8 @@ classification}
 textmodel_newsmap(
   x,
   y,
-  measure = c("likelihood", "entropy"),
-  weight = c("none", "entropy", "entropy2"),
   smooth = 1,
+  entropy = c("none", "local", "average", "global"),
   verbose = quanteda_options("verbose")
 )
 }

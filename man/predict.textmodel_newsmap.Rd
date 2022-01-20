@@ -10,21 +10,25 @@
   confidence.fit = FALSE,
   rank = 1L,
   type = c("top", "all"),
+  rescale = FALSE,
   ...
 )
 }
 \arguments{
-\item{object}{a fitted Newsmap textmodel}
+\item{object}{a fitted Newsmap textmodel.}
 
-\item{newdata}{dfm on which prediction should be made}
+\item{newdata}{dfm on which prediction should be made.}
 
-\item{confidence.fit}{if \code{TRUE}, likelihood ratio score will be returned}
+\item{confidence.fit}{if \code{TRUE}, it returns likelihood ratio score.}
 
-\item{rank}{rank of class to be predicted. Only used when \code{type = "top"}.}
+\item{rank}{rank of the class to be predicted. Only used when \code{type = "top"}.}
 
-\item{type}{if \code{top}, returns the most likely class specified by
-\code{rank}; otherwise return a matrix of likelihood ratio scores for all
-possible classes}
+\item{type}{if \code{top}, returns the most likely class specified by \code{rank};
+otherwise return a matrix of likelihood ratio scores for all possible
+classes.}
+
+\item{rescale}{if \code{TRUE}, likelihood ratio scores are normalized using \code{\link[=scale]{scale()}}. This affects
+both types of results.}
 
 \item{...}{not used.}
 }
