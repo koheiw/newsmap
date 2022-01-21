@@ -50,7 +50,7 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
     if (!nfeat(y))
         stop("y must have at least one non-zero feature")
 
-    temp <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
+    model <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
                     dimnames = list(colnames(y), colnames(x)))
 
     if (verbose)
@@ -73,7 +73,7 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
         s <- colSums(z)
         v0 <- m - s + smooth
         v1 <- s + smooth
-        temp[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
+        model[key,] <- log(v1 / sum(v1)) - log(v0 / sum(v0)) # log-likelihood ratio
 
         if (entropy %in% c("local", "average")) {
             if (nrow(z) > 1) {
@@ -89,11 +89,9 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
     }
 
     if (entropy == "average") {
-        model <- t(t(temp) * colMeans(weight, na.rm = TRUE))
-    } else if (entropy %in% c("global", "local")) {
-        model <- temp * weight
-    } else {
-        model <- temp
+        e <- colMeans(weight, na.rm = TRUE)
+        weight <- matrix(rep(e, each = ncol(y)), ncol = ncol(x), nrow = ncol(y),
+                         dimnames = list(colnames(y), colnames(x)))
     }
 
     if (verbose)
@@ -102,13 +100,10 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
                    entropy = entropy,
                    data = x,
                    weight = NULL,
-                   bias = NULL,
                    feature = colnames(model),
                    call = match.call())
-    if (entropy != "none") {
+    if (entropy != "none")
         result$weight <- weight
-        result$bias <- model - temp
-    }
     class(result) <- "textmodel_newsmap"
     return(result)
 }
@@ -142,7 +137,11 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence.fit = F
     } else {
         data <- newdata
     }
-    model <- object$model
+    if (is.null(object$weight)){
+        model <- object$model
+    } else {
+        model <- object$model * object$weight
+    }
     data <- dfm_match(data, colnames(model))
     data <- dfm_weight(data, 'prop')
     temp <- data %*% Matrix::t(as(model, 'denseMatrix'))
