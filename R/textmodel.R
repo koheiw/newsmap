@@ -214,7 +214,12 @@ summary.textmodel_newsmap <- function(object, n = 10, ...) {
 #' @importFrom stats coef
 #' @export
 coef.textmodel_newsmap <- function(object, n = 10, ...) {
-    model <- as(object$model, "dgTMatrix")
+    if (is.null(object$weight)){
+        model <- object$model
+    } else {
+        model <- object$model * object$weight
+    }
+    model <- as(model, "dgTMatrix")
     temp <- model@x
     names(temp) <- colnames(object$model)[model@j + 1]
     result <- split(temp, rownames(model)[model@i + 1])
