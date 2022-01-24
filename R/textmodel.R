@@ -50,11 +50,9 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
     label <- match.arg(label)
 
     if (label == "max") {
-        temp <- y[Matrix::rowSums(y) > 0,] # avoid getting random number from max.col()
-        y <- Matrix::sparseMatrix(i = seq_len(nrow(temp)), j = max.col(temp),
-                                  x = rep(1L, nrow(temp)),
-                                  dims = dim(y),
-                                  dimnames = dimnames(y))
+        y <- as(y, "dgTMatrix")
+        s <- sapply(split(y@x, y@i), max)
+        y@x[y@x < s[y@i + 1L]] <- 0L
     }
 
     x <- dfm_trim(x, min_termfreq = 1)

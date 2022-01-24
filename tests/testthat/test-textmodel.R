@@ -310,14 +310,16 @@ test_that("predict() returns NA for documents without registered features", {
 test_that("label is working", {
     txt <- c("American and Japanese leaders met in Tokyo.",
              "Paris Hilton visited British museum in London.",
+             "India and Pakistan are neighbours.",
              "A man went to the Moon.")
     toks <- tokens(txt)
+    toks_label <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
     dfmt <- dfm(toks)
-    dfmt_label <- dfm_lookup(dfmt, data_dictionary_newsmap_en, levels = 3)
+    dfmt_label <- dfm(toks_label)
 
     map1 <- textmodel_newsmap(dfmt, dfmt_label)
-    expect_equal(names(coef(map1)), c("US", "JP", "GB", "FR"))
+    expect_equal(names(coef(map1)), c("us", "jp", "in", "pk", "gb", "fr"))
 
     map2 <- textmodel_newsmap(dfmt, dfmt_label, label = "max")
-    expect_equal(names(coef(map2)), c("JP", "GB"))
+    expect_equal(names(coef(map2)), c("jp", "in", "pk", "gb"))
 })
