@@ -7,9 +7,10 @@
 #' Chinese (zh).
 #' @param x a dfm or fcm created by [quanteda::dfm()]
 #' @param y a dfm or a sparse matrix that record class membership of the documents.
+#' @param label if "max", uses only labels for the maximum value in each row of `y`.
 #' @param smooth a value added to the frequency of words to smooth likelihood ratios.
 #' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
-#' @param verbose if `TRUE`, show progress of training.
+#' @param verbose if `TRUE`, shows progress of training.
 #' @details Newsmap learns association between words and classes based on the labels
 #' in `y`. Therefore, rows in `x` and `y` must correspond; columns in `y` must be
 #' class labels.
@@ -34,21 +35,27 @@
 #' predict(model_en)
 #'
 #' @export
-textmodel_newsmap <- function(x, y, smooth = 1.0,
-                              entropy = c("none", "local", "average", "global"),
+textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
+                              entropy = c("none", "global", "local", "average"),
                               verbose = quanteda_options('verbose')) {
     UseMethod("textmodel_newsmap")
 }
 
 #' @export
-textmodel_newsmap.dfm <- function(x, y, smooth = 1.0,
-                                  entropy = c("none", "local", "average", "global"),
+textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
+                                  entropy = c("none", "global", "local", "average"),
                                   verbose = quanteda_options('verbose')) {
 
     entropy <- match.arg(entropy)
+    label <- match.arg(label)
 
-    #if (smooth >= 1.0)
-    #    warning("The value of smooth should be fractional after v0.8.0. See the manual for the detail.")
+    if (label == "max") {
+        temp <- y[Matrix::rowSums(y) > 0,] # avoid getting random number from max.col()
+        y <- Matrix::sparseMatrix(i = seq_len(nrow(temp)), j = max.col(temp),
+                                  x = rep(1L, nrow(temp)),
+                                  dims = dim(y),
+                                  dimnames = dimnames(y))
+    }
 
     x <- dfm_trim(x, min_termfreq = 1)
     y <- dfm_trim(as.dfm(y), min_termfreq = 1)

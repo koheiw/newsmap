@@ -8,8 +8,9 @@ classification}
 textmodel_newsmap(
   x,
   y,
+  label = c("all", "max"),
   smooth = 1,
-  entropy = c("none", "local", "average", "global"),
+  entropy = c("none", "global", "local", "average"),
   verbose = quanteda_options("verbose")
 )
 }
@@ -18,11 +19,13 @@ textmodel_newsmap(
 
 \item{y}{a dfm or a sparse matrix that record class membership of the documents.}
 
+\item{label}{if "max", uses only labels for the maximum value in each row of \code{y}.}
+
 \item{smooth}{a value added to the frequency of words to smooth likelihood ratios.}
 
 \item{entropy}{the scheme to compute the entropy to regularize likelihood ratios.}
 
-\item{verbose}{if \code{TRUE}, show progress of training.}
+\item{verbose}{if \code{TRUE}, shows progress of training.}
 }
 \description{
 Train a Newsmap model to predict geographical focus of documents using a
