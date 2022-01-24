@@ -5,15 +5,19 @@
 #' pre-defined seed dictionary. Currently seed dictionaries are available in
 #' English (en), German (de), Spanish (es), Japanese (ja), Russian (ru) and
 #' Chinese (zh).
-#' @param x dfm from which features will be extracted
-#' @param y dfm in which features will be class labels
-#' @param smooth smoothing parameter for word frequency
-#' @param verbose if `TRUE`, show progress of training
-#' @importFrom quanteda is.dfm dfm_trim nfeat
-#' @references Kohei Watanabe. 2018.
-#'   "[Newsmap:
-#'    semi-supervised approach to geographical news classification.](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full)"
-#'   *Digital Journalism* 6(3): 294-309.
+#' @param x a dfm or fcm created by [quanteda::dfm()]
+#' @param y a dfm or a sparse matrix that record class membership of the documents.
+#' @param smooth a value added to the frequency of words to smooth likelihood ratios.
+#' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
+#' @param verbose if `TRUE`, show progress of training.
+#' @details Newsmap learns association between words and classes based on the labels
+#' in `y`. Therefore, rows in `x` and `y` must correspond; columns in `y` must be
+#' class labels.
+#' @importFrom quanteda is.dfm as.dfm dfm_trim nfeat
+#' @references Kohei Watanabe. 2018. "[Newsmap: semi-supervised approach to
+#'   geographical news
+#'   classification.](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full)"
+#'    *Digital Journalism* 6(3): 294-309.
 #' @export
 #' @examples
 #' require(quanteda)
@@ -29,13 +33,17 @@
 #' model_en <- textmodel_newsmap(feat_dfm_en, label_dfm_en)
 #' predict(model_en)
 #'
-#'
+#' @export
 textmodel_newsmap <- function(x, y, smooth = 1.0,
                               entropy = c("none", "local", "average", "global"),
                               verbose = quanteda_options('verbose')) {
+    UseMethod("textmodel_newsmap")
+}
 
-    if (!is.dfm(x) || !is.dfm(y))
-        stop('x and y have to be dfm')
+#' @export
+textmodel_newsmap.dfm <- function(x, y, smooth = 1.0,
+                                  entropy = c("none", "local", "average", "global"),
+                                  verbose = quanteda_options('verbose')) {
 
     entropy <- match.arg(entropy)
 
@@ -43,7 +51,7 @@ textmodel_newsmap <- function(x, y, smooth = 1.0,
     #    warning("The value of smooth should be fractional after v0.8.0. See the manual for the detail.")
 
     x <- dfm_trim(x, min_termfreq = 1)
-    y <- dfm_trim(y, min_termfreq = 1)
+    y <- dfm_trim(as.dfm(y), min_termfreq = 1)
 
     if (!nfeat(x))
         stop("x must have at least one non-zero feature")
@@ -222,7 +230,8 @@ coef.textmodel_newsmap <- function(object, n = 10, ...) {
     model <- as(model, "dgTMatrix")
     temp <- model@x
     names(temp) <- colnames(object$model)[model@j + 1]
-    result <- split(temp, rownames(model)[model@i + 1])
+    result <- split(temp, factor(model@i + 1, levels = seq_len(nrow(model)),
+                                 labels = rownames(model)))
     result <- lapply(result, function(x) head(sort(x, decreasing = TRUE), n))
     return(result)
 }
