@@ -51,7 +51,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
 
     if (label == "max") {
         y <- as(y, "dgTMatrix")
-        s <- sapply(split(y@x, y@i), max)
+        s <- sapply(split(y@x, y@i + 1L), max)
         y@x[y@x < s[y@i + 1L]] <- 0L
     }
 
