@@ -9,10 +9,10 @@ AFRICA:
     'KE': [Quénia, Quênia, Quenian*, Nairóbi]
     'KM': [Comores, Comoriense*, Comorian*, Moroni]
     'MG': [Madagáscar, Madagascar, Madagascarense*, Malgaxe*, Antananarivo]
-    'MU': [Maurícia, Maurício, Maurician*, Porto Luís]
+    'MU': [Mauríci, Maurician*, Porto Luís]
     'MW': [Malawi, Maláui, Malaui, Malauian*, Malawian*, Malavian*, Malawiense*, Malauiense*, Malavita*, Lilongué, Lilôngue, Lilóngue, Lilongue, Lilongwe]
     'MZ': [Moçambique, Moçambican*, Maputo]
-    'RE': [Reunião, Ilha da Reunião, Reunionense*, Reunionês*, Reuniones*]
+    'RE': [Ilha da Reunião, Reunionense*, Reunionês*, Reuniones*]
     'RW': [Ruanda, Ruandês*, Quigali]
     'SC': [Seicheles, Seychelles, Seychellense*, Seichelense*]
     'SO': [Somália, Somali*, Mogadíscio, Mogadixo]
@@ -37,7 +37,7 @@ AFRICA:
     'DZ': [Argélia, República Argelina Democrática e Popular, Argelin*, Argel]
     'EG': [Egito, Egípci*, Egipcian*, Egipcíac*, Cairo]
     'EH': [Saara Ocidental, Sara Ocidental, Sáara Ocidental, Saaráui*, Saarian*, Sarian*, El Aiune, Laiune]
-    'LY': [Líbia, Líbio*, Líbic*, Trípoli]
+    'LY': [Líbia*, Líbio*, Líbic*, Trípoli]
     'MA': [Marrocos, Marroquin*, Rabat, Rabate]
     'SD': [Sudão, Sudanês*, Cartum]
     'SS': [Sudão do Sul, Sudão Meridional, Sul-Sudanês*, Juba]
@@ -47,7 +47,7 @@ AFRICA:
     'BW': [Botswana, Botsuana, Bechuan*, Botsuanense*, Botsuan*, Botsuanês*, Gaborone]
     'LS': [Lesoto, Lessoto, Lesotian*, Lestotense*, Lesoto*, Maseru]
     'NA': [Namíbia, Namibian*, Vinduque]
-    'SZ': [Essuatíni, Essuatinian*, Lobamba, Mebabane, Mbabane]
+    'SZ': [Essuatíni, Eswatini, Essuatinian*, Lobamba, Mebabane, Mbabane]
     'ZA': [África do Sul, Sul-African*, Austro-African*, Cidade do Cabo, Joanesburgo, Johannesburgo, Pretória]
 
   WEST:
@@ -128,10 +128,10 @@ AMERICA:
 
   NORTH:
     'BM': [Bermudas, Bermudenh*, Bermudense*]
-    'CA': [Canadá, Canadense*, Canadian*, Ottawa, Otava, Toronto, Quebec, Cidade de Quebec]
+    'CA': [Canadá, Canadense*, Canadian*, Ottawa, Otava, Toronto, Quebec]
     'GL': [Gronelândia, Groenlândia, Groelândia, Gronelandês*, Groenlandês, Nuuk, Nuque]
     'PM': [São Pedro e Miquelão, São Pedro e Miquelon, Saint-Pierre e Miquelon, Miquelonês*, São-Pedrense*, São Pedro]
-    'US': [Estados Unidos, Estados Unidos da América, América, EUA, Washington, Nova Iorque, Nova York]
+    'US': [Estados Unidos, Estados Unidos da América, EUA, Norte-Americano*, Estadunidense*, Estado-Unidense*, Ianque*, Washington, Nova Iorque, Nova York]
 
 ASIA:
   CENTER:
@@ -146,10 +146,10 @@ ASIA:
     'HK': [Hong Kong, Honconguês, Honcongues*]
     'JP': [Japão, Japonês*, Japones*, Japonense*, Japônic*, Japónic*, Nipônic*, Nipónic*, Tóquio]
     'KP': [Coreia do Norte, Coréia do Norte, República Popular Democrática da Coreia, RPDC, Norte-Corean*, Pyongyang, Pionguiangue]
-    'KR': [Coreia do Sul, Coréia do Sul, República da Coreia, Coreia, Sul-Corean*, Seul]
+    'KR': [Coreia do Sul, Coréia do Sul, República da Coreia, Sul-Corean*, Seul]
     'MN': [Mongólia, Mongol*, Mongólic*, Ulã Bator, Ulan Bator]
     'MO': [Macau, Macauense*, Macaense*, Macaíst*]
-    'TW': [Taiwan, Taiwanês*, Formosan*, Formosin*, Taiuanês*, Taipé, Cidade de Taipé]
+    'TW': [Taiwan, Taiwanês*, Formosan*, Formosin*, Taiuanês*, Taipé]
 
   SOUTH:
     'AF': [Afeganistão, Afegã*, Afegan*, Afegânic*, Cabul, Cábul]
@@ -188,20 +188,20 @@ ASIA:
     'KW': [Kuwait, Kuwaitian*, Koweitian*, Cuwaitian*, Coveitian*, Kowaitian*, Cuvait*, Kuwait*, Cuait*, Koweit, Coveite, Couaite, Quaite]
     'LB': [Líbano,  Libanês*, Beirute]
     'OM': [Omã, Omão, Omanense*, Omanian*, Omani, Mascate]
-    'PS': [Palestina, Palestin*, Gaza, Cisjordânia]
+    'PS': [Palestin*, Gaza, Cisjordânia]
     'QA': [Catar, Qatar, Catarense*, Catari*, Catarian*, Doha, Doa]
     'SA': [Arábia Saudita, Saudit*, Riade]
-    'SY': [Síria, Siríac*, Sírio*, Síria*, Damasco]
+    'SY': [Síri*, Siríac*, Damasco]
     'TR': [Turquia, Turc*, Ancara, Istambul]
     'YE': [Iémen, Iêmen, Iemenit*, Saná, Sanaa, Sanaá]
 
 EUROPE:
   EAST:
     'BG': [Bulgária, Búlgar*, Sófia]
-    'BY': [Bielorrússia, Belarus, Bielorruss*, Belaruss* Minsk, Minsque]
+    'BY': [Bielorrússia, Belarus, Bielorruss*, Belaruss*, Minsk, Minsque]
     'CZ': [Chéquia, Tchéquia, República Checa, República Tcheca, Chec*, Praga]
     'HU': [Hungria, Húngar*, Budapeste]
-    'MD': [Moldávia, Moldova, Moldávi*, Moldávic*, Moldav*, Moldov*, Quixinau, Quichinau, Chisinau, Quixineve]
+    'MD': [Moldávi*, Moldávic*, Moldav*, Moldov*, Quixinau, Quichinau, Chisinau, Quixineve]
     'PL': [Polónia, Polônia, Polac*, Polonês, Varsóvia]
     'RO': [Romênia, Roménia, Romen*, Bucareste]
     'RU': [Rússia, Federação Russa, Russo*, Russa*, Moscou, Moscovo]
@@ -280,12 +280,12 @@ OCEANIA:
     'PW': [Palau, Palauan*, Palauense*, Melekeok, Melequeoque]
 
   POL:
-    'AS': [Samoa Americana, Estadunidense*, Samoan*, Pago Pago]
+    'AS': [Samoa Americana, Samoan*, Pago Pago]
     'NU': [Niue, Niuê, Niuean*, Alofi]
     'PF': [Polinésia Francesa, Franco-Polinési*, Papeete]
     'PN': [Ilhas Pitcairn, Ilhas Picárnia, Henderson, Ducie e Oeno, Pitcairnês*, Pitcairnes*, Pitcairan*, Adamstown]
     'TK': [Toquelau, Ilhas da União, Toquelauan*, Nukunonu]
-    'TO': [Tonga, Tonga*, Tonganês*, Nucualofa]
+    'TO': [Tonga*, Tonganês*, Nucualofa]
     'TV': [Tuvalu, Ilhas Ellice, Tuvaluan*, Funafuti]
     'WF': [Wallis e Futuna, Wallisense*, Mata Utu]
     'WS': [Samoa, Samoan*, Apia]
