@@ -229,3 +229,23 @@ test_that("predict() returns NA for documents without registered features", {
 
 })
 
+test_that("accuracy() is correct", {
+
+    v1 <- c("c", NA,  "b", "a", "b", "c", "b", "b", "a", "c")
+    v2 <- c("c", "b", "a", "a", "b", "c", "b", "b", "a", "c")
+
+    accu <- accuracy(v1, v2)
+
+    expect_equal(accu$tp, c(2, 3, 3))
+    expect_equal(accu$fp, c(0, 1, 0))
+    expect_equal(accu$tn, c(6, 5, 6))
+    expect_equal(accu$fn, c(1, 0, 0))
+
+    expect_identical(
+        accu,
+        accuracy(rev(v1), rev(v2))
+    )
+})
+
+
+
