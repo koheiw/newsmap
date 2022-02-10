@@ -1,34 +1,19 @@
 
-# Newsmap: geographical news classifier
+# Newsmap: geographical document classifier
 
 Semi-supervised Bayesian model for geographical document classification.
 Newsmap automatically constructs a large geographical dictionary from a
-corpus of news stories for accurate classification. Currently, the
-**newsmap** package contains seed dictionaries for *English*, *German*,
-*French*, *Spanish*, *Russian*, *Italian*, *Hebrew*, *Arabic*,
-*Japanese*, *Chinese* documents.
+corpus to accurate classify documents. Currently, the **newsmap**
+package contains seed dictionaries in *English*, *German*, *French*,
+*Spanish*, *Portuguese*, *Russian*, *Italian*, *Hebrew*, *Arabic*,
+*Japanese*, *Chinese* languages.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised
 approach to geographical news
 classification](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full).
-**newsmap** has also been used in recent social scientific studies:
-
--   Kohei Watanabe, 2017. “[Measuring News Bias: Russia’s Official News
-    Agency ITAR-TASS’s Coverage of the Ukraine
-    Crisis](https://journals.sagepub.com/eprint/TBc9miIc89njZvY3gyAt/full)”,
-    *European Journal Communication*
--   Kohei Watanabe, 2017. “[The spread of the Kremlin’s narratives by a
-    western news agency during the Ukraine
-    crisis](https://www.tandfonline.com/eprint/h2IHsz2YKce6uJeeCmcd/full)”,
-    *Journal of International Communication*
--   Tomila Lankina and Kohei Watanabe. 2017. ["Russian Spring’ or
-    ‘Spring Betrayal’? The Media as a Mirror of Putin’s Evolving
-    Strategy in
-    Ukraine](https://www.tandfonline.com/eprint/tWik7KDfsZv8C2KeNkI5/full)",
-    *Europe-Asia Studies*
-
-Please contact [Kohei Watanabe](https://github.com/koheiw) or issue a
-pull request if you want your publication included in this list.
+**newsmap** has also been used in scientific research in various fields
+([Google
+Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=3438152153062747083)).
 
 ## How to install
 
@@ -67,11 +52,9 @@ download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '
 ``` r
 require(newsmap)
 ## Loading required package: newsmap
-## Warning in .recacheSubclasses(def@className, def, env): undefined subclass
-## "numericVector" of class "Mnumeric"; definition not updated
 require(quanteda)
 ## Loading required package: quanteda
-## Package version: 3.0.9000
+## Package version: 3.2.0.9000
 ## Unicode version: 13.0
 ## ICU version: 66.1
 ## Parallel computing: 6 of 6 threads used.
