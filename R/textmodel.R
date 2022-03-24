@@ -102,7 +102,6 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
         }
     }
 
-    function()
     if (entropy == "average") {
         e <- colMeans(weight, na.rm = TRUE)
         weight <- matrix(rep(e, each = ncol(y)), ncol = ncol(x), nrow = ncol(y),
