@@ -43,8 +43,8 @@ textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
 #' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
 #' @export
 textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
-                                  entropy = c("none", "global", "local", "average"),
-                                  verbose = quanteda_options('verbose'), ...) {
+                                  verbose = quanteda_options('verbose'), ...,
+                                  entropy = c("none", "global", "local", "average")) {
 
     unused_dots(...)
     entropy <- match.arg(entropy)
