@@ -7,10 +7,11 @@
 \method{predict}{textmodel_newsmap}(
   object,
   newdata = NULL,
-  confidence.fit = FALSE,
+  confidence = FALSE,
   rank = 1L,
   type = c("top", "all"),
   rescale = FALSE,
+  min_n = 0L,
   ...
 )
 }
@@ -19,7 +20,7 @@
 
 \item{newdata}{dfm on which prediction should be made.}
 
-\item{confidence.fit}{if \code{TRUE}, it returns likelihood ratio score.}
+\item{confidence}{if \code{TRUE}, it returns likelihood ratio score.}
 
 \item{rank}{rank of the class to be predicted. Only used when \code{type = "top"}.}
 
@@ -29,6 +30,8 @@ classes.}
 
 \item{rescale}{if \code{TRUE}, likelihood ratio scores are normalized using \code{\link[=scale]{scale()}}. This affects
 both types of results.}
+
+\item{min_n}{set the minimum number of polarity words in documents.}
 
 \item{...}{not used.}
 }
