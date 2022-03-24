@@ -10,6 +10,7 @@
 #' @param label if "max", uses only labels for the maximum value in each row of `y`.
 #' @param smooth a value added to the frequency of words to smooth likelihood ratios.
 #' @param verbose if `TRUE`, shows progress of training.
+#' @param ... additional arguments passed to internal functions.
 #' @details Newsmap learns association between words and classes based on the labels
 #' in `y`. Therefore, rows in `x` and `y` must correspond; columns in `y` must be
 #' class labels.
@@ -35,7 +36,7 @@
 #'
 #' @export
 textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
-                              verbose = quanteda_options('verbose'), ..) {
+                              verbose = quanteda_options('verbose'), ...) {
     UseMethod("textmodel_newsmap")
 }
 
@@ -43,8 +44,9 @@ textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
 #' @export
 textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
                                   entropy = c("none", "global", "local", "average"),
-                                  verbose = quanteda_options('verbose')) {
+                                  verbose = quanteda_options('verbose'), ...) {
 
+    unused_dots(...)
     entropy <- match.arg(entropy)
     label <- match.arg(label)
 

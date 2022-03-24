@@ -11,7 +11,7 @@ textmodel_newsmap(
   label = c("all", "max"),
   smooth = 1,
   verbose = quanteda_options("verbose"),
-  ..
+  ...
 )
 }
 \arguments{
@@ -24,6 +24,8 @@ textmodel_newsmap(
 \item{smooth}{a value added to the frequency of words to smooth likelihood ratios.}
 
 \item{verbose}{if \code{TRUE}, shows progress of training.}
+
+\item{...}{additional arguments passed to internal functions.}
 }
 \description{
 Train a Newsmap model to predict geographical focus of documents using a
