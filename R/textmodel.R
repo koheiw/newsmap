@@ -196,13 +196,13 @@ accuracy <- function(x, y) {
     temp <- data.frame(test = x, true = y)
     temp <- temp[!is.na(temp$true),,drop = FALSE] # remove unknown in true class
 
-    label <- unique(temp$true)
+    label <- sort(unique(temp$true))
     result <- data.frame()
     for(l in label){
-        tp <- sum(temp$true == l & temp$test == l)
-        fp <- sum(temp$true != l & temp$test == l)
-        tn <- sum(temp$true != l & temp$test != l)
-        fn <- sum(temp$true == l & temp$test != l)
+        tp <- sum(temp$true == l & temp$test == l, na.rm = TRUE)
+        fp <- sum(temp$true != l & temp$test == l, na.rm = TRUE)
+        tn <- sum(temp$true != l & temp$test != l, na.rm = TRUE)
+        fn <- sum(temp$true == l & temp$test != l, na.rm = TRUE)
         precision <- tp / (tp + fp)
         recall <- tp / (tp + fn)
         f1 <- (2 * precision * recall) / (precision + recall)

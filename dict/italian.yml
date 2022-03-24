@@ -173,7 +173,7 @@ ASIA:
     'SG': [Singapore, singaporean*]
     'TH': [Thailandia, Tailandia, Bangkok, thailandes*, tailandes*]
     'TL': [Timor Est, Dili, est-timores*]
-    'VN': [Vietnam, Hanoi, Ho Chi Minh, Città di Ho Chi Minh, vietnamit*]
+    'VN': [Vietnam, Hanoi, Ho Chi Minh, Saigon, vietnamit*]
 
   WEST:
     'AE': [Emirati Arabi Uniti, UAE, Abu Dhabi, emiratin*, emiratens*]
@@ -246,7 +246,7 @@ EUROPE:
     'VA': [Vaticano, Città del Vaticano]
 
   WEST:
-    'AT': [Austria, Vienna, austriac*]
+    'AT': [Austria, Vienna, austriac()]
     'BE': [Belgio, Bruxelles, belg*]
     'CH': [Svizzera, Zurigo, Berna, svizzer*]
     'DE': [Germania, Berlino, Francoforte, tedesc*]
