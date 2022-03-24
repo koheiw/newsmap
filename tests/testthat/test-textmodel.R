@@ -323,3 +323,21 @@ test_that("label is working", {
     map2 <- textmodel_newsmap(dfmt, dfmt_label, label = "max")
     expect_equal(names(coef(map2)), c("jp", "in", "pk", "gb"))
 })
+
+test_that("min_n is working", {
+
+    dfmt_feat <- dfm(tokens(c("aa bb cc dd", "aa bb", "bb cc")))
+    dfmt_label <- dfm(tokens(c("A", "B", "B")), tolower = FALSE)
+    map <- textmodel_newsmap(dfmt_feat, dfmt_label)
+    pred1 <- predict(map, type = "all")
+
+    pred2 <- predict(map, type = "all", min_n = 1)
+    expect_equal(pred2, pred1)
+
+    pred3 <- predict(map, type = "all", min_n = 10)
+    expect_equal(pred3, pred1 * ntoken(dfmt_feat) / 10)
+
+    pred4 <- predict(map, type = "all", min_n = 3)
+    expect_equal(pred4, pred1 * ntoken(dfmt_feat) / c(4, 3, 3))
+
+})
