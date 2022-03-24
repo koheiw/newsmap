@@ -247,10 +247,15 @@ test_that("methods for textmodel_newsmap works correctly", {
     expect_error(predict(map, rank = 0))
 
     # different prediction outputs agree
-    pred_top <- predict(map, confidence.fit = TRUE)
+    pred_top <- predict(map, confidence = TRUE)
     pred_all <- predict(map, type = 'all')
     expect_equivalent(pred_top$confidence.fit, apply(pred_all, 1, max))
     expect_equivalent(pred_top$confidence.fit[1], pred_top$confidence.fit[3])
+
+    expect_warning(
+        predict(map, confidence.fit = TRUE),
+        "'confidence.fit' is deprecated; use 'confidence'"
+    )
 
     # print
     expect_output(
@@ -295,7 +300,7 @@ test_that("predict() returns NA for documents without registered features", {
                  factor(c(text1 = "A", text2 = "B", text3 = "B")))
     expect_equal(predict(map, newdata = dfmt_new),
                  factor(c(text1 = "A", text2 = "B", text3 = NA)))
-    pred <- predict(map, confidence.fit = TRUE, newdata = dfmt_new)
+    pred <- predict(map, confidence = TRUE, newdata = dfmt_new)
     expect_equal(pred$class,
                  factor(c(text1 = "A", text2 = "B", text3 = NA)))
     expect_equal(pred$confidence.fit,
