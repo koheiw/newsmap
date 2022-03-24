@@ -10,8 +10,8 @@ textmodel_newsmap(
   y,
   label = c("all", "max"),
   smooth = 1,
-  entropy = c("none", "global", "local", "average"),
-  verbose = quanteda_options("verbose")
+  verbose = quanteda_options("verbose"),
+  ..
 )
 }
 \arguments{
@@ -22,8 +22,6 @@ textmodel_newsmap(
 \item{label}{if "max", uses only labels for the maximum value in each row of \code{y}.}
 
 \item{smooth}{a value added to the frequency of words to smooth likelihood ratios.}
-
-\item{entropy}{the scheme to compute the entropy to regularize likelihood ratios.}
 
 \item{verbose}{if \code{TRUE}, shows progress of training.}
 }

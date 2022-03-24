@@ -9,7 +9,6 @@
 #' @param y a dfm or a sparse matrix that record class membership of the documents.
 #' @param label if "max", uses only labels for the maximum value in each row of `y`.
 #' @param smooth a value added to the frequency of words to smooth likelihood ratios.
-#' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
 #' @param verbose if `TRUE`, shows progress of training.
 #' @details Newsmap learns association between words and classes based on the labels
 #' in `y`. Therefore, rows in `x` and `y` must correspond; columns in `y` must be
@@ -36,11 +35,11 @@
 #'
 #' @export
 textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
-                              entropy = c("none", "global", "local", "average"),
-                              verbose = quanteda_options('verbose')) {
+                              verbose = quanteda_options('verbose'), ..) {
     UseMethod("textmodel_newsmap")
 }
 
+#' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
 #' @export
 textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
                                   entropy = c("none", "global", "local", "average"),
@@ -101,6 +100,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
         }
     }
 
+    function()
     if (entropy == "average") {
         e <- colMeans(weight, na.rm = TRUE)
         weight <- matrix(rep(e, each = ncol(y)), ncol = ncol(x), nrow = ncol(y),
