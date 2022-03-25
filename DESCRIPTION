@@ -1,7 +1,7 @@
 Package: newsmap
 Type: Package
-Title: Semisupervised Model for Geographical Document Classification
-Version: 0.7.5
+Title: Semi-Supervised Model for Geographical Document Classification
+Version: 0.8.0
 Authors@R: c(person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = c("aut", "cre", "cph")), 
              person("Stefan", "Müller", email = "mullers@tcd.ie", role = "aut"),
              person("Dani", "Madrid-Morales", email = "dani.madrid@my.cityu.edu.hk", role = "aut"),
@@ -35,3 +35,4 @@ Suggests:
 Language: en-GB
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
+
