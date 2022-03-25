@@ -1,5 +1,11 @@
 require(quanteda)
 
+toks_test <- tokens(data_corpus_inaugural, remove_punct = TRUE)
+dfmt_test <- dfm(toks_test) %>%
+    dfm_remove(stopwords("en"))
+toks_dict_test <- tokens_lookup(toks_test, data_dictionary_newsmap_en, level = 3)
+dfmt_dict_test <- dfm(toks_test)
+
 test_that("textmodel_newsmap() works", {
     toks <- tokens(data_corpus_inaugural, remove_punct = TRUE) %>%
         tokens_remove(stopwords())
@@ -19,6 +25,8 @@ test_that("textmodel_newsmap() works", {
     expect_error(textmodel_newsmap(list(), smat))
     expect_error(textmodel_newsmap(dfmt, list()))
     expect_error(textmodel_newsmap(dfmt, NULL))
+    expect_warning(textmodel_newsmap(dfmt, mat, aaa = 10),
+                   "aaa argument is not used")
 
     # use entropy weighting
     map_loc <- textmodel_newsmap(dfmt, mat, entropy = "local")
@@ -156,4 +164,20 @@ test_that("accuracy() is correct", {
     )
 })
 
+test_that("afe() is working", {
+
+    txt <- c("American and Japanese leaders met in Tokyo.",
+             "Paris Hilton visited British museum in London.",
+             "India and Pakistan are neighbours.",
+             "A man went to the Moon.")
+    toks <- tokens(txt)
+    toks_label <- tokens_lookup(toks, data_dictionary_newsmap_en, levels = 3)
+    dfmt <- dfm(toks)
+    dfmt_label <- dfm(toks_label)
+
+    expect_equal(afe(dfmt, dfmt_label),
+                 7.90, tolerance = 0.1)
+    expect_error(afe(dfmt, matrix()))
+    expect_error(afe(list(), dfmt_label))
+})
 
