@@ -10,6 +10,7 @@ textmodel_newsmap(
   y,
   label = c("all", "max"),
   smooth = 1,
+  drop_label = TRUE,
   verbose = quanteda_options("verbose"),
   ...
 )
@@ -22,6 +23,8 @@ textmodel_newsmap(
 \item{label}{if "max", uses only labels for the maximum value in each row of \code{y}.}
 
 \item{smooth}{a value added to the frequency of words to smooth likelihood ratios.}
+
+\item{drop_label}{if \code{TRUE}, drops empty columns of \code{y} and ignore their labels.}
 
 \item{verbose}{if \code{TRUE}, shows progress of training.}
 
