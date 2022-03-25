@@ -5,22 +5,38 @@
 \title{Semi-supervised Bayesian multinomial model for geographical document
 classification}
 \usage{
-textmodel_newsmap(x, y, smooth = 1, verbose = quanteda_options("verbose"))
+textmodel_newsmap(
+  x,
+  y,
+  label = c("all", "max"),
+  smooth = 1,
+  verbose = quanteda_options("verbose"),
+  ...
+)
 }
 \arguments{
-\item{x}{dfm from which features will be extracted}
+\item{x}{a dfm or fcm created by \code{\link[quanteda:dfm]{quanteda::dfm()}}}
 
-\item{y}{dfm in which features will be class labels}
+\item{y}{a dfm or a sparse matrix that record class membership of the documents.}
 
-\item{smooth}{smoothing parameter for word frequency}
+\item{label}{if "max", uses only labels for the maximum value in each row of \code{y}.}
 
-\item{verbose}{if \code{TRUE}, show progress of training}
+\item{smooth}{a value added to the frequency of words to smooth likelihood ratios.}
+
+\item{verbose}{if \code{TRUE}, shows progress of training.}
+
+\item{...}{additional arguments passed to internal functions.}
 }
 \description{
 Train a Newsmap model to predict geographical focus of documents using a
 pre-defined seed dictionary. Currently seed dictionaries are available in
 English (en), German (de), Spanish (es), Japanese (ja), Russian (ru) and
 Chinese (zh).
+}
+\details{
+Newsmap learns association between words and classes based on the labels
+in \code{y}. Therefore, rows in \code{x} and \code{y} must correspond; columns in \code{y} must be
+class labels.
 }
 \examples{
 require(quanteda)
@@ -36,10 +52,8 @@ feat_dfm_en <- dfm(toks_en, tolower = FALSE)
 model_en <- textmodel_newsmap(feat_dfm_en, label_dfm_en)
 predict(model_en)
 
-
 }
 \references{
-Kohei Watanabe. 2018.
-"\href{https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap: semi-supervised approach to geographical news classification.}"
+Kohei Watanabe. 2018. "\href{https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full}{Newsmap: semi-supervised approach to geographical news classification.}"
 \emph{Digital Journalism} 6(3): 294-309.
 }
