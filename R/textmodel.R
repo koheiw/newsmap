@@ -8,6 +8,7 @@
 #' @param x a dfm or fcm created by [quanteda::dfm()]
 #' @param y a dfm or a sparse matrix that record class membership of the documents.
 #' @param label if "max", uses only labels for the maximum value in each row of `y`.
+#' @param drop_label if `TRUE`, drops empty columns of `y` and ignore their labels.
 #' @param smooth a value added to the frequency of words to smooth likelihood ratios.
 #' @param verbose if `TRUE`, shows progress of training.
 #' @param ... additional arguments passed to internal functions.
@@ -35,14 +36,14 @@
 #' predict(model_en)
 #'
 #' @export
-textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
+textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
                               verbose = quanteda_options('verbose'), ...) {
     UseMethod("textmodel_newsmap")
 }
 
 #' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
 #' @export
-textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
+textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
                                   verbose = quanteda_options('verbose'), ...,
                                   entropy = c("none", "global", "local", "average")) {
 
@@ -57,7 +58,9 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
     }
 
     x <- dfm_trim(x, min_termfreq = 1)
-    y <- dfm_trim(as.dfm(y), min_termfreq = 1)
+    y <- as.dfm(y)
+    if (drop_label)
+        y <- dfm_trim(y, min_termfreq = 1)
 
     if (!nfeat(x))
         stop("x must have at least one non-zero feature")

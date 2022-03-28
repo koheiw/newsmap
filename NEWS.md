@@ -1,7 +1,7 @@
 ## Changens in v0.8.0
 
 * Add Portuguese dictionary
-* Add `label` to `textmodel_newsmap()`
+* Add `label` and `drop_label` to `textmodel_newsmap()`
 * Add `rescale` and `min_n` to `predict()`
 * Add `print()` methods for fitted models
 

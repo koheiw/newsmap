@@ -4,5 +4,6 @@
 ^README\.Rmd$
 ^README\.md$
 ^dict/
+^dev/
 ^testthat/
 cran-comments\.md
