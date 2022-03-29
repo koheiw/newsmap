@@ -6,7 +6,7 @@ dfmt_test <- dfm(toks_test) %>%
 toks_dict_test <- tokens_lookup(toks_test, data_dictionary_newsmap_en, level = 3)
 dfmt_dict_test <- dfm(toks_test)
 
-test_that("textmodel_newsmap() works", {
+test_that("textmodel_newsmap() works with different inputs", {
     toks <- tokens(data_corpus_inaugural, remove_punct = TRUE) %>%
         tokens_remove(stopwords())
     dfmt <- dfm(toks)
@@ -69,6 +69,11 @@ test_that("methods for textmodel_newsmap works correctly", {
                              valuetype = 'regex', case_insensitive = FALSE)
     map <- textmodel_newsmap(feat_dfm, label_dfm)
 
+    expect_equal(
+        names(map),
+        c("model", "entropy", "data", "weight", "feature", "call", "version")
+    )
+
     # class association is calculated correctly
     # note: both Guinness and Cork occur in IE only once
     expect_equivalent(map$model['ie', c('Ireland', 'Guinness')],
@@ -98,14 +103,14 @@ test_that("methods for textmodel_newsmap works correctly", {
         print(map),
         paste0('(\n)',
                'Call:(\n)',
-               'textmodel_newsmap.dfm\\(.*\\)(\n)')
+               'textmodel_newsmap\\(.*\\)(\n)')
     )
 
     expect_output(
         print(summary(map)),
         paste0('(\n)',
                'Call:(\n)',
-               'textmodel_newsmap.dfm\\(.*\\)(\n)',
+               'textmodel_newsmap\\(.*\\)(\n)',
                '\n',
                'Labels:(\n)',
                '\\[1\\] "in" "ie"(\n)',
