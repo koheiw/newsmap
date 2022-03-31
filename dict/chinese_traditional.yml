@@ -1,5 +1,6 @@
-# Created by Chung-hong Chan for the newsmap package: https://github.com/koheiw/newsmap
-# Country and city names used in Taiwan and Hong Kong are included.
+# Newsmap Geographical Dictionary in Chinese (traditional)
+# Source: https://github.com/koheiw/newsmap
+# Author: Chung-hong Chan
 
 AFRICA:
   EAST:
@@ -186,7 +187,7 @@ ASIA:
     'IL': [以色列*, 耶路撒冷]
     'IQ': [伊拉克*, 巴格達]
     'JO': [約旦*, 安曼]
-    'KW': [科威特*, 科威特城, 科威特市] 
+    'KW': [科威特*, 科威特城, 科威特市]
     'LB': [黎巴嫩*, 貝魯特]
     'OM': [阿曼*, 馬斯喀特]
     'PS': [巴勒斯坦*, 加薩, 加沙, 約旦河西岸, 拉姆安拉]
