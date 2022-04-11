@@ -1,20 +1,22 @@
 #' Semi-supervised Bayesian multinomial model for geographical document
 #' classification
 #'
-#' Train a Newsmap model to predict geographical focus of documents using a
-#' pre-defined seed dictionary. Currently seed dictionaries are available in
-#' English (en), German (de), Spanish (es), Japanese (ja), Russian (ru) and
-#' Chinese (zh).
+#' Train a Newsmap model to predict geographical focus of documents with labels
+#' given by a dictionary.
 #' @param x a dfm or fcm created by [quanteda::dfm()]
-#' @param y a dfm or a sparse matrix that record class membership of the documents.
-#' @param label if "max", uses only labels for the maximum value in each row of `y`.
-#' @param drop_label if `TRUE`, drops empty columns of `y` and ignore their labels.
-#' @param smooth a value added to the frequency of words to smooth likelihood ratios.
+#' @param y a dfm or a sparse matrix that record class membership of the
+#'   documents. It can be created applying [quanteda::dfm_lookup()] to `x`.
+#' @param label if "max", uses only labels for the maximum value in each row of
+#'   `y`.
+#' @param drop_label if `TRUE`, drops empty columns of `y` and ignore their
+#'   labels.
+#' @param smooth a value added to the frequency of words to smooth likelihood
+#'   ratios.
 #' @param verbose if `TRUE`, shows progress of training.
 #' @param ... additional arguments passed to internal functions.
-#' @details Newsmap learns association between words and classes based on the labels
-#' in `y`. Therefore, rows in `x` and `y` must correspond; columns in `y` must be
-#' class labels.
+#' @details Newsmap learns association between words and classes based on the
+#'   labels in `y`. Therefore, rows in `x` and `y` must correspond; columns in
+#'   `y` must be class labels.
 #' @importFrom quanteda is.dfm as.dfm dfm_trim nfeat
 #' @references Kohei Watanabe. 2018. "[Newsmap: semi-supervised approach to
 #'   geographical news
@@ -42,6 +44,7 @@ textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_
 }
 
 #' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
+#' @noRd
 #' @export
 textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
                                   verbose = quanteda_options('verbose'), ...,

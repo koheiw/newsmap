@@ -18,28 +18,30 @@ textmodel_newsmap(
 \arguments{
 \item{x}{a dfm or fcm created by \code{\link[quanteda:dfm]{quanteda::dfm()}}}
 
-\item{y}{a dfm or a sparse matrix that record class membership of the documents.}
+\item{y}{a dfm or a sparse matrix that record class membership of the
+documents. It can be created applying \code{\link[quanteda:dfm_lookup]{quanteda::dfm_lookup()}} to \code{x}.}
 
-\item{label}{if "max", uses only labels for the maximum value in each row of \code{y}.}
+\item{label}{if "max", uses only labels for the maximum value in each row of
+\code{y}.}
 
-\item{smooth}{a value added to the frequency of words to smooth likelihood ratios.}
+\item{smooth}{a value added to the frequency of words to smooth likelihood
+ratios.}
 
-\item{drop_label}{if \code{TRUE}, drops empty columns of \code{y} and ignore their labels.}
+\item{drop_label}{if \code{TRUE}, drops empty columns of \code{y} and ignore their
+labels.}
 
 \item{verbose}{if \code{TRUE}, shows progress of training.}
 
 \item{...}{additional arguments passed to internal functions.}
 }
 \description{
-Train a Newsmap model to predict geographical focus of documents using a
-pre-defined seed dictionary. Currently seed dictionaries are available in
-English (en), German (de), Spanish (es), Japanese (ja), Russian (ru) and
-Chinese (zh).
+Train a Newsmap model to predict geographical focus of documents with labels
+given by a dictionary.
 }
 \details{
-Newsmap learns association between words and classes based on the labels
-in \code{y}. Therefore, rows in \code{x} and \code{y} must correspond; columns in \code{y} must be
-class labels.
+Newsmap learns association between words and classes based on the
+labels in \code{y}. Therefore, rows in \code{x} and \code{y} must correspond; columns in
+\code{y} must be class labels.
 }
 \examples{
 require(quanteda)
