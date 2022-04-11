@@ -1,12 +1,24 @@
 
 # Newsmap: geographical document classifier
 
+<!-- badges: start -->
+
+[![CRAN
+Version](https://www.r-pkg.org/badges/version/newsmap)](https://CRAN.R-project.org/package=newsmap)
+[![Downloads](https://cranlogs.r-pkg.org/badges/newsmap)](https://CRAN.R-project.org/package=newsmap)
+[![Total
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/newsmap?color=orange)](https://CRAN.R-project.org/package=newsmap)
+[![R build
+status](https://github.com/koheiw/newsmap/workflows/R-CMD-check/badge.svg)](https://github.com/koheiw/newsmap/actions)
+[![codecov](https://codecov.io/gh/koheiw/newsmap/branch/master/graph/badge.svg)](https://codecov.io/gh/koheiw/newsmap)
+<!-- badges: end -->
+
 Semi-supervised Bayesian model for geographical document classification.
 Newsmap automatically constructs a large geographical dictionary from a
 corpus to accurate classify documents. Currently, the **newsmap**
-package contains seed dictionaries in *English*, *German*, *French*,
-*Spanish*, *Portuguese*, *Russian*, *Italian*, *Hebrew*, *Arabic*,
-*Japanese*, *Chinese* languages.
+package contains seed dictionaries in multiple languages that include
+*English*, *German*, *French*, *Spanish*, *Portuguese*, *Russian*,
+*Italian*, *Hebrew*, *Arabic*, *Japanese*, *Chinese*.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised
 approach to geographical news
@@ -54,7 +66,7 @@ require(newsmap)
 ## Loading required package: newsmap
 require(quanteda)
 ## Loading required package: quanteda
-## Package version: 3.2.0.9000
+## Package version: 3.2.1
 ## Unicode version: 13.0
 ## ICU version: 66.1
 ## Parallel computing: 6 of 6 threads used.

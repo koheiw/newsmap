@@ -10,9 +10,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Newsmap: geographical document classifier 
+# Newsmap: geographical document classifier
 
-Semi-supervised Bayesian model for geographical document classification. Newsmap automatically constructs a large geographical dictionary from a corpus to accurate classify documents. Currently, the **newsmap** package contains seed dictionaries in *English*, *German*, *French*, *Spanish*, *Portuguese*, *Russian*, *Italian*, *Hebrew*, *Arabic*, *Japanese*, *Chinese* languages.
+<!-- badges: start -->
+
+[![CRAN
+Version](https://www.r-pkg.org/badges/version/newsmap)](https://CRAN.R-project.org/package=newsmap)
+[![Downloads](https://cranlogs.r-pkg.org/badges/newsmap)](https://CRAN.R-project.org/package=newsmap)
+[![Total
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/newsmap?color=orange)](https://CRAN.R-project.org/package=newsmap)
+[![R build
+status](https://github.com/koheiw/newsmap/workflows/R-CMD-check/badge.svg)](https://github.com/koheiw/newsmap/actions)
+[![codecov](https://codecov.io/gh/koheiw/newsmap/branch/master/graph/badge.svg)](https://codecov.io/gh/koheiw/newsmap)
+<!-- badges: end -->
+
+Semi-supervised Bayesian model for geographical document classification. Newsmap automatically constructs a large geographical dictionary from a corpus to accurate classify documents. Currently, the **newsmap** package contains seed dictionaries in multiple languages that include *English*, *German*, *French*, *Spanish*, *Portuguese*, *Russian*, *Italian*, *Hebrew*, *Arabic*, *Japanese*, *Chinese*.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in scientific research in various fields ([Google Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=3438152153062747083)).
 
