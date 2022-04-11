@@ -9,5 +9,7 @@ Seed geographical dictionary in Russian
 }
 \author{
 Katerina Tertytchnaya \email{katerina.tertytchnaya@gmail.com}
+
+Lanabi la Lova \email{S.Bilalova@lse.ac.uk}
 }
 \keyword{data}
