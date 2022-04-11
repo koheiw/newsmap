@@ -119,7 +119,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
                    weight = NULL,
                    feature = colnames(model),
                    call = match.call(sys.function(-1), call = sys.call(-1)),
-                   version = packageVersion("newsmap"))
+                   version = utils::packageVersion("newsmap"))
     if (entropy != "none")
         result$weight <- weight
     class(result) <- "textmodel_newsmap"
