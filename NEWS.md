@@ -1,3 +1,7 @@
+## Changens in v0.8.1
+
+* Update the seed words for UA (#64)
+
 ## Changens in v0.8.0
 
 * Add Portuguese dictionary
