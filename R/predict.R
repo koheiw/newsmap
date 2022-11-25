@@ -70,7 +70,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE
             if (ncol(temp)) {
                 result <- get_nth(temp, rank, "class")
                 if (min_conf != -Inf)
-                    result[get_nth(temp, rank, "conf") <- min_conf] <- NA
+                    result[get_nth(temp, rank, "conf") < min_conf] <- NA
             } else {
                 result <- rep(NA, nrow(temp))
             }

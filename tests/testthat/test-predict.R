@@ -75,21 +75,28 @@ test_that("min_conf is working", {
     dfmt_label <- dfm(tokens(c("A", "B", "B")), tolower = FALSE)
     map <- textmodel_newsmap(dfmt_feat, dfmt_label)
 
-    pred1 <- predict(map, confidence = TRUE)
     expect_equal(
-        pred1$class,
+        predict(map, confidence = TRUE)$class,
         factor(c(text1 = "A", text2 = "B", text3 = "B"), levels = c("A", "B"))
     )
 
-    pred2 <- predict(map, confidence = TRUE, min_conf = 0.1)
     expect_equal(
-        pred2$class,
+        predict(map, confidence = TRUE, min_conf = 0.1)$class,
         factor(c(text1 = NA, text2 = "B", text3 = "B"), levels = c("A", "B"))
     )
 
-    pred3 <- predict(map, confidence = TRUE, min_conf = 1)
     expect_equal(
-        pred3$class,
+        predict(map, confidence = FALSE, min_conf = 0.1),
+        factor(c(text1 = NA, text2 = "B", text3 = "B"), levels = c("A", "B"))
+    )
+
+    expect_equal(
+        predict(map, confidence = TRUE, min_conf = 1)$class,
+        factor(c(text1 = NA, text2 = NA, text3 = NA), levels = c("A", "B"))
+    )
+
+    expect_equal(
+        predict(map, confidence = FALSE, min_conf = 1),
         factor(c(text1 = NA, text2 = NA, text3 = NA), levels = c("A", "B"))
     )
 
