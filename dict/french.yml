@@ -208,7 +208,7 @@ EUROPE:
     'RO': [Roumanie, Roumain*, Bucarest]
     'RU': [Russie, Russe*, Moscou]
     'SK': [Slovaquie, Slovaqu*, Bratislava]
-    'UA': [Ukraine, Ukrainien*, Kiev]
+    'UA': [Ukraine, Ukrainien*, Kiev, Kyiv]
 
   NORTH:
     'AX': [Aaland, Åland, Ålandais*, Aalandais, Mariehamn]
