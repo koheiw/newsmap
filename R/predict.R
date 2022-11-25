@@ -28,9 +28,9 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE
         confidence <- args$confidence.fit
     }
 
-    rank <- check_integer(rank, min_len = 1)
+
     min_conf <- check_double(min_conf)
-    min_n <- check_integer(min_n)
+    min_n <- check_integer(min_n, min = 0)
     type <- match.arg(type)
 
     if (is.null(newdata)) {
@@ -52,6 +52,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE
     if (rescale)
         temp <- as(scale(temp), 'denseMatrix')
 
+    rank <- check_integer(rank, min = 1, max = ncol(temp))
     if (type == 'top') {
         if (confidence) {
             if (ncol(temp)) {
