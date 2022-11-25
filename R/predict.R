@@ -11,6 +11,7 @@
 #'   classes.
 #' @param rescale if `TRUE`, likelihood ratio scores are normalized using [scale()]. This affects
 #'   both types of results.
+#' @param min_conf return `NA` when confidence is lower than this value.
 #' @param min_n set the minimum number of polarity words in documents.
 #' @param ... not used.
 #' @method predict textmodel_newsmap
@@ -18,7 +19,8 @@
 #' @importFrom methods as
 #' @importFrom quanteda dfm_match dfm_weight docnames featnames quanteda_options
 predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE, rank = 1L,
-                                      type = c("top", "all"), rescale = FALSE, min_n = 0L, ...) {
+                                      type = c("top", "all"), rescale = FALSE,
+                                      min_conf = -Inf, min_n = 0L, ...) {
 
     args <- list(...)
     if ("confidence.fit" %in% names(args)) {
@@ -26,10 +28,11 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE
         confidence <- args$confidence.fit
     }
 
+    rank <- check_integer(rank, min_len = 1)
+    min_conf <- check_double(min_conf)
+    min_n <- check_integer(min_n)
     type <- match.arg(type)
-    if (rank < 1 || !is.numeric(rank)) {
-        stop('rank must be positive integer')
-    }
+
     if (is.null(newdata)) {
         data <- object$data
     } else {
@@ -57,6 +60,7 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE
             } else {
                 result$class <- rep(NA, nrow(temp))
             }
+            result$class[result$confidence.fit < min_conf] <- NA
             result$class[is_empty] <- NA
             result$confidence.fit[is_empty] <- NA
             names(result$class) <- docnames(data)
@@ -64,6 +68,8 @@ predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE
         } else {
             if (ncol(temp)) {
                 result <- get_nth(temp, rank, "class")
+                if (min_conf != -Inf)
+                    result[get_nth(temp, rank, "conf") <- min_conf] <- NA
             } else {
                 result <- rep(NA, nrow(temp))
             }
