@@ -89,7 +89,7 @@ test_that("min_conf is working", {
 
     pred3 <- predict(map, confidence = TRUE, min_conf = 1)
     expect_equal(
-        pred2$class,
+        pred3$class,
         factor(c(text1 = NA, text2 = NA, text3 = NA), levels = c("A", "B"))
     )
 
