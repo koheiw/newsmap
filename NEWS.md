@@ -1,3 +1,7 @@
+## Changens in v0.8.2
+
+* Add `min_conf` to `predict()`
+
 ## Changens in v0.8.1
 
 * Update the seed words for UA (#64)
