@@ -1,5 +1,5 @@
 
-# Newsmap: geographical document classifier
+# newsmap: Semi-supervised algorithm for geographical document classification
 
 <!-- badges: start -->
 
