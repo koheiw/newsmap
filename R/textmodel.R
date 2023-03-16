@@ -81,7 +81,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
                     dimnames = list(colnames(y), colnames(x)))
 
     if (verbose)
-        cat("Training for class: ")
+        cat("Fitting textmodel_newsmap...\n")
 
     if (entropy == "global") {
         e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
@@ -94,8 +94,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
 
     m <- colSums(x)
     for (key in sort(featnames(y))) {
-        if (verbose)
-            cat(key, " ", sep = "")
+        if (verbose) cat(sprintf('  label = "%s"\n', key))
         z <- x[as.logical(y[,key] > 0),]
         s <- colSums(z)
         v0 <- m - s + smooth
@@ -121,8 +120,6 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
                          dimnames = list(colnames(y), colnames(x)))
     }
 
-    if (verbose)
-        cat("\n")
     result <- list(model = model,
                    entropy = entropy,
                    data = x,
