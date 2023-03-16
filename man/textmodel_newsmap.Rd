@@ -12,6 +12,7 @@ textmodel_newsmap(
   smooth = 1,
   drop_label = TRUE,
   verbose = quanteda_options("verbose"),
+  entropy = c("none", "global", "local", "average"),
   ...
 )
 }
@@ -32,6 +33,11 @@ labels.}
 
 \item{verbose}{if \code{TRUE}, shows progress of training.}
 
+\item{entropy}{[experimental] the scheme to compute the entropy to regularize
+likelihood ratios. The entropy of features are computed over labels if
+\code{global} or over documents with the same labels if \code{local}. Local entropy
+is averaged if \code{average}. See the details.}
+
 \item{...}{additional arguments passed to internal functions.}
 }
 \description{
@@ -39,9 +45,11 @@ Train a Newsmap model to predict geographical focus of documents with labels
 given by a dictionary.
 }
 \details{
-Newsmap learns association between words and classes based on the
-labels in \code{y}. Therefore, rows in \code{x} and \code{y} must correspond; columns in
-\code{y} must be class labels.
+Newsmap learns association between words and classes as likelihood
+ratios based on the features in \code{x} and the labels in \code{y}. The large
+likelihood ratios tend to concentrate to a small number of features but the
+entropy of their frequencies over labels or documents helps to disperse the
+distribution.
 }
 \examples{
 require(quanteda)

@@ -13,10 +13,17 @@
 #' @param smooth a value added to the frequency of words to smooth likelihood
 #'   ratios.
 #' @param verbose if `TRUE`, shows progress of training.
+#' @param entropy \[experimental\] the scheme to compute the entropy to regularize
+#'   likelihood ratios. The entropy of features are computed over labels if
+#'   `global` or over documents with the same labels if `local`. Local entropy
+#'   is averaged if `average`. See the details.
 #' @param ... additional arguments passed to internal functions.
-#' @details Newsmap learns association between words and classes based on the
-#'   labels in `y`. Therefore, rows in `x` and `y` must correspond; columns in
-#'   `y` must be class labels.
+#' @details Newsmap learns association between words and classes as likelihood
+#'   ratios based on the features in `x` and the labels in `y`. The large
+#'   likelihood ratios tend to concentrate to a small number of features but the
+#'   entropy of their frequencies over labels or documents helps to disperse the
+#'   distribution.
+#'
 #' @importFrom quanteda is.dfm as.dfm dfm_trim nfeat
 #' @references Kohei Watanabe. 2018. "[Newsmap: semi-supervised approach to
 #'   geographical news
@@ -39,16 +46,16 @@
 #'
 #' @export
 textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
-                              verbose = quanteda_options('verbose'), ...) {
+                              verbose = quanteda_options('verbose'),
+                              entropy = c("none", "global", "local", "average"), ...) {
     UseMethod("textmodel_newsmap")
 }
 
-#' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
 #' @noRd
 #' @export
 textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
-                                  verbose = quanteda_options('verbose'), ...,
-                                  entropy = c("none", "global", "local", "average")) {
+                                  verbose = quanteda_options('verbose'),
+                                  entropy = c("none", "global", "local", "average"), ...) {
 
     unused_dots(...)
     entropy <- match.arg(entropy)

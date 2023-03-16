@@ -17,7 +17,7 @@
 #' @method predict textmodel_newsmap
 #' @export
 #' @importFrom methods as
-#' @importFrom quanteda dfm_match dfm_weight docnames featnames quanteda_options
+#' @import quanteda
 predict.textmodel_newsmap <- function(object, newdata = NULL, confidence = FALSE, rank = 1L,
                                       type = c("top", "all"), rescale = FALSE,
                                       min_conf = -Inf, min_n = 0L, ...) {
