@@ -177,20 +177,6 @@ coefficients.textmodel_newsmap <- function(object, n = 10, ...) {
     UseMethod("coef")
 }
 
-#' Print method for a fitted Newsmap model
-#' @param x a fitted Newsmap textmodel
-#' @param ... not used.
-#' @method print textmodel_newsmap_summary
-#' @export
-print.textmodel_newsmap_summary <- function(x, ...) {
-    cat('Classes:\n')
-    cat('  ', paste0(x$classes , collapse = ', '), '... ', '\n')
-    cat('Features:\n')
-    cat('  ', paste0(x$features, collapse = ', '), '... ', '\n')
-    cat('Documents:\n')
-    cat('  ', paste0(x$documents, collapse = ', '), '... ', '\n')
-}
-
 #' Evaluate classification accuracy in precision and recall
 #'
 # Retuns a confusion matrix that contains number true positive (tp), fales
