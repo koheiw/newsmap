@@ -98,6 +98,11 @@ test_that("methods for textmodel_newsmap works correctly", {
         "'confidence.fit' is deprecated; use 'confidence'"
     )
 
+    expect_output(
+        textmodel_newsmap(feat_dfm, label_dfm, verbose = TRUE),
+        'Fitting textmodel_newsmap.*label = "ie".*  label = "in"'
+    )
+
     # print
     expect_output(
         print(map),

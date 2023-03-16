@@ -13,10 +13,17 @@
 #' @param smooth a value added to the frequency of words to smooth likelihood
 #'   ratios.
 #' @param verbose if `TRUE`, shows progress of training.
+#' @param entropy \[experimental\] the scheme to compute the entropy to regularize
+#'   likelihood ratios. The entropy of features are computed over labels if
+#'   `global` or over documents with the same labels if `local`. Local entropy
+#'   is averaged if `average`. See the details.
 #' @param ... additional arguments passed to internal functions.
-#' @details Newsmap learns association between words and classes based on the
-#'   labels in `y`. Therefore, rows in `x` and `y` must correspond; columns in
-#'   `y` must be class labels.
+#' @details Newsmap learns association between words and classes as likelihood
+#'   ratios based on the features in `x` and the labels in `y`. The large
+#'   likelihood ratios tend to concentrate to a small number of features but the
+#'   entropy of their frequencies over labels or documents helps to disperse the
+#'   distribution.
+#'
 #' @importFrom quanteda is.dfm as.dfm dfm_trim nfeat
 #' @references Kohei Watanabe. 2018. "[Newsmap: semi-supervised approach to
 #'   geographical news
@@ -39,16 +46,16 @@
 #'
 #' @export
 textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
-                              verbose = quanteda_options('verbose'), ...) {
+                              verbose = quanteda_options('verbose'),
+                              entropy = c("none", "global", "local", "average"), ...) {
     UseMethod("textmodel_newsmap")
 }
 
-#' @param entropy the scheme to compute the entropy to regularize likelihood ratios.
 #' @noRd
 #' @export
 textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
-                                  verbose = quanteda_options('verbose'), ...,
-                                  entropy = c("none", "global", "local", "average")) {
+                                  verbose = quanteda_options('verbose'),
+                                  entropy = c("none", "global", "local", "average"), ...) {
 
     unused_dots(...)
     entropy <- match.arg(entropy)
@@ -74,7 +81,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
                     dimnames = list(colnames(y), colnames(x)))
 
     if (verbose)
-        cat("Training for class: ")
+        cat("Fitting textmodel_newsmap...\n")
 
     if (entropy == "global") {
         e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
@@ -87,8 +94,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
 
     m <- colSums(x)
     for (key in sort(featnames(y))) {
-        if (verbose)
-            cat(key, " ", sep = "")
+        if (verbose) cat(sprintf('  label = "%s"\n', key))
         z <- x[as.logical(y[,key] > 0),]
         s <- colSums(z)
         v0 <- m - s + smooth
@@ -114,8 +120,6 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
                          dimnames = list(colnames(y), colnames(x)))
     }
 
-    if (verbose)
-        cat("\n")
     result <- list(model = model,
                    entropy = entropy,
                    data = x,
@@ -168,20 +172,6 @@ coef.textmodel_newsmap <- function(object, n = 10, ...) {
 #' @export
 coefficients.textmodel_newsmap <- function(object, n = 10, ...) {
     UseMethod("coef")
-}
-
-#' Print method for a fitted Newsmap model
-#' @param x a fitted Newsmap textmodel
-#' @param ... not used.
-#' @method print textmodel_newsmap_summary
-#' @export
-print.textmodel_newsmap_summary <- function(x, ...) {
-    cat('Classes:\n')
-    cat('  ', paste0(x$classes , collapse = ', '), '... ', '\n')
-    cat('Features:\n')
-    cat('  ', paste0(x$features, collapse = ', '), '... ', '\n')
-    cat('Documents:\n')
-    cat('  ', paste0(x$documents, collapse = ', '), '... ', '\n')
 }
 
 #' Evaluate classification accuracy in precision and recall
