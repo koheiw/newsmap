@@ -1,3 +1,7 @@
+## Changens in v0.8.3
+
+* Fix for changes in the Matrix package v1.5.
+
 ## Changens in v0.8.2
 
 * Add `min_conf` to `predict()`
