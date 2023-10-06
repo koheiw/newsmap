@@ -62,7 +62,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
     label <- match.arg(label)
 
     if (label == "max") {
-        y <- as(y, "dgTMatrix")
+        y <- as(as(as(y, "dMatrix"), "generalMatrix"), "TsparseMatrix")
         s <- sapply(split(y@x, y@i + 1L), max)
         y@x[y@x < s[y@i + 1L]] <- 0L
     }
@@ -157,7 +157,7 @@ coef.textmodel_newsmap <- function(object, n = 10, ...) {
     } else {
         model <- object$model * object$weight
     }
-    model <- as(model, "dgTMatrix")
+    model <- as(as(as(model, "dMatrix"), "generalMatrix"), "TsparseMatrix")
     temp <- model@x
     names(temp) <- colnames(object$model)[model@j + 1L]
     result <- split(temp, factor(model@i + 1L, levels = seq_len(nrow(model)),
@@ -266,7 +266,7 @@ get_entropy <- function(x, base = 2) {
 
     x <- t(x)
     x <- dfm_weight(x, "prop")
-    x <- as(x, "dgTMatrix")
+    x <- as(as(as(x, "dMatrix"), "generalMatrix"), "TsparseMatrix")
     result <- unlist(lapply(split(x@x, factor(x@i + 1L, levels = seq_len(nrow(x)))),
                        function(y) sum(y * log(y, base)) * -1), use.names = FALSE)
     names(result) <- rownames(x)
