@@ -113,7 +113,7 @@ as.coefficients_textmodel.numeric <- function(x) {
 }
 
 #' @noRd
-#' @method as.coefficients_textmodel numeric
+#' @method as.coefficients_textmodel matrix
 #' @keywords internal
 #' @export
 as.coefficients_textmodel.matrix <- function(x) {
