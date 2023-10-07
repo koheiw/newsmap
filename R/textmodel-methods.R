@@ -32,7 +32,7 @@ print.summary.textmodel <- function(x, digits = max(3L, getOption("digits") - 3L
 #' @export
 as.summary.textmodel <- function(x) {
     class(x) <- c("summary.textmodel", "list")
-    x
+    return(x)
 }
 
 #
