@@ -146,18 +146,38 @@ summary.textmodel_newsmap <- function(object, n = 10, ...) {
     as.summary.textmodel(result)
 }
 
-#' @noRd
+#' Extract coefficients for features
+#' @param object a Newsmap model fitted by [textmodel_newsmap()].
+#' @param n the number of coefficients to extract.
+#' @param select returns the coefficients for the selected class; specify by the
+#'   names of rows in `object$model`.
+#' @param ... not used.
 #' @method coef textmodel_newsmap
 #' @import Matrix
 #' @importFrom stats coef
 #' @export
-coef.textmodel_newsmap <- function(object, n = 10, ...) {
+coef.textmodel_newsmap <- function(object, n = 10, select = NULL, ...) {
+
+    n <- check_integer(n, min = 0)
+    select <- check_character(select, min_len = 1, max_len = nrow(object$model),
+                              strict = TRUE, allow_null = TRUE)
+
+    if (is.null(select)) {
+        j <- rep(TRUE, nrow(object$model))
+    } else {
+        if (any(!select %in% rownames(object$model)))
+            stop("Selected class must be in the model", call. = FALSE)
+        j <- rownames(object$model) %in% select
+    }
+
     if (is.null(object$weight)){
         model <- object$model
     } else {
         model <- object$model * object$weight
     }
+
     model <- as(as(as(model, "dMatrix"), "generalMatrix"), "TsparseMatrix")
+    model <- model[j,, drop = FALSE]
     temp <- model@x
     names(temp) <- colnames(object$model)[model@j + 1L]
     result <- split(temp, factor(model@i + 1L, levels = seq_len(nrow(model)),
@@ -166,11 +186,11 @@ coef.textmodel_newsmap <- function(object, n = 10, ...) {
     return(result)
 }
 
-#' @noRd
+#' @rdname coef.textmodel_newsmap
 #' @method coefficients textmodel_newsmap
 #' @importFrom stats coefficients
 #' @export
-coefficients.textmodel_newsmap <- function(object, n = 10, ...) {
+coefficients.textmodel_newsmap <- function(object, n = 10, select = NULL, ...) {
     UseMethod("coef")
 }
 
