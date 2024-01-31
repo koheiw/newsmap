@@ -1,3 +1,7 @@
+## Changens in v0.8.4
+
+* Add `select` to `coef()` and improve its documentation
+
 ## Changens in v0.8.3
 
 * Fix for changes in the Matrix package v1.5
