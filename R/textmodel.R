@@ -125,6 +125,7 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
                    data = x,
                    weight = NULL,
                    feature = colnames(model),
+                   concatenator = meta(x, field = "concatenator", type = "object"),
                    call = match.call(sys.function(-1), call = sys.call(-1)),
                    version = utils::packageVersion("newsmap"))
     if (entropy != "none")
