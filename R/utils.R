@@ -7,6 +7,12 @@ as.list.textmodel_newsmap <- function(x, ...) {
 }
 
 #' @export
+#' @method as.dictionary textmodel_newsmap
+as.dictionary.textmodel_newsmap <- function(x, ...) {
+    dictionary(lapply(coef(x, ...), names), separator = x$concatenator)
+}
+
+#' @export
 #' @method print textmodel_newsmap
 print.textmodel_newsmap <- function(x, ...) {
     cat("\nCall:\n")
