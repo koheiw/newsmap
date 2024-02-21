@@ -191,7 +191,7 @@ test_that("afe() is working", {
     expect_error(afe(list(), dfmt_label))
 })
 
-test_that("coef() is working", {
+test_that("coef() and dictionary() are working", {
 
     dfmt <- dfm_trim(dfmt_test, min_termfreq = 100)
     dfmt_dict <- dfm_trim(dfmt_dict_test, min_termfreq = 2)
@@ -213,4 +213,13 @@ test_that("coef() is working", {
     expect_error(coef(map, select = character()),
                  "The length of select must be between 1 and 16")
 
+    lis1 <- as.list(map)
+    expect_equal(length(lis1), 16)
+    expect_true(all(sapply(lis1, is.character)))
+    expect_true(all(lengths(as.list(lis1)) == 10))
+
+    lis2 <- as.list(map, n = 20, c("ru", "fr"))
+    expect_equal(names(lis2), c("ru", "fr"))
+    expect_true(all(sapply(lis2, is.character)))
+    expect_true(all(lengths(lis2) == 20))
 })
