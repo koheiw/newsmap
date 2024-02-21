@@ -71,7 +71,8 @@ test_that("methods for textmodel_newsmap works correctly", {
 
     expect_equal(
         names(map),
-        c("model", "entropy", "data", "weight", "feature", "call", "version")
+        c("model", "entropy", "data", "weight", "feature",
+          "concatenator", "call", "version")
     )
 
     # class association is calculated correctly
