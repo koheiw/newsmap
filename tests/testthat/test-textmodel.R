@@ -214,6 +214,7 @@ test_that("coef() and dictionary() are working", {
     expect_error(coef(map, select = character()),
                  "The length of select must be between 1 and 16")
 
+    # TODO: remove as.list()
     lis1 <- as.list(map)
     expect_equal(length(lis1), 16)
     expect_true(all(sapply(lis1, is.character)))
@@ -223,4 +224,15 @@ test_that("coef() and dictionary() are working", {
     expect_equal(names(lis2), c("ru", "fr"))
     expect_true(all(sapply(lis2, is.character)))
     expect_true(all(lengths(lis2) == 20))
+
+    # TODO: change to as.dictionary()
+    dict1 <- newsmap:::as.dictionary.textmodel_newsmap(map)
+    expect_s4_class(dict1, "dictionary2")
+    expect_true(all(lengths(as.list(dict1)) == 10))
+
+    dict2 <- newsmap:::as.dictionary.textmodel_newsmap(map, n = 20, c("ru", "fr"))
+    expect_s4_class(dict2, "dictionary2")
+    expect_equal(names(dict2), c("ru", "fr"))
+    expect_true(all(lengths(dict2) == 20))
+
 })
