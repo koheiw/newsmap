@@ -3,6 +3,7 @@
 S3method(as.coefficients_textmodel,data.frame)
 S3method(as.coefficients_textmodel,matrix)
 S3method(as.coefficients_textmodel,numeric)
+S3method(as.list,textmodel_newsmap)
 S3method(as.statistics_textmodel,data.frame)
 S3method(as.statistics_textmodel,matrix)
 S3method(coef,textmodel_newsmap)
