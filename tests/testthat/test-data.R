@@ -11,8 +11,8 @@ check_character <- function(x) {
     ## \\u30fb katakana middle dot
     ## \\p{M} combining character
     l <- stri_detect_regex(x, "^[\\p{L}\\p{M}'\"*?\\-\\u30fb ]+$")
-    #if (!all(l))
-    #    cat("Invalid:\n", paste0(x[!l], collapse = "\n"), "\n\n")
+    if (!all(l))
+        cat("Invalid:\n", paste0(x[!l], collapse = "\n"), "\n\n")
     expect_true(all(l))
 }
 
@@ -26,6 +26,7 @@ test_that("test that yaml do not contain illegal letters", {
     check_character(data_dictionary_newsmap_ru)
     check_character(data_dictionary_newsmap_he)
     check_character(data_dictionary_newsmap_ar)
+    check_character(data_dictionary_newsmap_tr)
     check_character(data_dictionary_newsmap_zh_cn)
     check_character(data_dictionary_newsmap_zh_tw)
 })
@@ -42,6 +43,7 @@ test_that("test that data file is created correctly", {
     expect_equal(length(names(data_dictionary_newsmap_it)), 5)
     expect_equal(length(names(data_dictionary_newsmap_he)), 5)
     expect_equal(length(names(data_dictionary_newsmap_ar)), 5)
+    expect_equal(length(names(data_dictionary_newsmap_tr)), 5)
     expect_equal(length(names(data_dictionary_newsmap_zh_cn)), 5)
     expect_equal(length(names(data_dictionary_newsmap_zh_tw)), 5)
 })
@@ -59,6 +61,7 @@ test_that("test that dictionaries have the same countries", {
     it <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_it))
     he <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_he))
     ar <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_ar))
+    tr <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_tr))
     zh_cn <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_zh_cn))
     zh_tw <- names(quanteda:::flatten_dictionary(data_dictionary_newsmap_zh_tw))
 
@@ -71,6 +74,7 @@ test_that("test that dictionaries have the same countries", {
     expect_true(identical(en, it))
     expect_true(identical(en, he))
     expect_true(identical(en, ar))
+    expect_true(identical(en, tr))
     expect_true(identical(en, zh_cn))
     expect_true(identical(en, zh_tw))
 })
