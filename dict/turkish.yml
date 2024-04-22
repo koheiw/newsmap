@@ -72,7 +72,7 @@ AFRICA:
     'TG': [Togo, Togolu*, Lome, Lomé]
 
 AMERICA:
-   CARIB:
+  CARIB:
     'AG': [Antigua ve Barbuda, Antigualı*, Barbudalı*]
     'AI': [Anguilla, Anguillalı*, The Valley]
     'AW': [Aruba, Arubalı*, Oranjstad]
@@ -291,4 +291,3 @@ OCEANIA:
     'TV': [Tuvalu, Tuvalulu*, Funafuti]
     'WF': [Wallis ve Futuna Adaları, Wallis ve Futunalı*, Mata-Utu]
     'WS': [Samoa, Samoalı*, Apia]
-    
