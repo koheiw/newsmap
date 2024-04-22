@@ -42,7 +42,7 @@ AFRICA:
     'LY': [Libya, Libyalı*, Trablus]
     'MA': [Fas, Faslı*, Rabat]
     'SD': [Sudan, Sudanlı*, Hartum]
-    'SS': [Güney Sudan, G. Sudan, G. Sudanlı*, Güney Sudanlı*, Cuba]
+    'SS': [Güney Sudan, G Sudan, G Sudanlı*, Güney Sudanlı*, Cuba]
     'TN': [Tunus, Tunuslu*, Tunus]
 
   SOUTH:
@@ -50,7 +50,7 @@ AFRICA:
     'LS': [Lesoto, Lesotolu*, Maseru]
     'NA': [Namibya, Namibyalı*, Vindhuk]
     'SZ': [Esvatini, Svazili*, Lobamba, Mbabane]
-    'ZA': [Güney Afrika, G. Afrika, GA, Güney Afrikalı*,  G. Afrikalı*, Güney Afrika*, Cape Town, Johannesburg, Pretoria]
+    'ZA': [Güney Afrika, G Afrika, GA, Güney Afrikalı*,  G Afrikalı*, Güney Afrika*, Cape Town, Johannesburg, Pretoria]
 
   WEST:
     'BF': [Burkina Faso, Burkinalı*, Vagadugu]
@@ -66,7 +66,7 @@ AFRICA:
     'MR': [Moritanya, Moritanyalı*, Nuakşot]
     'NE': [Nijer, Nijerli*, Niamey]
     'NG': [Nijerya, Nijeryalı*, Abuja, Lagos]
-    'SH': [Saint Helena, St. Helena, Saint Helenalı*, St. Helenalı*, Jamestown]
+    'SH': [Saint Helena, St Helena, Saint Helenalı*, St Helenalı*, Jamestown]
     'SL': [Sierra Leone, Sierra Leoneli*, Freet]
     'SN': [Senegal, Senegalli*, Dakar]
     'TG': [Togo, Togolu*, Lome, Lomé]
@@ -102,7 +102,7 @@ AMERICA:
     'VG': [İngiliz Virgin Adaları, Virgin Adalı*, Road Town]
     'VI': [Amerikan Virgin Adaları, ABD Virgin Adaları, Amerikan Virgin Adalı*, ABD Virgin Adalı*, Charlotte Amalie]
 
-  MIDDLE:
+  CENTER:
     'BZ': [Belize, Belizeli*, Belmopan]
     'CR': [Kosta Rika, Kosta Rikalı*, Ticos, San José]
     'GT': [Guatemala, Guatemalalı*, Guatemala City]
@@ -147,8 +147,8 @@ ASIA:
     'CN': [Çin, Çinli*, Pekin, Şanghay]
     'HK': [Hong Kong, Hong Konglu*]
     'JP': [Japonya, Japon, Japonyalı*, Tokyo]
-    'KP': [Kuzey Kore, K. Kore, Kuzey Koreli*, K. Koreli*, KDHC, Pyongyang]
-    'KR': [Güney Kore, G. Kore, Güney Koreli*, G. Koreli*, Seul]
+    'KP': [Kuzey Kore, K Kore, Kuzey Koreli*, K Koreli*, KDHC, Pyongyang]
+    'KR': [Güney Kore, G Kore, Güney Koreli*, G Koreli*, Seul]
     'MN': [Moğolistan, Moğolistanlı*, Moğol*, Ulan Batur]
     'MO': [Makao, Makaolu*]
     'TW': [Tayvan, Tayvanlı*, Taipei]
@@ -164,7 +164,7 @@ ASIA:
     'NP': [Nepal, Nepalli*, Katmandu]
     'PK': [Pakistan, Pakistanlı*, İslamabad]
 
-  SOUTHEAST:
+  SOUTH-EAST:
     'BN': [Brunei, Bruneili*]
     'ID': [Endonezya, Endonezyalı*, Cakarta]
     'KH': [Kamboçya, Kamboçyalı*, Phnom Penh]
@@ -228,7 +228,7 @@ EUROPE:
     'SE': [İsveç, İsveçli*, Stockholm]
     'SJ': [Svalbard ve Jan Mayen Adaları]
 
-  SOUNTH:
+  SOUTH:
     'AD': [Andorra, Andorralı*]
     'AL': [Arnavutluk, Arnavut*, Tiran]
     'BA': [Bosna, Bosnalı*, Bosna Hersek, Hersek, Sarbosna]
