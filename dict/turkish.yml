@@ -2,7 +2,7 @@
 # Source: https://github.com/koheiw/newsmap
 # Author: Lungta Seki
 
-AFRIKA:
+AFRICA:
   EAST:
     'BI': [Burundi, Burundili*, Bujumbura]
     'DJ': [Cibuti, Cibutili*]

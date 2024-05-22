@@ -108,6 +108,26 @@ test_that("Arabic dictionary and prediction work correctly", {
     )
 })
 
+test_that("Turkish dictionary and prediction work correctly", {
+
+    skip_on_travis()
+    txt_tr <- c("Bu İrlanda hakkında bir makale.",
+                "Bu Büyük Britanya hakkında bir makale.")
+    toks_tr <- tokens(txt_tr)
+    label_toks_tr <- tokens_lookup(toks_tr, data_dictionary_newsmap_tr, levels = 3)
+    label_dfm_tr <- dfm(label_toks_tr)
+    feat_dfm_tr <- dfm(toks_tr, tolower = FALSE)
+    map_tr <- textmodel_newsmap(feat_dfm_tr, label_dfm_tr)
+    expect_equal(
+        predict(map_tr),
+        factor(c(text1 = "ie", text2 = "gb"), levels = c("gb", "ie"))
+    )
+    expect_equivalent(
+        names(coef(map_tr)),
+        c("gb", "ie")
+    )
+})
+
 test_that("Japanese dictionary and prediction work correctly", {
 
     skip_on_travis()

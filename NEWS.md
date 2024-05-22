@@ -1,3 +1,8 @@
+## Changes in v0.9.0
+
+* Add Turkish seed dictionary
+* Add `as.dictionary()` for `textmodel_newsmap`.
+
 ## Changens in v0.8.4
 
 * Add `select` to `coef()` and improve its documentation

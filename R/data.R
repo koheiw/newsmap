@@ -51,7 +51,7 @@ NULL
 #' @name data_dictionary_newsmap_ru
 #' @docType data
 #' @author Katerina Tertytchnaya \email{katerina.tertytchnaya@gmail.com}
-#' @author Lanabi la Lova \email{S.Bilalova@lse.ac.uk}
+#' @author Lanabi la Lova \email{l.lalova@lse.ac.uk}
 #' @keywords data
 NULL
 
@@ -76,6 +76,14 @@ NULL
 #' @name data_dictionary_newsmap_ar
 #' @docType data
 #' @author Dai Yamao \email{daiyamao@scs.kyushu-u.ac.jp}
+#' @keywords data
+NULL
+
+#' Seed geographical dictionary in Turkish
+#'
+#' @name data_dictionary_newsmap_tr
+#' @docType data
+#' @author Lungta Seki \email{yahoo.co.jp0409@gmail.com}
 #' @keywords data
 NULL
 
