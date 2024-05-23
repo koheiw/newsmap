@@ -24,7 +24,7 @@ status](https://github.com/koheiw/newsmap/workflows/R-CMD-check/badge.svg)](http
 [![codecov](https://codecov.io/gh/koheiw/newsmap/branch/master/graph/badge.svg)](https://codecov.io/gh/koheiw/newsmap)
 <!-- badges: end -->
 
-Semi-supervised Bayesian model for geographical document classification. Newsmap automatically constructs a large geographical dictionary from a corpus to accurate classify documents. Currently, the **newsmap** package contains seed dictionaries in multiple languages that include *English*, *German*, *French*, *Spanish*, *Portuguese*, *Russian*, *Italian*, *Hebrew*, *Arabic*, *Japanese*, *Chinese*.
+Semi-supervised Bayesian model for geographical document classification. Newsmap automatically constructs a large geographical dictionary from a corpus to accurate classify documents. Currently, the **newsmap** package contains seed dictionaries in multiple languages that include *English*, *German*, *French*, *Spanish*, *Portuguese*, *Russian*, *Italian*, *Arabic*, *Turkish*, *Hebrew*, *Japanese*, *Chinese*.
 
 The detail of the algorithm is explained in [Newsmap: semi-supervised approach to geographical news classification](https://www.tandfonline.com/eprint/dDeyUTBrhxBSSkHPn5uB/full). **newsmap** has also been used in scientific research in various fields ([Google Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=3438152153062747083)).
 
@@ -50,7 +50,8 @@ In this example, using a text analysis package [**quanteda**](https://quanteda.i
 ### Download example data
 
 ```{r, eval=FALSE}
-download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', '~/yahoo-news.RDS')
+download.file('https://www.dropbox.com/s/e19kslwhuu9yc2z/yahoo-news.RDS?dl=1', 
+              '~/yahoo-news.RDS', mode = "wb")
 ```
 
 ### Train Newsmap classifier
