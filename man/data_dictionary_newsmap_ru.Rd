@@ -10,6 +10,6 @@ Seed geographical dictionary in Russian
 \author{
 Katerina Tertytchnaya \email{katerina.tertytchnaya@gmail.com}
 
-Lanabi la Lova \email{S.Bilalova@lse.ac.uk}
+Lanabi la Lova \email{l.lalova@lse.ac.uk}
 }
 \keyword{data}
