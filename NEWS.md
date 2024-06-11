@@ -1,3 +1,7 @@
+## Changes in v0.9.1
+
+* Add `boolean` to `textmodel_newsmap()`.
+
 ## Changes in v0.9.0
 
 * Add Turkish seed dictionary
