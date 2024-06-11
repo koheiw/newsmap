@@ -14,13 +14,20 @@ test_that("textmodel_newsmap() works with different inputs", {
 
     smat <- xtabs( ~ docid(dfmt) + dfmt$Party, sparse = TRUE)
     map1 <- textmodel_newsmap(dfmt, smat)
+    expect_identical(map1$data, dfmt)
     expect_equal(names(coef(map1)), levels(dfmt$Party))
     expect_null(map1$weight)
 
     mat <- as.matrix(smat)
     map2 <- textmodel_newsmap(dfmt, mat)
+    expect_identical(map2$data, dfmt)
     expect_equal(names(coef(map2)), levels(dfmt$Party))
     expect_null(map2$weight)
+
+    map3 <- textmodel_newsmap(dfmt, mat, boolean = TRUE)
+    expect_identical(map3$data, dfmt)
+    expect_equal(names(coef(map3)), levels(dfmt$Party))
+    expect_false(identical(coef(map1), coef(map3)))
 
     expect_error(textmodel_newsmap(list(), smat))
     expect_error(textmodel_newsmap(dfmt, list()))
@@ -51,6 +58,22 @@ test_that("textmodel_newsmap() works with different inputs", {
     expect_false(all(map_loc$weight[1,] == map_avg$weight[1,]))
     expect_false(all(map_avg$weight[1,] == map_glo$weight[1,]))
 
+    expect_error(
+        textmodel_newsmap(dfmt, smat, smooth = -1),
+        "The value of smooth must be between 0 and Inf"
+    )
+    expect_error(
+        textmodel_newsmap(dfmt, smat, smooth = c(1, 2)),
+        "The length of smooth must be 1"
+    )
+    expect_error(
+        textmodel_newsmap(dfmt, smat, boolean = "yes"),
+        "The value of boolean cannot be NA"
+    )
+    expect_error(
+        textmodel_newsmap(dfmt, smat, drop_label = "no"),
+        "The value of drop_label cannot be NA"
+    )
 })
 
 

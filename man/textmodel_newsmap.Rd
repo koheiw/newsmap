@@ -10,6 +10,7 @@ textmodel_newsmap(
   y,
   label = c("all", "max"),
   smooth = 1,
+  boolean = FALSE,
   drop_label = TRUE,
   verbose = quanteda_options("verbose"),
   entropy = c("none", "global", "local", "average"),
@@ -28,15 +29,18 @@ documents. It can be created applying \code{\link[quanteda:dfm_lookup]{quanteda:
 \item{smooth}{a value added to the frequency of words to smooth likelihood
 ratios.}
 
+\item{boolean}{if \code{TRUE}, only consider presence or absence of features in
+each document to limit the impact of words repeated in few documents.}
+
 \item{drop_label}{if \code{TRUE}, drops empty columns of \code{y} and ignore their
 labels.}
 
 \item{verbose}{if \code{TRUE}, shows progress of training.}
 
-\item{entropy}{[experimental] the scheme to compute the entropy to regularize
-likelihood ratios. The entropy of features are computed over labels if
-\code{global} or over documents with the same labels if \code{local}. Local entropy
-is averaged if \code{average}. See the details.}
+\item{entropy}{[experimental] the scheme to compute the entropy to
+regularize likelihood ratios. The entropy of features are computed over
+labels if \code{global} or over documents with the same labels if \code{local}. Local
+entropy is averaged if \code{average}. See the details.}
 
 \item{...}{additional arguments passed to internal functions.}
 }

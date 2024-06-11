@@ -12,11 +12,13 @@
 #'   labels.
 #' @param smooth a value added to the frequency of words to smooth likelihood
 #'   ratios.
+#' @param boolean if `TRUE`, only consider presence or absence of features in
+#'   each document to limit the impact of words repeated in few documents.
 #' @param verbose if `TRUE`, shows progress of training.
-#' @param entropy \[experimental\] the scheme to compute the entropy to regularize
-#'   likelihood ratios. The entropy of features are computed over labels if
-#'   `global` or over documents with the same labels if `local`. Local entropy
-#'   is averaged if `average`. See the details.
+#' @param entropy \[experimental\] the scheme to compute the entropy to
+#'   regularize likelihood ratios. The entropy of features are computed over
+#'   labels if `global` or over documents with the same labels if `local`. Local
+#'   entropy is averaged if `average`. See the details.
 #' @param ... additional arguments passed to internal functions.
 #' @details Newsmap learns association between words and classes as likelihood
 #'   ratios based on the features in `x` and the labels in `y`. The large
@@ -45,7 +47,8 @@
 #' predict(model_en)
 #'
 #' @export
-textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
+textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0,
+                              boolean = FALSE, drop_label = TRUE,
                               verbose = quanteda_options('verbose'),
                               entropy = c("none", "global", "local", "average"), ...) {
     UseMethod("textmodel_newsmap")
@@ -53,13 +56,18 @@ textmodel_newsmap <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_
 
 #' @noRd
 #' @export
-textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, drop_label = TRUE,
+#' @importFrom quanteda check_double check_logical
+textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0,
+                                  boolean = FALSE, drop_label = TRUE,
                                   verbose = quanteda_options('verbose'),
                                   entropy = c("none", "global", "local", "average"), ...) {
 
     unused_dots(...)
     entropy <- match.arg(entropy)
     label <- match.arg(label)
+    smooth <- check_double(smooth, min = 0)
+    boolean <- check_logical(boolean)
+    drop_label <- check_logical(drop_label)
 
     if (label == "max") {
         y <- as(as(as(y, "dMatrix"), "generalMatrix"), "TsparseMatrix")
@@ -67,35 +75,37 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
         y@x[y@x < s[y@i + 1L]] <- 0L
     }
 
-    x <- dfm_trim(x, min_termfreq = 1)
+    w <- dfm_trim(x, min_termfreq = 1)
+    if (boolean)
+        w <- dfm_weight(w, "boolean")
     y <- as.dfm(y)
     if (drop_label)
         y <- dfm_trim(y, min_termfreq = 1)
 
-    if (!nfeat(x))
+    if (!nfeat(w))
         stop("x must have at least one non-zero feature")
     if (!nfeat(y))
         stop("y must have at least one non-zero feature")
 
-    model <- matrix(rep(0, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
-                    dimnames = list(colnames(y), colnames(x)))
+    model <- matrix(rep(0, ncol(w) * ncol(y)), ncol = ncol(w), nrow = ncol(y),
+                    dimnames = list(colnames(y), colnames(w)))
 
     if (verbose)
         cat("Fitting textmodel_newsmap...\n")
 
     if (entropy == "global") {
-        e <- get_entropy(x, nrow(x)) # e = 1.0 for uniform distribution
-        weight <- matrix(rep(e, each = ncol(y)), ncol = ncol(x), nrow = ncol(y),
-                         dimnames = list(colnames(y), colnames(x)))
+        e <- get_entropy(w, nrow(w)) # e = 1.0 for uniform distribution
+        weight <- matrix(rep(e, each = ncol(y)), ncol = ncol(w), nrow = ncol(y),
+                         dimnames = list(colnames(y), colnames(w)))
     } else {
-        weight <- matrix(rep(1, ncol(x) * ncol(y)), ncol = ncol(x), nrow = ncol(y),
-                         dimnames = list(colnames(y), colnames(x)))
+        weight <- matrix(rep(1, ncol(w) * ncol(y)), ncol = ncol(w), nrow = ncol(y),
+                         dimnames = list(colnames(y), colnames(w)))
     }
 
-    m <- colSums(x)
+    m <- colSums(w)
     for (key in sort(featnames(y))) {
         if (verbose) cat(sprintf('  label = "%s"\n', key))
-        z <- x[as.logical(y[,key] > 0),]
+        z <- w[as.logical(y[,key] > 0),]
         s <- colSums(z)
         v0 <- m - s + smooth
         v1 <- s + smooth
@@ -116,8 +126,8 @@ textmodel_newsmap.dfm <- function(x, y, label = c("all", "max"), smooth = 1.0, d
 
     if (entropy == "average") {
         e <- colMeans(weight, na.rm = TRUE)
-        weight <- matrix(rep(e, each = ncol(y)), ncol = ncol(x), nrow = ncol(y),
-                         dimnames = list(colnames(y), colnames(x)))
+        weight <- matrix(rep(e, each = ncol(y)), ncol = ncol(w), nrow = ncol(y),
+                         dimnames = list(colnames(y), colnames(w)))
     }
 
     result <- list(model = model,
