@@ -1,3 +1,7 @@
+## Changes in v0.9.2
+
+* Fix tests for **quanteda** v4.3.1.
+
 ## Changes in v0.9.1
 
 * Add `boolean` to `textmodel_newsmap()`.
