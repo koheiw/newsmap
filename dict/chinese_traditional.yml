@@ -1,6 +1,9 @@
 # Newsmap Geographical Dictionary in Chinese (traditional)
 # Source: https://github.com/koheiw/newsmap
-# Author: Chung-hong Chan
+# Created by Chung-hong Chan
+# Modified by Yuan Zhou
+
+## Please ensure that your tokenizer properly recognizes the seed words to enable accurate classification.
 
 AFRICA:
   EAST:
@@ -26,9 +29,9 @@ AFRICA:
 
   MIDDLE:
     'AO': [安哥拉*, 盧安達, 羅安達]
-    'CD': [剛果民主共和國, 民主剛果, 剛果*, 金夏沙, 金沙薩]
-    'CF': [中非共和國, 中非*, 班基, 班吉]
-    'CG': [剛果共和國, 剛果*, 布拉薩維爾, 布拉柴維爾, 布拉薩, 布拉柴]
+    'CD': [剛果民主共和國, 民主剛果, 剛果（金）, 金夏沙, 金沙薩]
+    'CF': [中非共和國, 班基, 班吉]
+    'CG': [剛果共和國, 剛果（布）, 布拉薩維爾, 布拉柴維爾, 布拉薩, 布拉柴]
     'CM': [喀麥隆*, 雅溫德]
     'GA': [加彭*, 加蓬*, 自由市, 利伯維爾]
     'GQ': [赤道幾內亞*, 赤幾*, 馬拉博]
