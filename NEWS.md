@@ -1,3 +1,8 @@
+## Changes in v0.9.3
+
+* Update Japanese dictionary to reduce false matches.
+* Recreate RData using **quanteda** v4.4.1.
+
 ## Changes in v0.9.2
 
 * Fix tests for **quanteda** v4.3.1.

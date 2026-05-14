@@ -7,3 +7,5 @@
 ^dev/
 ^testthat/
 cran-comments\.md
+^\.positai$
+^\.claude$
